@@ -76,7 +76,7 @@
                 var newCompany = app.company;
                 axios.patch('/api/v1/companies/' + app.companyId, newCompany)
                     .then(function (resp) {
-                        app.$router.replace('/');
+                        app.$router.replace('/companies');
                     })
                     .catch(function (resp) {
                         console.log(resp);

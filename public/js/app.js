@@ -50741,7 +50741,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var app = this;
             var newCompany = app.company;
             axios.post('/api/v1/companies', newCompany).then(function (resp) {
-                app.$router.push({ path: '/' });
+                app.$router.push({ path: '/companies' });
             }).catch(function (resp) {
                 console.log(resp);
                 alert("Could not create your company");
@@ -51109,7 +51109,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var app = this;
             var newCompany = app.company;
             axios.patch('/api/v1/companies/' + app.companyId, newCompany).then(function (resp) {
-                app.$router.replace('/');
+                app.$router.replace('/companies');
             }).catch(function (resp) {
                 console.log(resp);
                 alert("Could not create your company");
