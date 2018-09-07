@@ -14,16 +14,17 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Authentication Routes
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Homepage Route
+Route::get('/', function () { return redirect(\route('admin.index')); })->name('app');
 
+// Administrator Routes
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
 
-    Route::get('companies', 'CompanyController@index')->name('companies');
+    // Administrator Admin Route
+    Route::get('/', 'AdminController@index')->name('index');
+
 
 });

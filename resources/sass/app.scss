@@ -1,14 +1,52 @@
-
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
+// Font Awesome
+@import "~font-awesome/scss/font-awesome.scss";
+
+// Variables
+@import 'variables';
+
+// Mixins
+@import "mixins";
+
+// Typography
+@import "typography";
+
+// Responsive
+@import "responsive";
+
+// Sidebar
+@import "sidebar";
+
+// Helpers
+@import "helpers";
+
+// Layout
+@import "layout";
+
+/* Components */
+// Accordion
+@import "components/accordion";
+
+// Button
+@import "components/button";
+
+// Calendar
+@import "components/calendar";
+
+// Date Picker
+@import "components/date-picker";
+
+// List Style
+@import "components/list-style";
+
+// Social Icons
+@import "components/social-icons";
+
+// Tabs
+@import "components/tabs";
+/* /Components */
