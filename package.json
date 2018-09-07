@@ -23,6 +23,8 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "vue-router": "^3.0.1"
+        "laravel-vue-pagination": "^1.2.0",
+        "vue-router": "^3.0.1",
+        "vue-sweetalert2": "^1.5.3"
     }
 }

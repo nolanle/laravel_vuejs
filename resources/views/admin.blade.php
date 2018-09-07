@@ -1,25 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+    @include('components.header')
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+    <div class="container-fluid">
+        <div class="row">
+            <sidebar></sidebar>
+
+            <div class="content-wrapper">
+
+                <div class="row">
+                    <div class="mb-30 col-xl-12">
+                        <div class="card-statistics h-100 card">
+                            <div class="card-body">
+
+                                <router-view></router-view>
+
+                            </div>
                         </div>
-                    @endif
-
-                    <router-view name="home"></router-view>
-                    {{--<router-view name="indexCompanies"></router-view>--}}
-                    <router-view></router-view>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+                @include('components.footer')
+
+            </div> <!-- /content-wrapper -->
+
+        </div> <!-- /row -->
+
+    </div> <!-- /container-fluid -->
 @endsection

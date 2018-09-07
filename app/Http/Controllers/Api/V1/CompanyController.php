@@ -14,7 +14,7 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $companies = Company::all();
+        $companies = Company::paginate(25);
         return response()->json($companies, 200);
     }
 

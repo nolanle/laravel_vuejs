@@ -26,5 +26,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     // Administrator Admin Route
     Route::get('/', 'AdminController@index')->name('index');
 
+    // Logout Route
+    Route::get('logout', function () {
+        Auth::logout();
+    });
 
 });

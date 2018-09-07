@@ -15,11 +15,20 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable();
-            $table->string('address')->nullable();
-            $table->string('website')->nullable();
-            $table->string('email')->nullable();
+            $table->string('name');
+            $table->string('phone')->nullable();
+            $table->string('district_id', 5);
+            $table->string('address');
+            $table->string('address_addition')->nullable(); // địa chỉ dòng 2
+            $table->string('represent'); // ngươi đại diện
+            $table->unsignedBigInteger('interested')->default(0);
+            $table->unsignedBigInteger('total_investment')->default(0);
+
+            $table->boolean('activated')->default(TRUE);
+
             $table->timestamps();
+
+            $table->foreign('district_id')->references('id')->on('districts');
         });
     }
 
