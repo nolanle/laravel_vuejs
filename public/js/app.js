@@ -14317,15 +14317,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_companies_CreateCompany_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_companies_CreateCompany_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_companies_EditCompany_vue__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_companies_EditCompany_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_companies_EditCompany_vue__);
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
 __webpack_require__(16);
-
 window.Vue = __webpack_require__(39);
 
 
@@ -14339,8 +14336,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_sweetalert2__["a" /* default */]);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
 Vue.component('sidebar', __webpack_require__(49));
+Vue.component('footer', __webpack_require__(84));
 Vue.component('pagination', __webpack_require__(55));
 
 // Dashboard
@@ -14354,7 +14351,6 @@ Vue.component('pagination', __webpack_require__(55));
 var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_2__components_Dashboard_vue___default.a, name: 'dashboard' }, { path: '/companies', component: __WEBPACK_IMPORTED_MODULE_3__components_companies_IndexCompanies_vue___default.a, name: 'indexCompanies' }, { path: '/companies/create', component: __WEBPACK_IMPORTED_MODULE_4__components_companies_CreateCompany_vue___default.a, name: 'createCompany' }, { path: '/companies/edit/:id', component: __WEBPACK_IMPORTED_MODULE_5__components_companies_EditCompany_vue___default.a, name: 'editCompany' }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ routes: routes });
-
 var app = new Vue({ router: router }).$mount('#app');
 
 /***/ }),
@@ -54925,7 +54921,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -54936,7 +54932,6 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -54998,14 +54993,10 @@ var staticRenderFns = [
               },
               [
                 _c("ol", { staticClass: "breadcrumb" }, [
-                  _c("li", { staticClass: "breadcrumb-item" }, [
-                    _c("a", { attrs: { href: "#" } }, [_vm._v("Ecosystem")])
-                  ]),
-                  _vm._v(" "),
                   _c(
                     "li",
                     {
-                      staticClass: "active breadcrumb-item",
+                      staticClass: "breadcrumb-item active",
                       attrs: { "aria-current": "page" }
                     },
                     [_vm._v("Dashboard")]
@@ -55216,13 +55207,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "IndexCompanies",
     data: function data() {
-        return {
-            companies: []
-        };
+        return { companies: [] };
     },
     mounted: function mounted() {
         this.getResults();
@@ -55252,7 +55248,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 cancelButtonText: '<i class="fa fa-ban"></i> Hủy bỏ'
             }).then(function (result) {
                 if (result.value) {
-
                     var app = _this2;
                     axios.delete('/api/v1/companies/' + id).then(function (resp) {
                         app.$swal({
@@ -55283,188 +55278,220 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "react-bs-table-container" }, [
-    _c("div", { staticClass: "react-bs-table-tool-bar " }, [
+  return _c("div", [
+    _c("div", { staticClass: "page-title" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-8" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
           _c(
-            "div",
-            { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
+            "nav",
+            {
+              staticClass: "float-left float-sm-right",
+              attrs: { "aria-label": "breadcrumb" }
+            },
             [
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-success",
-                  attrs: { to: { name: "createCompany" } }
-                },
-                [_c("i", { staticClass: "fa fa-plus" }), _vm._v(" THÊM MỚI")]
-              )
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "react-bs-table react-bs-table-bordered",
-        staticStyle: { height: "100%" }
-      },
-      [
-        _vm._m(1),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "react-bs-container-body",
-            staticStyle: { height: "100%" }
-          },
-          [
-            _c(
-              "table",
-              {
-                staticClass:
-                  "table table-striped table-bordered table-hover table-condensed"
-              },
-              [
-                _vm._m(2),
+              _c("ol", { staticClass: "breadcrumb" }, [
+                _c(
+                  "li",
+                  { staticClass: "breadcrumb-item" },
+                  [
+                    _c(
+                      "router-link",
+                      { attrs: { to: { name: "dashboard" } } },
+                      [
+                        _c("i", { staticClass: "ti-home" }),
+                        _vm._v(" Dashboard")
+                      ]
+                    )
+                  ],
+                  1
+                ),
                 _vm._v(" "),
                 _c(
-                  "tbody",
-                  _vm._l(_vm.companies.data, function(company, index) {
-                    return _c("tr", [
-                      _c(
-                        "td",
-                        {
-                          staticStyle: { "text-align": "left" },
-                          attrs: { tabindex: "1" }
-                        },
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "btn btn-xs btn-default",
-                              attrs: {
-                                to: {
-                                  name: "editCompany",
-                                  params: { id: company.id }
-                                }
-                              }
-                            },
-                            [
-                              _c("span", { staticClass: "text-success" }, [
-                                _vm._v(_vm._s(company.name))
-                              ])
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticStyle: { "text-align": "left" },
-                          attrs: { tabindex: "2" }
-                        },
-                        [_vm._v(_vm._s(company.phone))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticStyle: { "text-align": "left" },
-                          attrs: { tabindex: "3" }
-                        },
-                        [_vm._v(_vm._s(company.address))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticStyle: { "text-align": "left" },
-                          attrs: { tabindex: "4" }
-                        },
-                        [_vm._v(_vm._s(company.represent))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticStyle: { "text-align": "left" },
-                          attrs: { tabindex: "5" }
-                        },
-                        [_vm._v(_vm._s(company.interested))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticStyle: { "text-align": "left" },
-                          attrs: { tabindex: "5" }
-                        },
-                        [_vm._v(_vm._s(company.total_investment))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticStyle: { "text-align": "center" },
-                          attrs: { tabindex: "6" }
-                        },
-                        [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "btn btn-xs btn-danger",
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  _vm.deleteEntry(company.id, index)
-                                }
-                              }
-                            },
-                            [_vm._v("Delete")]
-                          )
-                        ]
-                      )
-                    ])
-                  })
+                  "li",
+                  {
+                    staticClass: "breadcrumb-item active",
+                    attrs: { "aria-current": "page" }
+                  },
+                  [_vm._v("Danh sách công ty")]
                 )
-              ]
-            )
-          ]
-        )
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "react-bs-table-pagination" }, [
-      _c("div", { staticClass: "row", staticStyle: { "margin-top": "15px" } }, [
-        _c(
-          "div",
-          {
-            staticClass: "col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3",
-            staticStyle: { display: "block" }
-          },
-          [
-            _c("pagination", {
-              attrs: { data: _vm.companies },
-              on: { "pagination-change-page": _vm.getResults }
-            })
-          ],
-          1
-        )
+              ])
+            ]
+          )
+        ])
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "s-alert-wrapper" })
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "mb-30 col-xl-12" }, [
+        _c("div", { staticClass: "card-statistics h-100 card" }, [
+          _c("div", { staticClass: "card-body react-bs-table-container" }, [
+            _c("div", { staticClass: "react-bs-table-tool-bar " }, [
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-8" },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "btn-group", attrs: { role: "group" } },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: { to: { name: "createCompany" } }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-plus" }),
+                            _vm._v(" THÊM MỚI")
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(1)
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "react-bs-table react-bs-table-bordered",
+                staticStyle: { height: "100%" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "react-bs-container-body",
+                    staticStyle: { height: "100%" }
+                  },
+                  [
+                    _c(
+                      "table",
+                      {
+                        staticClass:
+                          "table table-striped table-bordered table-hover table-condensed"
+                      },
+                      [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.companies.data, function(company, index) {
+                            return _c("tr", [
+                              _c(
+                                "td",
+                                [
+                                  _c(
+                                    "router-link",
+                                    {
+                                      staticClass: "btn btn-xs btn-default",
+                                      attrs: {
+                                        to: {
+                                          name: "editCompany",
+                                          params: { id: company.id }
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-success" },
+                                        [
+                                          _c("strong", [
+                                            _vm._v(_vm._s(company.name))
+                                          ])
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(company.phone))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(company.address))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(company.represent))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(company.interested))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(company.total_investment))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-xs btn-danger",
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleteEntry(company.id, index)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash" })]
+                                )
+                              ])
+                            ])
+                          })
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "react-bs-table-pagination" }, [
+              _c(
+                "div",
+                { staticClass: "row", staticStyle: { "margin-top": "15px" } },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3",
+                      staticStyle: { display: "block" }
+                    },
+                    [
+                      _c("pagination", {
+                        attrs: { data: _vm.companies },
+                        on: { "pagination-change-page": _vm.getResults }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-6" }, [
+      _c("h4", { staticClass: "mb-0" }, [_vm._v(" Danh sách công ty")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "delete-button" })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -55488,84 +55515,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "react-bs-container-header table-header-wrapper" },
-      [
-        _c(
-          "table",
-          { staticClass: "table table-hover table-bordered table-condensed" },
-          [
-            _c("colgroup", [
-              _c("col", { staticStyle: { width: "15%" } }),
-              _vm._v(" "),
-              _c("col", { staticStyle: { width: "15%" } }),
-              _vm._v(" "),
-              _c("col", { staticStyle: { width: "15%" } }),
-              _vm._v(" "),
-              _c("col", { staticStyle: { width: "15%" } }),
-              _vm._v(" "),
-              _c("col", { staticStyle: { width: "15%" } }),
-              _vm._v(" "),
-              _c("col", { staticStyle: { width: "15%" } }),
-              _vm._v(" "),
-              _c("col", { staticStyle: { width: "10%" } })
-            ]),
-            _vm._v(" "),
-            _c("thead", [
-              _c("tr", [
-                _c("th", { staticStyle: { "text-align": "left" } }, [
-                  _vm._v("TÊN CÔNG TY")
-                ]),
-                _vm._v(" "),
-                _c("th", { staticStyle: { "text-align": "left" } }, [
-                  _vm._v("ĐIỆN THOẠI")
-                ]),
-                _vm._v(" "),
-                _c("th", { staticStyle: { "text-align": "left" } }, [
-                  _vm._v("ĐỊA CHỈ")
-                ]),
-                _vm._v(" "),
-                _c("th", { staticStyle: { "text-align": "left" } }, [
-                  _vm._v("NGƯỜI ĐẠI DIỆN")
-                ]),
-                _vm._v(" "),
-                _c("th", { staticStyle: { "text-align": "left" } }, [
-                  _vm._v("VỐN ĐẦU TƯ")
-                ]),
-                _vm._v(" "),
-                _c("th", { staticStyle: { "text-align": "left" } }, [
-                  _vm._v("QUỸ TIỀN MẶT")
-                ]),
-                _vm._v(" "),
-                _c("th", { staticStyle: { "text-align": "center" } }, [
-                  _vm._v(" ")
-                ])
-              ])
-            ])
-          ]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("colgroup", [
-      _c("col", { staticStyle: { width: "15%" } }),
-      _vm._v(" "),
-      _c("col", { staticStyle: { width: "15%" } }),
-      _vm._v(" "),
-      _c("col", { staticStyle: { width: "15%" } }),
-      _vm._v(" "),
-      _c("col", { staticStyle: { width: "15%" } }),
-      _vm._v(" "),
-      _c("col", { staticStyle: { width: "15%" } }),
-      _vm._v(" "),
-      _c("col", { staticStyle: { width: "15%" } }),
-      _vm._v(" "),
-      _c("col", { staticStyle: { width: "10%" } })
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("TÊN CÔNG TY")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ĐIỆN THOẠI")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ĐỊA CHỈ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("NGƯỜI ĐẠI DIỆN")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("VỐN ĐẦU TƯ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("QUỸ TIỀN MẶT")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" ")])
+      ])
     ])
   }
 ]
@@ -56307,6 +56272,187 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(85)
+}
+var normalizeComponent = __webpack_require__(4)
+/* script */
+var __vue_script__ = __webpack_require__(87)
+/* template */
+var __vue_template__ = __webpack_require__(88)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-61a7c374"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Footer.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-61a7c374", Component.options)
+  } else {
+    hotAPI.reload("data-v-61a7c374", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(86);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("2f108046", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-61a7c374\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Footer.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-61a7c374\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Footer.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 87 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "Footer"
+});
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("footer", { staticClass: "bg-white p-4" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "text-center text-md-left" }, [
+            _c("p", { staticClass: "mb-0" }, [
+              _c("strong", [
+                _vm._v("Hotline: "),
+                _c("a", { attrs: { href: "tel:01234567890" } }, [
+                  _vm._v("01234567890")
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("ul", { staticClass: "text-center text-md-right" }, [
+            _c("li", { staticClass: "list-inline-item" }, [
+              _c("a", { attrs: { href: "#" } }, [_vm._v("Điều khoản dịch vụ")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-inline-item" }, [
+              _c("a", { attrs: { href: "#" } }, [_vm._v("Chính sách bảo mật")])
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-61a7c374", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

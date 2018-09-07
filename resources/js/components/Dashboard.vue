@@ -7,8 +7,7 @@
                 <div class="col-sm-6">
                     <nav class="float-left float-sm-right" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Ecosystem</a></li>
-                            <li class="active breadcrumb-item" aria-current="page">Dashboard</li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                         </ol>
                     </nav>
                 </div>

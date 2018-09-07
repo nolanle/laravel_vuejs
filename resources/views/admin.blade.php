@@ -9,19 +9,10 @@
 
             <div class="content-wrapper">
 
-                <div class="row">
-                    <div class="mb-30 col-xl-12">
-                        <div class="card-statistics h-100 card">
-                            <div class="card-body">
-
-                                <router-view></router-view>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <router-view></router-view>
 
                 @include('components.footer')
+                {{--<footer></footer>--}}
 
             </div> <!-- /content-wrapper -->
 

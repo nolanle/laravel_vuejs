@@ -1,97 +1,98 @@
 <template>
-    <div class="react-bs-table-container">
-        <div class="react-bs-table-tool-bar ">
+    <div>
+        <div class="page-title">
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
-                    <div class="btn-group btn-group-sm" role="group">
-                        <router-link :to="{name: 'createCompany'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                <div class="col-sm-6">
+                    <h4 class="mb-0"> Danh sách công ty</h4>
+                    <div class="delete-button"></div>
+                </div>
+                <div class="col-sm-6">
+                    <nav class="float-left float-sm-right" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> Dashboard</router-link>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Danh sách công ty</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-30 col-xl-12">
+                <div class="card-statistics h-100 card">
+                    <div class="card-body react-bs-table-container">
+
+                        <div class="react-bs-table-tool-bar ">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
+                                    <div class="btn-group" role="group">
+                                        <router-link :to="{name: 'createCompany'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                    <div class="form-group form-group-sm react-bs-table-search-form">
+                                        <input placeholder="Tìm kiếm công ty" class="form-control" type="text" style="z-index: 0;"><span class="input-group-btn"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="react-bs-table react-bs-table-bordered" style="height: 100%;">
+                            <div class="react-bs-container-body" style="height: 100%;">
+                                <table class="table table-striped table-bordered table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>TÊN CÔNG TY</th>
+                                            <th>ĐIỆN THOẠI</th>
+                                            <th>ĐỊA CHỈ</th>
+                                            <th>NGƯỜI ĐẠI DIỆN</th>
+                                            <th>VỐN ĐẦU TƯ</th>
+                                            <th>QUỸ TIỀN MẶT</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="company, index in companies.data">
+                                            <td>
+                                                <router-link :to="{name: 'editCompany', params: {id: company.id}}" class="btn btn-xs btn-default">
+                                                    <span class="text-success"><strong>{{ company.name }}</strong></span>
+                                                </router-link>
+                                            </td>
+                                            <td>{{ company.phone }}</td>
+                                            <td>{{ company.address }}</td>
+                                            <td>{{ company.represent }}</td>
+                                            <td>{{ company.interested }}</td>
+                                            <td>{{ company.total_investment }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="react-bs-table-pagination">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3" style="display: block;">
+                                    <pagination :data="companies" @pagination-change-page="getResults"></pagination>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
-                    <div class="form-group form-group-sm react-bs-table-search-form">
-                        <input placeholder="Tìm kiếm công ty" class="form-control" type="text" style="z-index: 0;"><span class="input-group-btn"></span>
-                    </div>
-                </div>
             </div>
         </div>
-        <div class="react-bs-table react-bs-table-bordered" style="height: 100%;">
-            <div class="react-bs-container-header table-header-wrapper">
-                <table class="table table-hover table-bordered table-condensed">
-                    <colgroup>
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 10%;">
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th style="text-align: left;">TÊN CÔNG TY</th>
-                        <th style="text-align: left;">ĐIỆN THOẠI</th>
-                        <th style="text-align: left;">ĐỊA CHỈ</th>
-                        <th style="text-align: left;">NGƯỜI ĐẠI DIỆN</th>
-                        <th style="text-align: left;">VỐN ĐẦU TƯ</th>
-                        <th style="text-align: left;">QUỸ TIỀN MẶT</th>
-                        <th style="text-align: center;">&nbsp;</th>
-                    </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="react-bs-container-body" style="height: 100%;">
-                <table class="table table-striped table-bordered table-hover table-condensed">
-                    <colgroup>
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 15%;">
-                        <col style="width: 10%;">
-                    </colgroup>
-                    <tbody>
-                    <tr v-for="company, index in companies.data">
-                        <td style="text-align: left;" tabindex="1">
-                            <router-link :to="{name: 'editCompany', params: {id: company.id}}" class="btn btn-xs btn-default">
-                                <span class="text-success">{{ company.name }}</span>
-                            </router-link>
-                        </td>
-                        <td style="text-align: left;" tabindex="2">{{ company.phone }}</td>
-                        <td style="text-align: left;" tabindex="3">{{ company.address }}</td>
-                        <td style="text-align: left;" tabindex="4">{{ company.represent }}</td>
-                        <td style="text-align: left;" tabindex="5">{{ company.interested }}</td>
-                        <td style="text-align: left;" tabindex="5">{{ company.total_investment }}</td>
-                        <td style="text-align: center;" tabindex="6">
-                            <a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)">Delete</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="react-bs-table-pagination">
-            <div class="row" style="margin-top: 15px;">
-                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3" style="display: block;">
-                    <pagination :data="companies" @pagination-change-page="getResults"></pagination>
-                </div>
-            </div>
-        </div>
-        <div class="s-alert-wrapper"></div>
     </div>
 </template>
 
 <script>
     export default {
         name: "IndexCompanies",
-        data: function () {
-            return {
-                companies: []
-            }
-        },
-        mounted() {
-            this.getResults();
-        },
+        data: function () { return { companies: [] } },
+        mounted() { this.getResults(); },
         methods: {
             getResults(page = 1) { axios.get('/api/v1/companies?page=' + page).then(
                 response => {
@@ -111,7 +112,6 @@
                     cancelButtonText: '<i class="fa fa-ban"></i> Hủy bỏ',
                 }).then((result) => {
                     if (result.value) {
-
                         var app = this;
                         axios.delete('/api/v1/companies/' + id)
                             .then(function (resp) {
