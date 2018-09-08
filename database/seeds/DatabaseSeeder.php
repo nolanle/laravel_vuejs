@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         ini_set('memory_limit', '-1');
         DB::unprepared(File::get(__DIR__ . '/don_vi_hanh_chinh.sql'));
 
-        $this->call(CompaniesTableSeeder::class);
+        // $this->call(CompaniesTableSeeder::class);
     }
 }

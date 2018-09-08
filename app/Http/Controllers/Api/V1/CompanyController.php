@@ -25,7 +25,11 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $company = Company::create($request->all());
+        $company = Company::create(
+            $request->only([
+                'name', 'phone', 'district_id', 'address', 'represent', 'interested', 'activated'
+            ])
+        );
         return response()->json($company, 200);
     }
 

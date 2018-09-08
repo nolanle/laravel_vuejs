@@ -1,43 +1,89 @@
 <template>
     <div>
-        <div class="form-group">
-            <router-link to="/companies" class="btn btn-default">Back</router-link>
+        <div class="page-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 class="mb-0">Thêm công ty mới</h4>
+                    <div class="delete-button"></div>
+                </div>
+                <div class="col-sm-6">
+                    <nav class="float-left float-sm-right" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> Dashboard</router-link>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Thêm công ty mới</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">Create new company</div>
-            <div class="panel-body">
-                <form v-on:submit="saveForm()">
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label class="control-label">Company name</label>
-                            <input type="text" v-model="company.name" class="form-control">
-                        </div>
+        <div class="card-statistics mb-30 card">
+            <div class="card-body">
+                <h5 class="card-title"><span>Thêm công ty mới</span></h5>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <form v-on:submit="createForm()">
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="name">Tên Công Ty</label>
+                                    <input v-model="company.name" type="text" id="name" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Số Điện Thoại</label>
+                                <input v-model="company.phone" type="text" id="phone" class="form-control" />
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="province">Tỉnh / Thành Phố</label>
+                                    <select v-on:change="getDistricts" v-model="company.province" id="province" class="form-control">
+                                        <option selected> ~~~~~~~ Chọn ~~~~~~~ </option>
+                                        <option v-for="item in provinces" v-bind:value="item.id">{{ item.name }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="district">Quận / Huyện / Thị Xã</label>
+                                    <select v-on:change="districtChanged" v-model="company.district" id="district" class="form-control">
+                                        <option selected> ~~~~~~~ Chọn ~~~~~~~ </option>
+                                        <option v-for="district in districts" v-bind:value="district.id">{{ district.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Số Nhà, Tên Đường</label>
+                                <input v-model="company.address" type="text" id="address" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="represent">Người Đại Diện</label>
+                                <input v-model="company.represent" type="text" id="represent" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="interested">Số Vốn Đầu Tư</label>
+                                <input v-model="company.interested" type="text" id="interested" class="form-control" />
+                            </div>
+
+                            <div class="pull-right">
+                                <router-link :to="{name: 'indexCompanies'}" class="btn btn-secondary">
+                                    <i class="fa fa-arrow-left"></i>
+                                    <span>QUAY LẠI</span>
+                                </router-link>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-plus"></i>
+                                    <span>THÊM MỚI</span>
+                                </button>
+                            </div>
+
+                        </form>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label class="control-label">Company address</label>
-                            <input type="text" v-model="company.address" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label class="control-label">Company website</label>
-                            <input type="text" v-model="company.website" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label class="control-label">Company email</label>
-                            <input type="text" v-model="company.email" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <button class="btn btn-success">Create</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -50,25 +96,54 @@
             return {
                 company: {
                     name: '',
+                    phone: '',
+                    province: '',
+                    district: '',
+                    district_id: '',
                     address: '',
-                    website: '',
-                    email: '',
-                }
+                    represent: '',
+                    interested: 0,
+                    activated: 1,
+                },
+                provinces: [],
+                districts: []
             }
         },
+        mounted() {
+            this.getProvinces();
+        },
         methods: {
-            saveForm() {
+            getProvinces() {
+                axios.get('/api/v1/provinces').then( response => {
+                    this.provinces = response.data;
+                });
+            },
+
+            getDistricts() {
+                axios.get('/api/v1/provinces/' + this.convertProvinceId(this.company.province)).then( response => {
+                    this.districts = response.data;
+                });
+            },
+
+            districtChanged () {
+                this.company.district_id = this.convertDistrictId(this.company.district);
+            },
+
+            convertProvinceId(id = 1) { if (id < 10) return '0' + id; return id; },
+            convertDistrictId(id = 1) { if (id < 10) return '00' + id; else if (id < 100) return '0' + id; return id; },
+
+            createForm() {
                 event.preventDefault();
-                var app = this;
-                var newCompany = app.company;
-                axios.post('/api/v1/companies', newCompany)
-                    .then(function (resp) {
-                        app.$router.push({path: '/companies'});
-                    })
-                    .catch(function (resp) {
-                        console.log(resp);
-                        alert("Could not create your company");
+                console.log(this.company);
+                axios.post('/api/v1/companies', this.company).then(function (response) {
+                    app.$router.push({path: '/companies'});
+                }).catch(function (response) {
+                    app.$swal({
+                        type: 'error',
+                        title: 'Thêm mới thất bại!',
+                        text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
                     });
+                });
             }
         }
     }

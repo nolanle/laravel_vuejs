@@ -27,6 +27,7 @@ class CreateCompaniesTable extends Migration
             $table->boolean('activated')->default(TRUE);
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('district_id')->references('id')->on('districts');
         });

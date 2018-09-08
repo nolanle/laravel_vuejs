@@ -18,7 +18,7 @@ Vue.use(VueSweetalert);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('sidebar', require('./components/Sidebar.vue'));
-Vue.component('footer', require('./components/Footer.vue'));
+// Vue.component('footer', require('./components/Footer.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 // Dashboard

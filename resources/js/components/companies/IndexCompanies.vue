@@ -91,16 +91,22 @@
 <script>
     export default {
         name: "IndexCompanies",
-        data: function () { return { companies: [] } },
+        data: function () {
+            return {
+                companies: []
+            }
+        },
         mounted() { this.getResults(); },
         methods: {
-            getResults(page = 1) { axios.get('/api/v1/companies?page=' + page).then(
-                response => {
-                    this.companies = response.data;
-                    // this.$swal({ type: 'success', title: 'Thành công', text: 'Tải danh sách công ty thành công!' });
+            getResults(page = 1) {
+                let app = this;
+                axios.get('/api/v1/companies?page=' + page).then(response => {
+                    app.companies = response.data;
                 });
             },
             deleteEntry(id, index) {
+                var app = this;
+
                 this.$swal({
                     type: 'warning',
                     title: 'Bạn có chắc xóa?',
@@ -112,26 +118,28 @@
                     cancelButtonText: '<i class="fa fa-ban"></i> Hủy bỏ',
                 }).then((result) => {
                     if (result.value) {
-                        var app = this;
-                        axios.delete('/api/v1/companies/' + id)
-                            .then(function (resp) {
-                                app.$swal({
-                                    type: 'success',
-                                    title: 'Đã xóa thành công!',
-                                    text: 'Công ty do bạn quản lý đã bị xóa khỏi hệ thống.'
-                                });
-                                app.companies.data.splice(index, 1);
-                            })
-                            .catch(function (error) {
-                                // alert("Could not delete company");
-                                app.$swal({
-                                    type: 'error',
-                                    title: 'Xóa thất bại!',
-                                    text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
-                                });
+
+                        axios.delete('/api/v1/companies/' + id).then(function (response) {
+                            app.companies.data.splice(index, 1);
+                            // app.getResults();
+                            app.$swal({
+                                type: 'success',
+                                title: 'Đã xóa thành công!',
+                                text: 'Công ty do bạn quản lý đã bị xóa khỏi hệ thống.'
                             });
+
+                        }).catch(function (error) {
+                            app.$swal({
+                                type: 'error',
+                                title: 'Xóa thất bại!',
+                                text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
+                            });
+
+                        });
+
                     }
-                })
+                });
+
             }
         }
     }

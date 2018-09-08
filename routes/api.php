@@ -20,7 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
 
+    // Companies Resource
     Route::resource('companies', 'CompanyController', ['except' => ['create', 'edit']]);
+
+    // Get list of provinces
+    Route::get('provinces', 'AddressController@provinces');
+
+    // Get list of districts by province id
+    Route:: get('provinces/{id}', 'AddressController@province');
 
 });
 
