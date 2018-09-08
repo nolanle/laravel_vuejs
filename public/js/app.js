@@ -55113,7 +55113,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -55219,7 +55219,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     name: "IndexCompanies",
     data: function data() {
         return {
-            companies: []
+            page: 1,
+            companies: {}
         };
     },
     mounted: function mounted() {
@@ -55231,6 +55232,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             var app = this;
+            app.page = page;
             axios.get('/api/v1/companies?page=' + page).then(function (response) {
                 app.companies = response.data;
             });
@@ -55251,8 +55253,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (result.value) {
 
                     axios.delete('/api/v1/companies/' + id).then(function (response) {
-                        app.companies.data.splice(index, 1);
-                        // app.getResults();
+                        app.getResults(app.page);
                         app.$swal({
                             type: 'success',
                             title: 'Đã xóa thành công!',
@@ -55462,8 +55463,7 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3",
-                      staticStyle: { display: "block" }
+                        "col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3"
                     },
                     [
                       _c("pagination", {

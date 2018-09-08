@@ -75,7 +75,7 @@
 
                         <div class="react-bs-table-pagination">
                             <div class="row" style="margin-top: 15px;">
-                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3" style="display: block;">
+                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3">
                                     <pagination :data="companies" @pagination-change-page="getResults"></pagination>
                                 </div>
                             </div>
@@ -93,13 +93,15 @@
         name: "IndexCompanies",
         data: function () {
             return {
-                companies: []
+                page: 1,
+                companies: {}
             }
         },
         mounted() { this.getResults(); },
         methods: {
             getResults(page = 1) {
                 let app = this;
+                app.page = page;
                 axios.get('/api/v1/companies?page=' + page).then(response => {
                     app.companies = response.data;
                 });
@@ -120,8 +122,7 @@
                     if (result.value) {
 
                         axios.delete('/api/v1/companies/' + id).then(function (response) {
-                            app.companies.data.splice(index, 1);
-                            // app.getResults();
+                            app.getResults(app.page);
                             app.$swal({
                                 type: 'success',
                                 title: 'Đã xóa thành công!',
