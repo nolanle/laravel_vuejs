@@ -20,4 +20,8 @@ class Company extends Model
      */
     protected $dates = ['deleted_at'];
 
+
+    public function district() {
+        return $this->belongsTo(District::class, 'district_id', 'id');
+    }
 }

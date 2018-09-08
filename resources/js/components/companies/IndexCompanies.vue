@@ -108,7 +108,6 @@
             },
             deleteEntry(id, index) {
                 var app = this;
-
                 this.$swal({
                     type: 'warning',
                     title: 'Bạn có chắc xóa?',
@@ -120,7 +119,6 @@
                     cancelButtonText: '<i class="fa fa-ban"></i> Hủy bỏ',
                 }).then((result) => {
                     if (result.value) {
-
                         axios.delete('/api/v1/companies/' + id).then(function (response) {
                             app.getResults(app.page);
                             app.$swal({
@@ -128,19 +126,15 @@
                                 title: 'Đã xóa thành công!',
                                 text: 'Công ty do bạn quản lý đã bị xóa khỏi hệ thống.'
                             });
-
                         }).catch(function (error) {
                             app.$swal({
                                 type: 'error',
                                 title: 'Xóa thất bại!',
                                 text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
                             });
-
                         });
-
                     }
                 });
-
             }
         }
     }

@@ -29,27 +29,27 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="name">Tên Công Ty</label>
-                                    <input v-model="company.name" type="text" id="name" class="form-control" />
+                                    <input v-model="company.name" type="text" id="name" class="form-control" required />
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="phone">Số Điện Thoại</label>
-                                <input v-model="company.phone" type="text" id="phone" class="form-control" />
+                                <input v-model="company.phone" type="text" id="phone" class="form-control" required />
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="province">Tỉnh / Thành Phố</label>
                                     <select v-on:change="getDistricts" v-model="company.province" id="province" class="form-control">
-                                        <option selected> ~~~~~~~ Chọn ~~~~~~~ </option>
+                                        <option> ~~~~~~~ Chọn ~~~~~~~ </option>
                                         <option v-for="item in provinces" v-bind:value="item.id">{{ item.name }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="district">Quận / Huyện / Thị Xã</label>
                                     <select v-on:change="districtChanged" v-model="company.district" id="district" class="form-control">
-                                        <option selected> ~~~~~~~ Chọn ~~~~~~~ </option>
+                                        <option> ~~~~~~~ Chọn ~~~~~~~ </option>
                                         <option v-for="district in districts" v-bind:value="district.id">{{ district.name }}</option>
                                     </select>
                                 </div>
@@ -57,17 +57,24 @@
 
                             <div class="form-group">
                                 <label for="address">Số Nhà, Tên Đường</label>
-                                <input v-model="company.address" type="text" id="address" class="form-control" />
+                                <input v-model="company.address" type="text" id="address" class="form-control" required />
                             </div>
 
                             <div class="form-group">
                                 <label for="represent">Người Đại Diện</label>
-                                <input v-model="company.represent" type="text" id="represent" class="form-control" />
+                                <input v-model="company.represent" type="text" id="represent" class="form-control" required />
                             </div>
 
                             <div class="form-group">
                                 <label for="interested">Số Vốn Đầu Tư</label>
-                                <input v-model="company.interested" type="text" id="interested" class="form-control" />
+                                <input v-model="company.interested" type="text" id="interested" class="form-control" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="activated">Trạng Thái</label>
+                                <div class="pull-right">
+                                    <switches v-model="company.activated" id="activated" theme="bootstrap" color="success"></switches>
+                                </div>
                             </div>
 
                             <div class="pull-right">
@@ -90,6 +97,8 @@
 </template>
 
 <script>
+    import Switches from 'vue-switches';
+
     export default {
         name: "CreateCompany",
         data: function () {
@@ -97,7 +106,7 @@
                 company: {
                     name: '',
                     phone: '',
-                    province: '',
+                    province: '045',
                     district: '',
                     district_id: '',
                     address: '',

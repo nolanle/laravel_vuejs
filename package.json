@@ -25,6 +25,7 @@
     "dependencies": {
         "laravel-vue-pagination": "^1.2.0",
         "vue-router": "^3.0.1",
-        "vue-sweetalert2": "^1.5.3"
+        "vue-sweetalert2": "^1.5.3",
+        "vue-switches": "^2.0.1"
     }
 }

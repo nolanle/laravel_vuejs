@@ -20,6 +20,7 @@ Vue.use(VueSweetalert);
 Vue.component('sidebar', require('./components/Sidebar.vue'));
 // Vue.component('footer', require('./components/Footer.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('switches', require('vue-switches'));
 
 // Dashboard
 import Dashboard from './components/Dashboard.vue';
