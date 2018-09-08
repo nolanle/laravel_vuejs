@@ -105,8 +105,8 @@
                     interested: 0,
                     activated: 1,
                 },
-                provinces: [],
-                districts: []
+                provinces: {},
+                districts: {}
             }
         },
         mounted() {
@@ -134,10 +134,26 @@
 
             createForm() {
                 event.preventDefault();
-                console.log(this.company);
+                // console.log(this.company);
+                let app = this;
                 axios.post('/api/v1/companies', this.company).then(function (response) {
-                    app.$router.push({path: '/companies'});
-                }).catch(function (response) {
+                    app.$swal({
+                        type: 'success',
+                        title: 'Thêm mới thành công?',
+                        text: "Đã thêm mới công ty thành công!",
+                        confirmButtonColor: '#3085d6',
+                    }).then((result) => {
+                        if (result.value) {
+                            app.$router.push({path: '/companies'});
+                        } else {
+                            app.$swal({
+                                type: 'error',
+                                title: 'Thêm mới thất bại!',
+                                text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
+                            });
+                        }
+                    });
+                }).catch(function (error) {
                     app.$swal({
                         type: 'error',
                         title: 'Thêm mới thất bại!',
