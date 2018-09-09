@@ -31,8 +31,11 @@ Route::group([
     'middleware' => ['api', 'auth:api']
 ], function () {
 
-    // Dashboard
+    // Get Dashboard
     Route::get('dashboard', 'DashboardController@index');
+
+    // Get Activities
+    Route::get('activities', 'AccountController@activities');
 
     // Companies Resource
     Route::resource('companies', 'CompanyController', ['except' => ['create', 'edit']]);

@@ -5,8 +5,12 @@ import store from "./store";
 Vue.use(VueRouter);
 
 import Dashboard from './components/Dashboard.vue';
-import LoginComponent from './components/auth/LoginComponent.vue'
-import LogoutComponent from './components/auth/LogoutComponent.vue'
+
+import LoginComponent from './components/auth/LoginComponent.vue';
+import LogoutComponent from './components/auth/LogoutComponent.vue';
+
+import Activities from './components/account/Activities.vue';
+
 import IndexCompanies from './components/companies/IndexCompanies.vue';
 import CreateCompany from './components/companies/CreateCompany.vue';
 import EditCompany from './components/companies/EditCompany.vue';
@@ -28,6 +32,8 @@ const routes = [
         component: Vue.component( 'Layout', require( './components/Layout.vue' ) ),
         children: [
             { path: '/dashboard', component: Dashboard, name: 'dashboard', meta: { requiresAuth: true } },
+
+            { path: '/activities', component: Activities, name: 'activities', meta: { requiresAuth: true } },
 
             { path: '/companies', component: IndexCompanies, name: 'indexCompanies', meta: { requiresAuth: true } },
             { path: '/companies/create', component: CreateCompany, name: 'createCompany', meta: { requiresAuth: true } },
@@ -56,6 +62,8 @@ router.beforeEach((to, from, next) => {
 
     let token = localStorage.getItem('token');
     if (token) {
+        console.log(token);
+
         axios.get('/api/auth/me', {
             headers: { Authorization: 'Bearer ' + token }
         }).then(response => {

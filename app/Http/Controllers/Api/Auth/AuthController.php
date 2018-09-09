@@ -51,12 +51,12 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request) {
-        auth()->logout();
-
         activity()->causedBy(auth()->user())->withProperties([
             'icon'  => 'fa fa-sign-out text-success',
             'ip'    => $request->ip()
         ])->log('Đăng xuất thành công');
+
+        auth()->logout();
 
         return response()->json(['message' => 'Đăng xuất thành công!']);
     }

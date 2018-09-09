@@ -1,8 +1,8 @@
 <template>
     <nav class="admin-header navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-left navbar-brand-wrapper">
-            <a class="navbar-brand brand-logo" href="#" ><img src="" alt="" /></a>
-            <a class="navbar-brand brand-logo-mini" href="#" ><img src="" alt="" /></a>
+            <router-link :to="{name: 'dashboard'}" :class="'navbar-brand brand-logo'"><img :src="'images/logo.png'"/></router-link>
+            <router-link :to="{name: 'dashboard'}" :class="'navbar-brand brand-logo-mini'"><img :src="'images/logo-icon-dark.png'"/></router-link>
         </div>
 
         <!-- Top bar left -->
@@ -48,7 +48,7 @@
             </li>
             <li class="nav-item dropdown mr-30">
                 <a class="nav-link nav-pill user-avatar" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img src="" alt="avatar" />
+                    <img :src="'images/profile-avatar.jpg'" alt="avatar" />
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header">
@@ -60,6 +60,7 @@
                         </div>
                     </div>
                     <div class="dropdown-divider"></div>
+                    <router-link :to="{name: 'activities'}" :class="'dropdown-item'"><i class="text-secondary ti-reload"></i>Hoạt động</router-link>
                     <a class="dropdown-item" href="#"><i class="text-success ti-email"></i>Messages</a>
                     <a class="dropdown-item" href="#"><i class="text-warning ti-user"></i>Profile</a>
                     <div class="dropdown-divider"></div>

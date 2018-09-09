@@ -13,25 +13,57 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="mb-30 col-md-12">
+            <div class="mb-30 col-md-6 col-lg-6 col-xl-3">
                 <div class="card-statistics h-100 card">
                     <div class="card-body">
-
-                        <div class="col-md-12 form-group">
-                            <label for="token" class="form-label col-md-3">Token: </label>
-                            <div class="col-md-9">
-                                <textarea type="text" id="token" class="form-control" rows="10">{{ token }}</textarea>
-                            </div>
+                        <div class="clearfix">
+                            <div class="float-left"><span class="text-danger"><i class="fa fa-bar-chart-o highlight-icon" aria-hidden="true"></i></span></div>
+                            <div class="float-right text-right">
+                                <p class="card-text text-dark">Visitors</p>
+                                <h4>65,650</h4></div>
                         </div>
-
-                        <div class="col-md-12 form-group">
-                            <label class="form-label col-md-3">LoggedIn: </label>
-                            <div class="col-md-9">
-                                <code>{{ data }}</code>
-                            </div>
+                        <p class="text-muted pt-3 mb-0 mt-2 border-top"><i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i> 81% lower growth</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-30 col-md-6 col-lg-6 col-xl-3">
+                <div class="card-statistics h-100 card">
+                    <div class="card-body">
+                        <div class="clearfix">
+                            <div class="float-left"><span class="text-warning"><i class="fa fa-shopping-cart highlight-icon" aria-hidden="true"></i></span></div>
+                            <div class="float-right text-right">
+                                <p class="card-text text-dark">Orders</p>
+                                <h4>656</h4></div>
                         </div>
-
+                        <p class="text-muted pt-3 mb-0 mt-2 border-top"><i class="fa fa-bookmark-o mr-1" aria-hidden="true"></i> Total sales</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-30 col-md-6 col-lg-6 col-xl-3">
+                <div class="card-statistics h-100 card">
+                    <div class="card-body">
+                        <div class="clearfix">
+                            <div class="float-left"><span class="text-success"><i class="fa fa-dollar highlight-icon" aria-hidden="true"></i></span></div>
+                            <div class="float-right text-right">
+                                <p class="card-text text-dark">Revenue</p>
+                                <h4>$65656</h4></div>
+                        </div>
+                        <p class="text-muted pt-3 mb-0 mt-2 border-top"><i class="fa fa-calendar mr-1" aria-hidden="true"></i> Sales Per Week</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-30 col-md-6 col-lg-6 col-xl-3">
+                <div class="card-statistics h-100 card">
+                    <div class="card-body">
+                        <div class="clearfix">
+                            <div class="float-left"><span class="text-primary"><i class="fa fa-twitter highlight-icon" aria-hidden="true"></i></span></div>
+                            <div class="float-right text-right">
+                                <p class="card-text text-dark">Followers</p>
+                                <h4>62,500+</h4></div>
+                        </div>
+                        <p class="text-muted pt-3 mb-0 mt-2 border-top"><i class="fa fa-repeat mr-1" aria-hidden="true"></i> Just Updated</p>
                     </div>
                 </div>
             </div>
