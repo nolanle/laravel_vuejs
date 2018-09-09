@@ -44,7 +44,7 @@
         name: "Dashboard",
         data() {
             return {
-                data: 'nothing',
+                data: 'Unauthenticated',
                 token: '',
             }
         },

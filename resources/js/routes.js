@@ -54,7 +54,19 @@ router.beforeEach((to, from, next) => {
         return
     }
 
-    next()
+    let token = localStorage.getItem('token');
+    if (token) {
+        axios.get('/api/auth/me', {
+            headers: { Authorization: 'Bearer ' + token }
+        }).then(response => {
+            // console.log("Token valid");
+        }).catch(error => {
+            localStorage.removeItem('token');
+            store.commit('logoutUser');
+        });
+    }
+
+    next();
 });
 
 export default router

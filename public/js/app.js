@@ -54574,6 +54574,18 @@ router.beforeEach(function (to, from, next) {
         return;
     }
 
+    var token = localStorage.getItem('token');
+    if (token) {
+        axios.get('/api/auth/me', {
+            headers: { Authorization: 'Bearer ' + token }
+        }).then(function (response) {
+            // console.log("Token valid");
+        }).catch(function (error) {
+            localStorage.removeItem('token');
+            __WEBPACK_IMPORTED_MODULE_2__store__["a" /* default */].commit('logoutUser');
+        });
+    }
+
     next();
 });
 
@@ -55623,7 +55635,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     name: "Dashboard",
     data: function data() {
         return {
-            data: 'nothing',
+            data: 'Unauthenticated',
             token: ''
         };
     },
