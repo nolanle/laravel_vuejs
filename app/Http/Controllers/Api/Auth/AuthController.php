@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -20,12 +21,17 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login() {
+    public function login(Request $request) {
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        activity()->causedBy(auth()->user())->withProperties([
+            'icon'  => 'fa fa-sign-in text-success',
+            'ip'    => $request->ip()
+        ])->log('Đăng nhập thành công');
 
         return $this->respondWithToken($token);
     }
@@ -44,8 +50,14 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout() {
+    public function logout(Request $request) {
         auth()->logout();
+
+        activity()->causedBy(auth()->user())->withProperties([
+            'icon'  => 'fa fa-sign-out text-success',
+            'ip'    => $request->ip()
+        ])->log('Đăng xuất thành công');
+
         return response()->json(['message' => 'Đăng xuất thành công!']);
     }
 
