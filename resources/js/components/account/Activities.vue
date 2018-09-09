@@ -32,7 +32,7 @@
                                 <li v-for="activity in activities" class="p-0 pl-40 list-group-item">
                                     <i :class="activity.properties.icon"></i>
                                     {{ activity.description + ' tại địa chỉ ' + activity.properties.ip }}
-                                    <span class="pull-right">{{ activity.created_at | moment("h:mm:ss a D/M/Y") }}</span>
+                                    <span class="pull-right">{{ activity.created_at | moment("H:mm:ss D/M/Y") }}</span>
                                 </li>
                             </ul>
                         </div>

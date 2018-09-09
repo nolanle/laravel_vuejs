@@ -62,8 +62,8 @@
                                             <td>{{ company.phone }}</td>
                                             <td>{{ company.address }}</td>
                                             <td>{{ company.represent }}</td>
-                                            <td>{{ company.interested }}</td>
-                                            <td>{{ company.total_investment }}</td>
+                                            <td>{{ company.interested | currency }}</td>
+                                            <td>{{ company.total_investment | currency }}</td>
                                             <td>
                                                 <a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a>
                                             </td>

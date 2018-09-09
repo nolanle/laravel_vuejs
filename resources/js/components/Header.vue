@@ -54,8 +54,7 @@
                     <div class="dropdown-header">
                         <div class="media">
                             <div class="media-body">
-                                <h5 class="mt-0 mb-0">Michael Bean</h5>
-                                <span>michael-bean@mail.com</span>
+                                <h5 class="mt-0 mb-0">{{ user.name }}</h5><span>{{ user.email }}</span>
                             </div>
                         </div>
                     </div>
@@ -74,7 +73,23 @@
 
 <script>
     export default {
-        name: "Header"
+        name: "Header",
+        data: function () {
+            return {
+                user: { id: '', name: '', email: '' },
+            }
+        },
+        mounted() { this.getResults(); },
+        methods: {
+            getResults(page = 1) {
+                let app = this;
+                axios.get('/api/auth/me', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    app.user = response.data;
+                });
+            },
+        }
     }
 </script>
 

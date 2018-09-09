@@ -12,9 +12,12 @@ window.Vue.use(VueRouter);
 import VueSweetalert from 'vue-sweetalert2';
 window.Vue.use(VueSweetalert);
 
-import router from './routes';
+Vue.use(require('vue-moment'));
 
-window.Vue.use(require('vue-moment'));
+import VueCurrencyFilter from 'vue-currency-filter';
+window.Vue.use(VueCurrencyFilter, {
+    symbol : 'VNĐ', thousandsSeparator: '.', fractionCount: 0, fractionSeparator: ',', symbolPosition: 'back', symbolSpacing: true
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,4 +31,6 @@ Vue.component('header-component', require('./components/Header.vue'));
 Vue.component('sidebar', require('./components/Sidebar.vue'));
 Vue.component('footer-component', require('./components/Footer.vue'));
 
+import router from './routes';
 const app = new Vue({ router }).$mount('#app');
+
