@@ -25,11 +25,14 @@ Route::group([
     Route::post('me', 'AuthController@me');
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::group([
+    'prefix' => '/v1', 'as' => 'api.',
+    'namespace' => 'Api\V1',
+    'middleware' => ['api', 'auth:api']
+], function () {
 
-Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
+    // Dashboard
+    Route::get('dashboard', 'DashboardController@index');
 
     // Companies Resource
     Route::resource('companies', 'CompanyController', ['except' => ['create', 'edit']]);

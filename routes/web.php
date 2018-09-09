@@ -18,7 +18,12 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 // Homepage Route
-Route::get('/', function () { return redirect(\route('admin.index')); })->name('app');
+Route::get('/', function () { return redirect(\route('main')); });
+
+// Single Page Application
+Route::get('/main', function () {
+    return view('main');
+})->name('main');
 
 // Administrator Routes
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {

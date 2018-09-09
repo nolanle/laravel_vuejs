@@ -102,7 +102,9 @@
             getResults(page = 1) {
                 let app = this;
                 app.page = page;
-                axios.get('/api/v1/companies?page=' + page).then(response => {
+                axios.get('/api/v1/companies?page=' + page, {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }).then(response => {
                     app.companies = response.data;
                 });
             },
@@ -119,7 +121,9 @@
                     cancelButtonText: '<i class="fa fa-ban"></i> Hủy bỏ',
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete('/api/v1/companies/' + id).then(function (response) {
+                        axios.delete('/api/v1/companies/' + id, {
+                            headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                        }).then(function (response) {
                             app.getResults(app.page);
                             app.$swal({
                                 type: 'success',

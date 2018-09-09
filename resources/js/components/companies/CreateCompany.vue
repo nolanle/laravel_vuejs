@@ -97,8 +97,6 @@
 </template>
 
 <script>
-    import Switches from 'vue-switches';
-
     export default {
         name: "CreateCompany",
         data: function () {
@@ -123,13 +121,17 @@
         },
         methods: {
             getProvinces() {
-                axios.get('/api/v1/provinces').then( response => {
+                axios.get('/api/v1/provinces', {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }).then( response => {
                     this.provinces = response.data;
                 });
             },
 
             getDistricts() {
-                axios.get('/api/v1/provinces/' + this.convertProvinceId(this.company.province)).then( response => {
+                axios.get('/api/v1/provinces/' + this.convertProvinceId(this.company.province), {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }).then( response => {
                     this.districts = response.data;
                 });
             },
@@ -145,7 +147,7 @@
                 event.preventDefault();
                 // console.log(this.company);
                 let app = this;
-                axios.post('/api/v1/companies', this.company).then(function (response) {
+                axios.post('/api/v1/companies', this.company, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
                     app.$swal({
                         type: 'success',
                         title: 'Thêm mới thành công?',

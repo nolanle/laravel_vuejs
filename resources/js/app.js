@@ -10,32 +10,20 @@ import VueRouter from 'vue-router';
 window.Vue.use(VueRouter);
 
 import VueSweetalert from 'vue-sweetalert2';
-Vue.use(VueSweetalert);
+window.Vue.use(VueSweetalert);
+
+import router from './routes';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-Vue.component('sidebar', require('./components/Sidebar.vue'));
-// Vue.component('footer', require('./components/Footer.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('switches', require('vue-switches'));
 
-// Dashboard
-import Dashboard from './components/Dashboard.vue';
+Vue.component('header-component', require('./components/Header.vue'));
+Vue.component('sidebar', require('./components/Sidebar.vue'));
+Vue.component('footer-component', require('./components/Footer.vue'));
 
-// CRUD Companies
-import IndexCompanies from './components/companies/IndexCompanies.vue';
-import CreateCompany from './components/companies/CreateCompany.vue';
-import EditCompany from './components/companies/EditCompany.vue';
-
-const routes = [
-    { path: '/', component: Dashboard, name: 'dashboard' },
-    { path: '/companies', component: IndexCompanies, name: 'indexCompanies' },
-    { path: '/companies/create', component: CreateCompany, name: 'createCompany' },
-    { path: '/companies/edit/:id', component: EditCompany, name: 'editCompany' },
-];
-
-const router = new VueRouter({ routes });
 const app = new Vue({ router }).$mount('#app');

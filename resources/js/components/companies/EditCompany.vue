@@ -101,7 +101,6 @@
             this.companyId = this.$route.params.id;
             this.getCompany();
             this.getProvinces();
-            // console.log(this.company);
         },
         data: function () {
             return {
@@ -121,21 +120,21 @@
 
             getProvinces() {
                 let app = this;
-                axios.get('/api/v1/provinces').then( response => {
+                axios.get('/api/v1/provinces', { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then( response => {
                     app.provinces = response.data;
                 });
             },
 
             getDistricts() {
                 let app = this;
-                axios.get('/api/v1/provinces/' + app.convertProvinceId(app.company.province)).then( response => {
+                axios.get('/api/v1/provinces/' + app.convertProvinceId(app.company.province), { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then( response => {
                     app.districts = response.data;
                 });
             },
 
             getCompany() {
                 let app = this;
-                axios.get('/api/v1/companies/' + app.companyId).then(response => {
+                axios.get('/api/v1/companies/' + app.companyId, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(response => {
                     app.company = response.data;
                 });
             },
@@ -143,7 +142,7 @@
             updateForm() {
                 event.preventDefault();
                 let app = this;
-                axios.patch('/api/v1/companies/' + app.company.id, app.company).then(function (response) {
+                axios.patch('/api/v1/companies/' + app.company.id, app.company, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
                     app.$swal({
                         type: 'success',
                         title: 'Cập nhật thành công?',

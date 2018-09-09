@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('components.header')
+    <header-component></header-component>
 
     <div class="container-fluid">
         <div class="row">
@@ -11,8 +11,7 @@
 
                 <router-view></router-view>
 
-                @include('components.footer')
-                {{--<footer></footer>--}}
+                <footer-component></footer-component>
 
             </div> <!-- /content-wrapper -->
 

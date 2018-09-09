@@ -33,13 +33,9 @@
 </head>
 
 <body>
-    <div id="app">
-        <div class="wrapper">
+    <div class="wrapper" id="app">
 
-            @yield('content')
-            <!-- /container -->
-
-        </div> <!-- /wrapper -->
+        @yield('content') <!-- /container -->
 
     </div>
     <!-- /#app -->
