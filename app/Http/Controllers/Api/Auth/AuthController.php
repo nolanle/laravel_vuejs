@@ -19,13 +19,29 @@ class AuthController extends Controller
     }
 
     /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request) {
+        if(filter_var($request->email, FILTER_VALIDATE_EMAIL) == FALSE) {
+            return [
+                'username' => $request->email,
+                'password' => $request->password
+            ];
+        }
+        return $request->only('email', 'password');
+    }
+
+    /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request) {
-        $credentials = request(['email', 'password']);
-
+    public function login(Request $request) { // $credentials = request(['email', 'password']);
+        $credentials = $this->credentials($request);
+        
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
