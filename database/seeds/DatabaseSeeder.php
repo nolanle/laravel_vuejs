@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(File::get(__DIR__ . '/don_vi_hanh_chinh.sql'));
 
         $this->call(CompaniesTableSeeder::class);
+        $this->call(CustomerTableSeeder::class);
     }
 }

@@ -38,7 +38,11 @@ Route::group([
     Route::get('activities', 'AccountController@activities');
 
     // Companies Resource
-    Route::resource('companies', 'CompanyController', ['except' => ['create', 'edit']]);
+    Route::get('companies-without-paginate', 'CompanyController@indexWithoutPaginate');
+    Route::apiResource('companies', 'CompanyController');
+
+    // Customers Resource
+    Route::apiResource('customers', 'CustomerController');
 
     // Get list of provinces
     Route::get('provinces', 'AddressController@provinces');

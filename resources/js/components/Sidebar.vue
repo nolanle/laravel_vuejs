@@ -6,7 +6,8 @@
                     <ul class="nav navbar-nav side-menu" id="collapsedMenu">
                         <li><router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> DASHBOARD</router-link></li>
                         <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">CHỨC NĂNG CHÍNH</li>
-                        <li><router-link :to="{name: 'indexCompanies'}"><i class="ti-palette"></i> DANH SÁCH CÔNG TY</router-link></li>
+                        <li><router-link :to="{name: 'indexCompanies'}"><i class="ti-palette"></i> CÔNG TY</router-link></li>
+                        <li><router-link :to="{name: 'indexCustomers'}"><i class="ti-heart"></i> KHÁCH HÀNG</router-link></li>
                     </ul>
                 </div>
             </div>

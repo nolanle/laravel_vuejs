@@ -15,6 +15,10 @@ import IndexCompanies from './components/companies/IndexCompanies.vue';
 import CreateCompany from './components/companies/CreateCompany.vue';
 import EditCompany from './components/companies/EditCompany.vue';
 
+import IndexCustomers from './components/customers/IndexCustomers.vue';
+import CreateCustomer from './components/customers/CreateCustomer.vue';
+import EditCustomer from './components/customers/EditCustomer.vue';
+
 const routes = [
     { path: '/', redirect: { name: 'dashboard' } },
     {
@@ -38,6 +42,11 @@ const routes = [
             { path: '/companies', component: IndexCompanies, name: 'indexCompanies', meta: { requiresAuth: true } },
             { path: '/companies/create', component: CreateCompany, name: 'createCompany', meta: { requiresAuth: true } },
             { path: '/companies/edit/:id', component: EditCompany, name: 'editCompany', meta: { requiresAuth: true } },
+
+            { path: '/customers', component: IndexCustomers, name: 'indexCustomers', meta: { requiresAuth: true } },
+            { path: '/customers/create', component: CreateCustomer, name: 'createCustomer', meta: { requiresAuth: true } },
+            { path: '/customers/edit/:id', component: EditCustomer, name: 'editCustomer', meta: { requiresAuth: true } },
+
         ]
     }
 
@@ -62,15 +71,14 @@ router.beforeEach((to, from, next) => {
 
     let token = localStorage.getItem('token');
     if (token) {
-        console.log(token);
-
         axios.get('/api/auth/me', {
             headers: { Authorization: 'Bearer ' + token }
-        }).then(response => {
-            // console.log("Token valid");
-        }).catch(error => {
+        }).then(response => {}).catch(error => {
+
             localStorage.removeItem('token');
             store.commit('logoutUser');
+
+            next({ name: 'login' });
         });
     }
 

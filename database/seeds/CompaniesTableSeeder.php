@@ -10,7 +10,7 @@ class CompaniesTableSeeder extends Seeder
      * @return void
      */
     public function run() {
-        for($i = 1; $i <= 50; $i++) {
+        for($i = 1; $i <= 10; $i++) {
             $company = \App\Models\Company::create([
                 'name'              => "Công Ty $i",
                 'phone'             => "0123456$i",

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Company;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CompanyController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,18 +14,8 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $companies = Company::paginate(25);
-        return response()->json($companies, 200);
-    }
-
-    /**
-     * Display a all listing of the companies.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function indexWithoutPaginate() {
-        $companies = Company::all();
-        return response()->json($companies, 200);
+        $customers = Customer::paginate(25);
+        return response()->json($customers, 200);
     }
 
     /**
@@ -35,15 +25,12 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $company = Company::create(
+        $customer = Customer::create(
             $request->only([
-                'name', 'phone', 'district_id', 'address', 'represent', 'interested', 'activated'
+                'fullname', 'address', 'phone', 'government_id', 'activated', 'company_id'
             ])
         );
-        $company->total_investment = $request->get('interested');
-        $company->save();
-
-        return response()->json($company, 200);
+        return response()->json($customer, 200);
     }
 
     /**
@@ -53,9 +40,8 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $company = Company::findOrFail($id);
-        $company->province_id = $company->district->province_id;
-        return response()->json($company, 200);
+        $customer = Customer::findOrFail($id);
+        return response()->json($customer, 200);
     }
 
     /**
@@ -66,11 +52,11 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $company = Company::findOrFail($id);
-        $company->update($request->only([
-            'name', 'phone', 'district_id', 'address', 'represent', 'interested', 'activated'
+        $customer = Customer::findOrFail($id);
+        $customer->update($request->only([
+            'fullname', 'address', 'phone', 'government_id', 'activated', 'company_id'
         ]));
-        return response()->json($company, 200);
+        return response()->json($customer, 200);
     }
 
     /**
@@ -80,11 +66,11 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $company = Company::findOrFail($id);
-        $company->delete();
+        $customer = Customer::findOrFail($id);
+        $customer->delete();
         return response()->json([
             'status'    => 1,
-            'message'   => __('Xóa công ty thành công'),
+            'message'   => __('Xóa khách hàng thành công'),
         ], 200);
     }
 }

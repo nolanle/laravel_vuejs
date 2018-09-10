@@ -3,14 +3,14 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 class="mb-0">Danh Sách Công Ty</h4>
+                    <h4 class="mb-0">Danh Sách Khách Hàng</h4>
                     <div class="delete-button"></div>
                 </div>
                 <div class="col-sm-6">
                     <nav class="float-left float-sm-right" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> Dashboard</router-link></li>
-                            <li class="breadcrumb-item active" aria-current="page">Danh Sách Công Ty</li>
+                            <li class="breadcrumb-item active" aria-current="page">Danh Sách Khách Hàng</li>
                         </ol>
                     </nav>
                 </div>
@@ -23,49 +23,52 @@
 
                         <div class="react-bs-table-tool-bar ">
                             <div class="row">
+
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
                                     <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'createCompany'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                        <router-link :to="{name: 'createCustomer'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
                                     </div>
                                 </div>
+
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                                     <div class="form-group form-group-sm react-bs-table-search-form">
-                                        <input placeholder="Tìm kiếm công ty" class="form-control" type="text" style="z-index: 0;"><span class="input-group-btn"></span>
+                                        <input placeholder="Tìm kiếm công ty" class="form-control" type="text"><span class="input-group-btn"></span>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
-                        <div class="react-bs-table react-bs-table-bordered" style="height: 100%;">
-                            <div class="react-bs-container-body" style="height: 100%;">
+                        <div class="react-bs-table react-bs-table-bordered">
+                            <div class="react-bs-container-body">
                                 <table class="table table-striped table-bordered table-hover table-condensed">
                                     <thead>
-                                        <tr>
-                                            <th>TÊN CÔNG TY</th>
-                                            <th>ĐỊA CHỈ</th>
-                                            <th>ĐIỆN THOẠI</th>
-                                            <th>NGƯỜI ĐẠI DIỆN</th>
-                                            <th>VỐN ĐẦU TƯ</th>
-                                            <th>QUỸ TIỀN MẶT</th>
-                                            <th>NGÀY TẠO</th>
-                                            <th>TRẠNG THÁI</th>
-                                            <th>&nbsp;</th>
-                                        </tr>
+                                    <tr>
+                                        <th class="align-content-center">STT</th>
+                                        <th>TÊN KHÁCH HÀNG</th>
+                                        <th>ĐỊA CHỈ</th>
+                                        <th>ĐIỆN THOẠI</th>
+                                        <th>SỐ CMND</th>
+                                        <th>CỬA HÀNG</th>
+                                        <th>NGÀY TẠO</th>
+                                        <th>TRẠNG THÁI</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="company, index in companies.data">
-                                            <td><router-link :to="{name: 'editCompany', params: {id: company.id}}" :class="'btn btn-xs btn-default'">
-                                                <span :class="'text-success'"><strong>{{ company.name }}</strong></span>
-                                            </router-link></td>
-                                            <td>{{ company.address }}</td>
-                                            <td>{{ company.phone }}</td>
-                                            <td>{{ company.represent }}</td>
-                                            <td>{{ company.interested | currency }}</td>
-                                            <td>{{ company.total_investment | currency }}</td>
-                                            <td>{{ company.created_at | moment("D/M/Y") }}</td>
-                                            <td><switches v-model="company.activated" theme="bootstrap" color="success" disabled></switches></td>
-                                            <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a></td>
-                                        </tr>
+                                    <tr v-for="customer, index in customers.data">
+                                        <td>{{ index + 1 }}</td>
+                                        <td><router-link :to="{name: 'editCustomer', params: {id: customer.id}}" :class="'btn btn-xs btn-default'">
+                                            <span :class="'text-success'"><strong>{{ customer.fullname }}</strong></span>
+                                        </router-link></td>
+                                        <td>{{ customer.address }}</td>
+                                        <td>{{ customer.phone }}</td>
+                                        <td>{{ customer.government_id }}</td>
+                                        <td>{{ customer.company_id }}</td>
+                                        <td>{{ customer.created_at | moment("D/M/Y") }}</td>
+                                        <td><switches v-model="customer.activated" theme="bootstrap" color="success" disabled></switches></td>
+                                        <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(customer.id, index)"><i class="fa fa-trash"></i></a></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -74,7 +77,7 @@
                         <div class="react-bs-table-pagination">
                             <div class="row" style="margin-top: 15px;">
                                 <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4 offset-4">
-                                    <pagination :data="companies" @pagination-change-page="getResults"></pagination>
+                                    <pagination :data="customers" @pagination-change-page="getResults"></pagination>
                                 </div>
                             </div>
                         </div>
@@ -88,25 +91,23 @@
 
 <script>
     export default {
-        name: "IndexCompanies",
+        name: "IndexCustomers",
         data: function () {
             return {
                 page: 1,
-                companies: {}
+                customers: {}
             }
         },
         mounted() { this.getResults(); },
         methods: {
-            switchesChanged() {
-                alert("OK");
-            },
             getResults(page = 1) {
                 let app = this;
                 app.page = page;
-                axios.get('/api/v1/companies?page=' + page, {
+                axios.get('/api/v1/customers?page=' + page, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(response => {
-                    app.companies = response.data;
+                    // console.log(response.data.data);
+                    app.customers = response.data;
                 });
             },
             deleteEntry(id, index) {
@@ -122,7 +123,7 @@
                     cancelButtonText: '<i class="fa fa-ban"></i> Hủy bỏ',
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete('/api/v1/companies/' + id, {
+                        axios.delete('/api/v1/customers/' + id, {
                             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                         }).then(function (response) {
                             app.getResults(app.page);

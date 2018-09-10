@@ -3,16 +3,15 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 class="mb-0">Thêm công ty mới</h4>
+                    <h4 class="mb-0">Thêm Công Ty Mới</h4>
                     <div class="delete-button"></div>
                 </div>
                 <div class="col-sm-6">
                     <nav class="float-left float-sm-right" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> Dashboard</router-link>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">Thêm công ty mới</li>
+                            <li class="breadcrumb-item"><router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> Dashboard</router-link></li>
+                            <li class="breadcrumb-item"><router-link :to="{name: 'indexCompanies'}">Danh Sách Công Ty</router-link></li>
+                            <li class="breadcrumb-item active" aria-current="page">Thêm Công Ty Mới</li>
                         </ol>
                     </nav>
                 </div>
@@ -28,26 +27,26 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <label for="name">Tên Công Ty</label>
+                                    <label for="name">Tên Công Ty <span class="text-danger">(*)</span></label>
                                     <input v-model="company.name" type="text" id="name" class="form-control" required />
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="phone">Số Điện Thoại</label>
+                                <label for="phone">Số Điện Thoại <span class="text-danger">(*)</span></label>
                                 <input v-model="company.phone" type="text" id="phone" class="form-control" required />
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="province">Tỉnh / Thành Phố</label>
+                                    <label for="province">Tỉnh / Thành Phố <span class="text-danger">(*)</span></label>
                                     <select v-on:change="getDistricts" v-model="company.province" id="province" class="form-control">
                                         <option> ~~~~~~~ Chọn ~~~~~~~ </option>
                                         <option v-for="item in provinces" v-bind:value="item.id">{{ item.name }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="district">Quận / Huyện / Thị Xã</label>
+                                    <label for="district">Quận / Huyện / Thị Xã <span class="text-danger">(*)</span></label>
                                     <select v-on:change="districtChanged" v-model="company.district" id="district" class="form-control">
                                         <option> ~~~~~~~ Chọn ~~~~~~~ </option>
                                         <option v-for="district in districts" v-bind:value="district.id">{{ district.name }}</option>
@@ -56,22 +55,22 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="address">Số Nhà, Tên Đường</label>
+                                <label for="address">Số Nhà, Tên Đường <span class="text-danger">(*)</span></label>
                                 <input v-model="company.address" type="text" id="address" class="form-control" required />
                             </div>
 
                             <div class="form-group">
-                                <label for="represent">Người Đại Diện</label>
+                                <label for="represent">Người Đại Diện <span class="text-danger">(*)</span></label>
                                 <input v-model="company.represent" type="text" id="represent" class="form-control" required />
                             </div>
 
                             <div class="form-group">
-                                <label for="interested">Số Vốn Đầu Tư</label>
+                                <label for="interested">Số Vốn Đầu Tư <span class="text-danger">(*)</span></label>
                                 <input v-model="company.interested" type="text" id="interested" class="form-control" required />
                             </div>
 
                             <div class="form-group">
-                                <label for="activated">Trạng Thái</label>
+                                <label for="activated">Trạng Thái <span class="text-danger">(*)</span></label>
                                 <div class="pull-right">
                                     <switches v-model="company.activated" id="activated" theme="bootstrap" color="success"></switches>
                                 </div>
