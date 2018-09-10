@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\User;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -42,7 +44,8 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function me() {
-        return response()->json(auth()->user());
+        $user = User::findOrFail(auth()->user()->id);
+        return response()->json(new UserResource($user), 200);
     }
 
     /**

@@ -5,7 +5,9 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Activity;
+use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -29,6 +31,10 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getAvatar() {
+        return $this->avatar == 'g-avatar' ? Gravatar::src($this->email, 200) : Storage::url($this->avatar);
+    }
 
     /**
      * Get JWT Identifier.

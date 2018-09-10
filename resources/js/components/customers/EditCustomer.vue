@@ -86,7 +86,7 @@
         data: function () {
             return {
                 customerId: null,
-                customer: { fullname: '', address: '', phone: '', government_id: '', activated: 1, company_id: 1 },
+                customer: { fullname: '', address: '', phone: '', government_id: '', activated: 0, company_id: 0 },
                 companies: {},
             }
         },

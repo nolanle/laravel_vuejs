@@ -19,9 +19,9 @@ class CreateCustomersTable extends Migration
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('government_id')->nullable();
-            $table->string('activated')->default(FALSE);
-
             $table->unsignedInteger('company_id');
+
+            $table->boolean('activated')->default(FALSE);
             $table->timestamps();
             $table->softDeletes();
 

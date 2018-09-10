@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard.vue';
 import LoginComponent from './components/auth/LoginComponent.vue';
 import LogoutComponent from './components/auth/LogoutComponent.vue';
 
+import Account from './components/account/Activities.vue';
 import Activities from './components/account/Activities.vue';
 
 import IndexCompanies from './components/companies/IndexCompanies.vue';
@@ -37,6 +38,7 @@ const routes = [
         children: [
             { path: '/dashboard', component: Dashboard, name: 'dashboard', meta: { requiresAuth: true } },
 
+            { path: '/account', component: Account, name: 'account', meta: { requiresAuth: true } },
             { path: '/activities', component: Activities, name: 'activities', meta: { requiresAuth: true } },
 
             { path: '/companies', component: IndexCompanies, name: 'indexCompanies', meta: { requiresAuth: true } },
