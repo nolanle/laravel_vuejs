@@ -60,8 +60,8 @@
                     </div>
                     <div class="dropdown-divider"></div>
                     <router-link :to="{name: 'activities'}" :class="'dropdown-item'"><i class="text-secondary ti-reload"></i>Hoạt động</router-link>
-                    <a class="dropdown-item" href="#"><i class="text-success ti-email"></i>Messages</a>
-                    <a class="dropdown-item" href="#"><i class="text-warning ti-user"></i>Profile</a>
+                    <!--<a class="dropdown-item" href="#"><i class="text-success ti-email"></i>Messages</a>-->
+                    <a class="dropdown-item" href="#"><i class="text-warning ti-user"></i>Hồ sơ</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#"><i class="text-info ti-settings"></i>Cài đặt</a>
                     <router-link :to="{name: 'logout'}" class="dropdown-item"><i class="text-danger ti-unlock"></i>Đăng xuất</router-link>

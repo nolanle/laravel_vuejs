@@ -44,29 +44,29 @@
                                     <thead>
                                         <tr>
                                             <th>TÊN CÔNG TY</th>
-                                            <th>ĐIỆN THOẠI</th>
                                             <th>ĐỊA CHỈ</th>
+                                            <th>ĐIỆN THOẠI</th>
                                             <th>NGƯỜI ĐẠI DIỆN</th>
                                             <th>VỐN ĐẦU TƯ</th>
                                             <th>QUỸ TIỀN MẶT</th>
+                                            <th>NGÀY TẠO</th>
+                                            <th>TRẠNG THÁI</th>
                                             <th>&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="company, index in companies.data">
-                                            <td>
-                                                <router-link :to="{name: 'editCompany', params: {id: company.id}}" class="btn btn-xs btn-default">
-                                                    <span class="text-success"><strong>{{ company.name }}</strong></span>
-                                                </router-link>
-                                            </td>
-                                            <td>{{ company.phone }}</td>
+                                            <td><router-link :to="{name: 'editCompany', params: {id: company.id}}" :class="'btn btn-xs btn-default'">
+                                                <span :class="'text-success'"><strong>{{ company.name }}</strong></span>
+                                            </router-link></td>
                                             <td>{{ company.address }}</td>
+                                            <td>{{ company.phone }}</td>
                                             <td>{{ company.represent }}</td>
                                             <td>{{ company.interested | currency }}</td>
                                             <td>{{ company.total_investment | currency }}</td>
-                                            <td>
-                                                <a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a>
-                                            </td>
+                                            <td>{{ company.created_at | moment("D/M/Y") }}</td>
+                                            <td><switches v-model="company.activated" theme="bootstrap" color="success" disabled></switches></td>
+                                            <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -75,7 +75,7 @@
 
                         <div class="react-bs-table-pagination">
                             <div class="row" style="margin-top: 15px;">
-                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 offset-3">
+                                <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4 offset-4">
                                     <pagination :data="companies" @pagination-change-page="getResults"></pagination>
                                 </div>
                             </div>
@@ -99,6 +99,9 @@
         },
         mounted() { this.getResults(); },
         methods: {
+            switchesChanged() {
+                alert("OK");
+            },
             getResults(page = 1) {
                 let app = this;
                 app.page = page;
