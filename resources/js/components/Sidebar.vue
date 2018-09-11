@@ -18,6 +18,7 @@
                             <div class="collapse " id="companiesCollapse">
                                 <ul>
                                     <li><router-link :to="{name: 'indexCompanies'}">DS CÔNG TY</router-link></li>
+                                    <li><router-link :to="{name: 'indexCommodities'}">DS HÀNG HÓA</router-link></li>
                                 </ul>
                             </div>
                         </li>
