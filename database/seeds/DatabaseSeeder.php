@@ -12,12 +12,11 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run() {
-        $this->call(UsersTableSeeder::class);
-
         ini_set('memory_limit', '-1');
         DB::unprepared(File::get(__DIR__ . '/don_vi_hanh_chinh.sql'));
 
         $this->call(CompaniesTableSeeder::class);
         $this->call(CustomerTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
     }
 }

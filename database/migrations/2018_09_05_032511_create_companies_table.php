@@ -31,6 +31,10 @@ class CreateCompaniesTable extends Migration
 
             $table->foreign('district_id')->references('id')->on('districts');
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('company_id')->references('id')->on('companies');
+        });
     }
 
     /**
@@ -40,6 +44,10 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
+        Schema::table('users', function(Blueprint $table) {
+            $table->dropForeign(['company_id']);
+        });
+
         Schema::dropIfExists('companies');
     }
 }

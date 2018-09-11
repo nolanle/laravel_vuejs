@@ -8,6 +8,7 @@
                         <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">CHỨC NĂNG CHÍNH</li>
                         <li><router-link :to="{name: 'indexCompanies'}"><i class="ti-palette"></i> QL CÔNG TY</router-link></li>
                         <li><router-link :to="{name: 'indexCustomers'}"><i class="ti-heart"></i> KHÁCH HÀNG</router-link></li>
+                        <li><router-link :to="{name: 'indexEmployees'}"><i class="ti-user"></i> NHÂN VIÊN</router-link></li>
                     </ul>
                 </div>
             </div>

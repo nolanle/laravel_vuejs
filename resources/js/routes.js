@@ -20,6 +20,10 @@ import IndexCustomers from './components/customers/IndexCustomers.vue';
 import CreateCustomer from './components/customers/CreateCustomer.vue';
 import EditCustomer from './components/customers/EditCustomer.vue';
 
+import IndexEmployees from './components/employees/IndexEmployees.vue';
+import CreateEmployee from './components/employees/CreateEmployee.vue';
+import EditEmployee from './components/employees/EditEmployee.vue';
+
 const routes = [
     { path: '/', redirect: { name: 'dashboard' } },
     {
@@ -49,6 +53,9 @@ const routes = [
             { path: '/customers/create', component: CreateCustomer, name: 'createCustomer', meta: { requiresAuth: true } },
             { path: '/customers/edit/:id', component: EditCustomer, name: 'editCustomer', meta: { requiresAuth: true } },
 
+            { path: '/employees', component: IndexEmployees, name: 'indexEmployees', meta: { requiresAuth: true } },
+            { path: '/employees/create', component: CreateEmployee, name: 'createEmployee', meta: { requiresAuth: true } },
+            { path: '/employees/edit/:id', component: EditEmployee, name: 'editEmployee', meta: { requiresAuth: true } },
         ]
     }
 

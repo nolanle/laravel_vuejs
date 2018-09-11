@@ -20,8 +20,8 @@
 
                         <form v-on:submit.prevent="submitLogin">
                             <div class="section-field mb-20">
-                                <label class="mb-10" for="email">Địa chỉ email <span class="text-danger">(*)</span></label>
-                                <input v-model="email" id="email" class="web form-control" type="text" placeholder="Ex: user01@example.com" required autofocus />
+                                <label class="mb-10" for="email">Email hoặc username <span class="text-danger">(*)</span></label>
+                                <input v-model="email" id="email" class="web form-control" type="text" placeholder="Username or Email" required autofocus />
                             </div>
 
                             <div class="section-field mb-20">

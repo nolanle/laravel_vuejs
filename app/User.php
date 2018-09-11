@@ -20,18 +20,23 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'avatar', 'username','email', 'password', 'company_id', 'activated',
     ];
 
     /**
      * The attributes that should be hidden for arrays.
-     *
+    avatar
      * @var array
      */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    /**
+     * Get Avatar From User.
+     *
+     * @return mixed
+     */
     public function getAvatar() {
         return $this->avatar == 'g-avatar' ? Gravatar::src($this->email, 200) : Storage::url($this->avatar);
     }
@@ -54,6 +59,11 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    /**
+     * Get List Of Activities.
+     *
+     * @return mixed
+     */
     public function activities() {
         return $this->hasMany(Activity::class, 'causer_id', 'id');
     }
