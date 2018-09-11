@@ -61,7 +61,10 @@ class AuthController extends Controller
      */
     public function me() {
         $user = User::findOrFail(auth()->user()->id);
-        return response()->json(new UserResource($user), 200);
+        if ($user->activated) {
+            return response()->json(new UserResource($user), 200);
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     /**

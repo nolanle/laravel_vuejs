@@ -24,6 +24,10 @@ import IndexEmployees from './components/employees/IndexEmployees.vue';
 import CreateEmployee from './components/employees/CreateEmployee.vue';
 import EditEmployee from './components/employees/EditEmployee.vue';
 
+import IndexCommodities from './components/commodities/IndexCommodities.vue';
+import CreateCommodity from './components/commodities/CreateCommodity.vue';
+import EditCommodity from './components/commodities/EditCommodity.vue';
+
 const routes = [
     { path: '/', redirect: { name: 'dashboard' } },
     {
@@ -32,33 +36,37 @@ const routes = [
         component: Vue.component( 'Auth', require( './components/Auth.vue' ) ),
         children: [
             { path: '/login', component: LoginComponent, name: 'login' },
-            { path: '/logout', component: LogoutComponent, name: 'logout' },
+            { path: '/logout', component: LogoutComponent, name: 'logout', meta: { requiresAuth: true } },
         ]
     },
     {
         path: '/layout',
         name: 'layout',
         component: Vue.component( 'Layout', require( './components/Layout.vue' ) ),
+        meta: { requiresAuth: true },
         children: [
-            { path: '/dashboard', component: Dashboard, name: 'dashboard', meta: { requiresAuth: true } },
+            { path: '/dashboard', component: Dashboard, name: 'dashboard' },
 
-            { path: '/account', component: Account, name: 'account', meta: { requiresAuth: true } },
-            { path: '/activities', component: Activities, name: 'activities', meta: { requiresAuth: true } },
+            { path: '/account', component: Account, name: 'account' },
+            { path: '/activities', component: Activities, name: 'activities' },
 
-            { path: '/companies', component: IndexCompanies, name: 'indexCompanies', meta: { requiresAuth: true } },
-            { path: '/companies/create', component: CreateCompany, name: 'createCompany', meta: { requiresAuth: true } },
-            { path: '/companies/edit/:id', component: EditCompany, name: 'editCompany', meta: { requiresAuth: true } },
+            { path: '/companies', component: IndexCompanies, name: 'indexCompanies' },
+            { path: '/companies/create', component: CreateCompany, name: 'createCompany' },
+            { path: '/companies/edit/:id', component: EditCompany, name: 'editCompany' },
 
-            { path: '/customers', component: IndexCustomers, name: 'indexCustomers', meta: { requiresAuth: true } },
-            { path: '/customers/create', component: CreateCustomer, name: 'createCustomer', meta: { requiresAuth: true } },
-            { path: '/customers/edit/:id', component: EditCustomer, name: 'editCustomer', meta: { requiresAuth: true } },
+            { path: '/customers', component: IndexCustomers, name: 'indexCustomers' },
+            { path: '/customers/create', component: CreateCustomer, name: 'createCustomer' },
+            { path: '/customers/edit/:id', component: EditCustomer, name: 'editCustomer' },
 
-            { path: '/employees', component: IndexEmployees, name: 'indexEmployees', meta: { requiresAuth: true } },
-            { path: '/employees/create', component: CreateEmployee, name: 'createEmployee', meta: { requiresAuth: true } },
-            { path: '/employees/edit/:id', component: EditEmployee, name: 'editEmployee', meta: { requiresAuth: true } },
+            { path: '/employees', component: IndexEmployees, name: 'indexEmployees' },
+            { path: '/employees/create', component: CreateEmployee, name: 'createEmployee' },
+            { path: '/employees/edit/:id', component: EditEmployee, name: 'editEmployee' },
+
+            { path: '/commodities', component: IndexCommodities, name: 'indexCommodities' },
+            { path: '/commodities/create', component: CreateCommodity, name: 'createCommodity' },
+            { path: '/commodities/edit/:id', component: EditCommodity, name: 'editCommodity' },
         ]
     }
-
 ];
 
 const router = new VueRouter({ routes });
