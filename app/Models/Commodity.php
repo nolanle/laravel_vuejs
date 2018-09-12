@@ -10,22 +10,13 @@ class Commodity extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'code',
-
+        'name', 'code',
         'mortgage_amount',
         'interest_before_mortgage',
         'interest_by_date',
-        'total_interest',
         'interest_period',
         'days_of_delayed',
         'activated',
-
-        'properties1',
-        'properties2',
-        'properties3',
-        'properties4',
-        'properties5',
     ];
 
     /**

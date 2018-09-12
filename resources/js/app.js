@@ -16,8 +16,11 @@ Vue.use(require('vue-moment'));
 
 import VueCurrencyFilter from 'vue-currency-filter';
 window.Vue.use(VueCurrencyFilter, {
-    symbol : '', thousandsSeparator: '.', fractionCount: 0, fractionSeparator: ',', symbolPosition: 'back', symbolSpacing: true
+    symbol : 'VNĐ', thousandsSeparator: '.', fractionCount: 0, fractionSeparator: ',', symbolPosition: 'back', symbolSpacing: true
 });
+
+import PrettyCheckbox from 'pretty-checkbox-vue';
+window.Vue.use(PrettyCheckbox);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

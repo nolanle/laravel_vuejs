@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "laravel-vue-pagination": "^1.2.0",
+        "pretty-checkbox-vue": "^1.1.9",
         "vue-currency-filter": "^2.2.6",
         "vue-moment": "^4.0.0",
         "vue-sweetalert2": "^1.5.3",

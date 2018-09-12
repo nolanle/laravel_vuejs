@@ -23,16 +23,10 @@ class CreateCommoditiesTable extends Migration
             $table->boolean('interest_before_mortgage')->default(FALSE);
 
             $table->unsignedBigInteger('interest_by_date')->default(0);
-            $table->unsignedBigInteger('total_interest')->default(0);
+            // $table->unsignedBigInteger('total_interest')->default(0);
 
             $table->unsignedInteger('interest_period')->default(0);
             $table->unsignedInteger('days_of_delayed')->default(0);
-
-            $table->string('properties1')->nullable();
-            $table->string('properties2')->nullable();
-            $table->string('properties3')->nullable();
-            $table->string('properties4')->nullable();
-            $table->string('properties5')->nullable();
 
             $table->boolean('activated')->default(FALSE);
 

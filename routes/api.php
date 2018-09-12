@@ -47,6 +47,9 @@ Route::group([
     // Employees Resource
     Route::apiResource('employees', 'EmployeeController');
 
+    // Commodities Resource
+    Route::apiResource('commodities', 'CommodityController');
+
     // Get list of provinces
     Route::get('provinces', 'AddressController@provinces');
 
