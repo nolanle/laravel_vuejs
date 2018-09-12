@@ -113,7 +113,7 @@
             }
         },
         mounted() {
-            this.companyId = this.$route.params.id;
+            this.commodityId = this.$route.params.id;
             this.getCommodity();
         },
         methods: {
@@ -122,7 +122,7 @@
             },
             getCommodity() {
                 let app = this;
-                axios.get('/api/v1/commodities/' + app.companyId, {
+                axios.get('/api/v1/commodities/' + app.commodityId, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(response => {
                     app.commodity = response.data;

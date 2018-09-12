@@ -50,6 +50,10 @@ Route::group([
     // Commodities Resource
     Route::apiResource('commodities', 'CommodityController');
 
+    // Roles Resource
+    Route::get('roles-without-paginate', 'RoleController@indexWithoutPaginate');
+    Route::apiResource('roles', 'RoleController');
+
     // Get list of provinces
     Route::get('provinces', 'AddressController@provinces');
 

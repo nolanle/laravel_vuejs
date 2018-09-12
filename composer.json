@@ -12,7 +12,8 @@
         "oriceon/toastr-5-laravel": "dev-master",
         "spatie/laravel-activitylog": "^2.8",
         "thomaswelton/laravel-gravatar": "^1.1",
-        "tymon/jwt-auth": "dev-develop"
+        "tymon/jwt-auth": "dev-develop",
+        "zizaco/entrust": "^1.9"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

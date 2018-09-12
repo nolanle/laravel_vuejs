@@ -3,14 +3,14 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 class="mb-0">Danh Sách Khách Hàng</h4>
+                    <h4 class="mb-0">Danh Sách Quyền</h4>
                     <div class="delete-button"></div>
                 </div>
                 <div class="col-sm-6">
                     <nav class="float-left float-sm-right" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> Dashboard</router-link></li>
-                            <li class="breadcrumb-item active" aria-current="page">Danh Sách Khách Hàng</li>
+                            <li class="breadcrumb-item active" aria-current="page">Danh Sách Quyền</li>
                         </ol>
                     </nav>
                 </div>
@@ -27,7 +27,7 @@
 
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
                                     <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'createCustomer'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                        <router-link :to="{name: 'createRole'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
                                     </div>
                                 </div>
 
@@ -46,29 +46,24 @@
                                     <thead>
                                     <tr>
                                         <th class="align-content-center">STT</th>
-                                        <th>TÊN KHÁCH HÀNG</th>
-                                        <th>ĐỊA CHỈ</th>
-                                        <th>ĐIỆN THOẠI</th>
-                                        <th>SỐ CMND</th>
-                                        <th>CỬA HÀNG</th>
+                                        <!--<th>TÊN QUYỀN</th>-->
+                                        <th>TÊN HIỂN THỊ</th>
+                                        <th>MÔ TẢ</th>
                                         <th>NGÀY TẠO</th>
-                                        <th>TRẠNG THÁI</th>
                                         <th>&nbsp;</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="customer, index in customers.data">
-                                        <td>{{ index + 1 }}</td>
-                                        <td><router-link :to="{name: 'editCustomer', params: {id: customer.id}}" :class="'btn btn-xs btn-default'">
-                                            <span :class="'text-success'"><strong>{{ customer.fullname }}</strong></span>
+                                    <tr v-for="role, index in roles.data">
+                                        <td>#{{ index + 1 }}</td>
+                                        <td><router-link :to="{name: 'editRole', params: {id: role.id}}" :class="'btn btn-xs btn-default'">
+                                            <span :class="'text-success'"><strong>{{ role.display_name }}</strong></span>
                                         </router-link></td>
-                                        <td>{{ customer.address }}</td>
-                                        <td>{{ customer.phone }}</td>
-                                        <td>{{ customer.government_id }}</td>
-                                        <td>{{ customer.company_id }}</td>
-                                        <td>{{ customer.created_at | moment("D/M/Y") }}</td>
-                                        <td><switches v-model="customer.activated" theme="bootstrap" color="success" disabled></switches></td>
-                                        <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(customer.id, index)"><i class="fa fa-trash"></i></a></td>
+                                        <!--<td>{{ // role.display_name }}</td>-->
+                                        <td>{{ role.description }}</td>
+                                        <td>{{ role.created_at | moment("D/M/Y") }}</td>
+                                        <!--<td><switches v-model="role.activated" theme="bootstrap" color="success" disabled></switches></td>-->
+                                        <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(role.id, index)"><i class="fa fa-trash"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -78,7 +73,7 @@
                         <div class="react-bs-table-pagination">
                             <div class="row" style="margin-top: 15px;">
                                 <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4 offset-4">
-                                    <pagination :data="customers" @pagination-change-page="getResults"></pagination>
+                                    <pagination :data="roles" @pagination-change-page="getResults"></pagination>
                                 </div>
                             </div>
                         </div>
@@ -92,11 +87,11 @@
 
 <script>
     export default {
-        name: "IndexCustomers",
+        name: "IndexRoles",
         data: function () {
             return {
                 page: 1,
-                customers: {}
+                roles: {}
             }
         },
         mounted() { this.getResults(); },
@@ -104,11 +99,10 @@
             getResults(page = 1) {
                 let app = this;
                 app.page = page;
-                axios.get('/api/v1/customers?page=' + page, {
+                axios.get('/api/v1/roles?page=' + page, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(response => {
-                    // console.log(response.data.data);
-                    app.customers = response.data;
+                    app.roles = response.data;
                 });
             },
             deleteEntry(id, index) {
@@ -124,15 +118,25 @@
                     cancelButtonText: '<i class="fa fa-ban"></i> Hủy bỏ',
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete('/api/v1/customers/' + id, {
+                        axios.delete('/api/v1/roles/' + id, {
                             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                         }).then(function (response) {
+                            if (response.data.status) {
+                                app.$swal({
+                                    type: 'success',
+                                    title: 'Đã xóa thành công!',
+                                    text: 'Phân quyền đã bị xóa khỏi hệ thống.'
+                                });
+                            }
+                            else {
+                                app.$swal({
+                                    type: 'error',
+                                    title: 'Xóa thất bại!',
+                                    text: response.data.message
+                                });
+                            }
                             app.getResults(app.page);
-                            app.$swal({
-                                type: 'success',
-                                title: 'Đã xóa thành công!',
-                                text: 'Khách hàng đã bị xóa khỏi hệ thống.'
-                            });
+
                         }).catch(function (error) {
                             app.$swal({
                                 type: 'error',

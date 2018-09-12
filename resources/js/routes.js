@@ -28,6 +28,10 @@ import IndexCommodities from './components/commodities/IndexCommodities.vue';
 import CreateCommodity from './components/commodities/CreateCommodity.vue';
 import EditCommodity from './components/commodities/EditCommodity.vue';
 
+import IndexRoles from './components/roles/IndexRoles.vue';
+import CreateRole from './components/roles/CreateRole.vue';
+import EditRole from './components/roles/EditRole.vue';
+
 const routes = [
     { path: '/', redirect: { name: 'dashboard' } },
     {
@@ -65,6 +69,10 @@ const routes = [
             { path: '/commodities', component: IndexCommodities, name: 'indexCommodities' },
             { path: '/commodities/create', component: CreateCommodity, name: 'createCommodity' },
             { path: '/commodities/edit/:id', component: EditCommodity, name: 'editCommodity' },
+
+            { path: '/roles', component: IndexRoles, name: 'indexRoles' },
+            { path: '/roles/create', component: CreateRole, name: 'createRole' },
+            { path: '/roles/edit/:id', component: EditRole, name: 'editRole' },
         ]
     }
 ];

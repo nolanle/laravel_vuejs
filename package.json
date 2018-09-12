@@ -30,6 +30,7 @@
         "vue-currency-filter": "^2.2.6",
         "vue-moment": "^4.0.0",
         "vue-sweetalert2": "^1.5.3",
-        "vue-switches": "^2.0.1"
+        "vue-switches": "^2.0.1",
+        "vue-textarea-autosize": "^1.0.4"
     }
 }

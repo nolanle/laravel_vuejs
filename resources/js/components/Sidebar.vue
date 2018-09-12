@@ -23,6 +23,19 @@
                             </div>
                         </li>
                         <li>
+                            <a href="#employeesCollapse" aria-controls="employeesCollapse" role="button" aria-expanded="false" class="collapsed" data-toggle="collapse">
+                                <div class="pull-left"><i class="ti-target"></i><span class="right-nav-text">QL NHÂN VIÊN</span></div>
+                                <div class="pull-right"><i class="ti-plus"></i></div>
+                                <div class="clearfix"></div>
+                            </a>
+                            <div class="collapse " id="employeesCollapse">
+                                <ul>
+                                    <li><router-link :to="{name: 'indexRoles'}">PHÂN QUYỀN</router-link></li>
+                                    <li><router-link :to="{name: 'indexEmployees'}">DS NHÂN VIÊN</router-link></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
                             <a href="#customersCollapse" aria-controls="customersCollapse" role="button" aria-expanded="false" class="collapsed" data-toggle="collapse">
                                 <div class="pull-left"><i class="ti-target"></i><span class="right-nav-text">QL KHÁCH HÀNG</span></div>
                                 <div class="pull-right"><i class="ti-plus"></i></div>
@@ -31,18 +44,6 @@
                             <div class="collapse " id="customersCollapse">
                                 <ul>
                                     <li><router-link :to="{name: 'indexCustomers'}">DS KHÁCH HÀNG</router-link></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#employeesCollapse" aria-controls="employeesCollapse" role="button" aria-expanded="false" class="collapsed" data-toggle="collapse">
-                                <div class="pull-left"><i class="ti-target"></i><span class="right-nav-text">QL NHÂN VIÊN</span></div>
-                                <div class="pull-right"><i class="ti-plus"></i></div>
-                                <div class="clearfix"></div>
-                            </a>
-                            <div class="collapse " id="employeesCollapse">
-                                <ul>
-                                    <li><router-link :to="{name: 'indexEmployees'}">DS NHÂN VIÊN</router-link></li>
                                 </ul>
                             </div>
                         </li>
