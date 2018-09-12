@@ -69,10 +69,9 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-
         if (auth()->user()->id == $id) {
             return response()->json([
-                'status'    =>0,
+                'status'    => 0,
                 'message'   => __('Bạn không thể xóa chính mình!'),
             ], 200);
         }

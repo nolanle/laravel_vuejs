@@ -121,12 +121,24 @@
                         axios.delete('/api/v1/employees/' + id, {
                             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                         }).then(function (response) {
+                            // console.log(response);
+                            
+                            if (response.data.status) {
+                                app.$swal({
+                                    type: 'success',
+                                    title: 'Đã xóa thành công!',
+                                    text: 'Nhân viên đã bị xóa khỏi hệ thống.'
+                                });
+                            }
+                            else {
+                                app.$swal({
+                                    type: 'error',
+                                    title: 'Xóa thất bại!',
+                                    text: response.data.message
+                                });
+                            }
                             app.getResults(app.page);
-                            app.$swal({
-                                type: 'success',
-                                title: 'Đã xóa thành công!',
-                                text: 'Nhân viên đã bị xóa khỏi hệ thống.'
-                            });
+
                         }).catch(function (error) {
                             app.$swal({
                                 type: 'error',
