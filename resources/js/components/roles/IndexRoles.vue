@@ -33,7 +33,7 @@
 
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                                     <div class="form-group form-group-sm react-bs-table-search-form">
-                                        <input placeholder="Tìm kiếm công ty" class="form-control" type="text"><span class="input-group-btn"></span>
+                                        <input placeholder="Tìm kiếm phân quyền" class="form-control" type="text"><span class="input-group-btn"></span>
                                     </div>
                                 </div>
 

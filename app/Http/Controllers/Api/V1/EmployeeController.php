@@ -42,9 +42,9 @@ class EmployeeController extends Controller
             $employee = User::create($data);
             $employee->attachRole($role);
 
-            return response()->json(['status' => 1, 'message' => 'Thêm thành công!', 'data' => $employee], 200);
+            return response()->json(['status' => 1, 'message' => __('Thêm thành công!'), 'data' => $employee], 200);
         }
-        return response()->json(['status' => 0, 'message' => 'Không thể thêm nhân viên vì không tìm thấy quyền!'], 200);
+        return response()->json(['status' => 0, 'message' => __('Không thể thêm nhân viên vì không tìm thấy quyền!')], 200);
     }
 
     /**
@@ -92,11 +92,11 @@ class EmployeeController extends Controller
             if ($role != NULL) {
                 $employee->detachRoles();
                 $employee->attachRole($role);
-                return response()->json(['status' => 1, 'message' => 'Cập nhật nhân viên với quyền ' . $role->name . ' thành công!'], 200);
+                return response()->json(['status' => 1, 'message' => __('Cập nhật nhân viên với quyền ' . $role->name . ' thành công!')], 200);
             }
-            return response()->json(['status' => 0, 'message' => 'Không thể thêm nhân viên vì không tìm thấy quyền!'], 200);
+            return response()->json(['status' => 0, 'message' => __('Không thể thêm nhân viên vì không tìm thấy quyền!')], 200);
         }
-        return response()->json(['status' => 1, 'message' => 'Đã cập nhật nhân viên thành công!'], 200);
+        return response()->json(['status' => 1, 'message' => __('Đã cập nhật nhân viên thành công!')], 200);
     }
 
     /**
