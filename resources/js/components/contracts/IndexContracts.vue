@@ -45,6 +45,7 @@
                                         <th>SỐ TIỀN VNĐ</th>
                                         <th>LÃI / NGÀY</th>
                                         <th>NGÀY CẦM</th>
+                                        <th>NGÀY CHUỘC</th>
                                         <!--<th>HẾT HẠN</th>-->
                                         <th>THANH LÝ</th>
                                     </tr>
@@ -66,6 +67,10 @@
                                         <td>{{ contract.pawn_amount | currency }}</td>
                                         <td>{{ contract.interest_by_date | currency }}</td>
                                         <td>{{ contract.pawn_date | moment("D/M/Y") }}</td>
+                                        <td>
+                                            <span>{{ contract.redeeming_date | moment("D/M/Y") }}</span><br>
+                                            <span class="text-danger"><strong>còn lại {{ contract.remaining }} ngày</strong></span>
+                                        </td>
                                         <!--<td></td>-->
                                         <td>
                                             <!--<a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(contract.id, index)"><i class="fa fa-trash"></i></a>-->

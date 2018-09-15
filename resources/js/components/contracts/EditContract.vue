@@ -106,7 +106,7 @@
                                     <input v-model="contract.pawn_date" id="pawn_date" type="text" class="form-control" required />
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="pawn_note">Ghi chú</label>
                                 <textarea-autosize v-model="contract.pawn_note" id="pawn_note" :min-height="150" ref="pawn_note" :class="'form-control'"></textarea-autosize>
