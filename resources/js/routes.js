@@ -32,6 +32,10 @@ import IndexRoles from './components/roles/IndexRoles.vue';
 import CreateRole from './components/roles/CreateRole.vue';
 import EditRole from './components/roles/EditRole.vue';
 
+import IndexContracts from './components/contracts/IndexContracts.vue';
+import CreateContract from './components/contracts/CreateContract.vue';
+import EditContract from './components/contracts/EditContract.vue';
+
 const routes = [
     { path: '/', redirect: { name: 'dashboard' } },
     {
@@ -73,6 +77,10 @@ const routes = [
             { path: '/roles', component: IndexRoles, name: 'indexRoles' },
             { path: '/roles/create', component: CreateRole, name: 'createRole' },
             { path: '/roles/edit/:id', component: EditRole, name: 'editRole' },
+
+            { path: '/contracts', component: IndexContracts, name: 'indexContracts' },
+            { path: '/contracts/create', component: CreateContract, name: 'createContract' },
+            { path: '/contracts/edit/:id', component: EditContract, name: 'editContract' },
         ]
     }
 ];

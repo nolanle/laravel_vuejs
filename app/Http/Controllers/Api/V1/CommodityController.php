@@ -19,6 +19,16 @@ class CommodityController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexWithoutPaginate() {
+        $commodities = Commodity::all();
+        return response()->json($commodities, 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

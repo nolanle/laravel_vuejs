@@ -1,7 +1,10 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    /* font-family: sans-serif; */
+    /* font-family: 'Pridi', serif; */
+    /* font-family: 'Roboto Condensed', sans-serif; */
+    font-family: 'Prompt', sans-serif;
 }
 
 /* Login page stylesheet */

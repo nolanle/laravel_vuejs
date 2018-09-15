@@ -25,6 +25,9 @@ window.Vue.use(PrettyCheckbox);
 import VueTextareaAutosize from 'vue-textarea-autosize';
 window.Vue.use(VueTextareaAutosize);
 
+import Autocomplete from 'v-autocomplete';
+Vue.component('v-autocomplete', Autocomplete);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

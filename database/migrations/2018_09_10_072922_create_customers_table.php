@@ -18,7 +18,11 @@ class CreateCustomersTable extends Migration
             $table->string('fullname');
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
+
             $table->string('government_id')->nullable();
+            $table->date('issued_date')->nullable();
+            $table->string('issued_at')->nullable();
+
             $table->unsignedInteger('company_id');
 
             $table->boolean('activated')->default(FALSE);

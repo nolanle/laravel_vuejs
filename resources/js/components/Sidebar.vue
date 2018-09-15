@@ -6,7 +6,7 @@
                     <ul class="nav navbar-nav side-menu" id="collapsedMenu">
                         <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">LIÊN KẾT NHANH</li>
                         <li><router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> THỐNG KÊ NHANH</router-link></li>
-                        <li><router-link :to="{name: 'dashboard'}"><i class="ti-write"></i> THÊM HỢP ĐỒNG</router-link></li>
+                        <li><router-link :to="{name: 'createContract'}"><i class="ti-write"></i> THÊM HỢP ĐỒNG</router-link></li>
 
                         <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">CHỨC NĂNG CHÍNH</li>
                         <li>
@@ -47,6 +47,7 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><router-link :to="{name: 'indexContracts'}"><i class="ti-target"></i> HỢP ĐỒNG CẦM ĐỒ</router-link></li>
                     </ul>
                 </div>
             </div>

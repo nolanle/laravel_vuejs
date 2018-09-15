@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Customer extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
-        'fullname', 'address', 'phone', 'government_id', 'activated', 'company_id',
+        'fullname', 'address', 'phone', 'government_id', 'activated', 'company_id', 'issued_date', 'issued_at',
     ];
 
     /**
@@ -19,4 +20,5 @@ class Customer extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
 }

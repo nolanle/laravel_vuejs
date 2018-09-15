@@ -42,13 +42,19 @@ Route::group([
     Route::apiResource('companies', 'CompanyController');
 
     // Customers Resource
+    Route::get('customers-without-paginate', 'CustomerController@indexWithoutPaginate');
+    Route::post('customers-search', 'CustomerController@search');
     Route::apiResource('customers', 'CustomerController');
 
     // Employees Resource
     Route::apiResource('employees', 'EmployeeController');
 
     // Commodities Resource
+    Route::get('commodities-without-paginate', 'CommodityController@indexWithoutPaginate');
     Route::apiResource('commodities', 'CommodityController');
+
+    // Contracts Resource
+    Route::apiResource('contracts', 'ContractController', ['except' => ['destroy']]);
 
     // Roles Resource
     Route::get('roles-without-paginate', 'RoleController@indexWithoutPaginate');

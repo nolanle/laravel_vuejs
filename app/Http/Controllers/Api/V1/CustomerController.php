@@ -19,6 +19,27 @@ class CustomerController extends Controller
     }
 
     /**
+     * Display a listing of the resource by searching.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request) {
+        $text = $request->get('text') ?? '';
+        $customers = Customer::where('fullname', 'LIKE', '%' . $text . '%')->take(10)->get();
+        return response()->json($customers, 200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexWithoutPaginate() {
+        $customers = Customer::all();
+        return response()->json($customers, 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

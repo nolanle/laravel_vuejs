@@ -50,7 +50,9 @@
                                         <th>ĐỊA CHỈ</th>
                                         <th>ĐIỆN THOẠI</th>
                                         <th>SỐ CMND</th>
-                                        <th>CỬA HÀNG</th>
+                                        <!--<th>CỬA HÀNG</th>-->
+                                        <th>NGÀY CẤP</th>
+                                        <th>NƠI CẤP</th>
                                         <th>NGÀY TẠO</th>
                                         <th>TRẠNG THÁI</th>
                                         <th>&nbsp;</th>
@@ -65,7 +67,9 @@
                                         <td>{{ customer.address }}</td>
                                         <td>{{ customer.phone }}</td>
                                         <td>{{ customer.government_id }}</td>
-                                        <td>{{ customer.company_id }}</td>
+                                        <!--<td>{{ // customer.company_id }}</td>-->
+                                        <td>{{ customer.issued_date | moment("D/M/Y") }}</td>
+                                        <td>{{ customer.issued_at }}</td>
                                         <td>{{ customer.created_at | moment("D/M/Y") }}</td>
                                         <td><switches v-model="customer.activated" theme="bootstrap" color="success" disabled></switches></td>
                                         <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(customer.id, index)"><i class="fa fa-trash"></i></a></td>
