@@ -63,11 +63,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="interested">Số Vốn Đầu Tư <span class="text-danger">(*)</span></label>
-                                <input v-model="company.interested" type="text" id="interested" class="form-control" />
-                            </div>
-
-                            <div class="form-group">
                                 <label for="activated">Trạng Thái <span class="text-danger">(*)</span></label>
                                 <div class="pull-right">
                                     <switches v-model="company.activated" id="activated" theme="bootstrap" color="success"></switches>
@@ -98,8 +93,8 @@
         name: "EditCompany",
         mounted() {
             this.companyId = this.$route.params.id;
-            this.getCompany();
             this.getProvinces();
+            this.getCompany();
         },
         data: function () {
             return {
@@ -107,7 +102,7 @@
                 company: {
                     name: '', phone: '', province: '', province_id: '',
                     district: '', district_id: '', address: '',
-                    represent: '', interested: 0, activated: 0
+                    represent: '', activated: 0
                 },
                 provinces: {}, districts: {}
             };

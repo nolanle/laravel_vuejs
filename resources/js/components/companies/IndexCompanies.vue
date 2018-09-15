@@ -42,11 +42,9 @@
                                     <thead>
                                         <tr>
                                             <th>TÊN CÔNG TY</th>
-                                            <th>ĐỊA CHỈ</th>
                                             <th>ĐIỆN THOẠI</th>
                                             <th>NGƯỜI ĐẠI DIỆN</th>
-                                            <th>VỐN ĐẦU TƯ</th>
-                                            <th>QUỸ TIỀN MẶT</th>
+                                            <th>ĐỊA CHỈ</th>
                                             <th>NGÀY TẠO</th>
                                             <th>TRẠNG THÁI</th>
                                             <th>&nbsp;</th>
@@ -57,11 +55,9 @@
                                             <td><router-link :to="{name: 'editCompany', params: {id: company.id}}" :class="'btn btn-xs btn-default'">
                                                 <span :class="'text-success'"><strong>{{ company.name }}</strong></span>
                                             </router-link></td>
-                                            <td>{{ company.address }}</td>
                                             <td>{{ company.phone }}</td>
                                             <td>{{ company.represent }}</td>
-                                            <td>{{ company.interested | currency }}</td>
-                                            <td>{{ company.total_investment | currency }}</td>
+                                            <td>{{ company.address }} - {{ company.district.name }} - {{ company.district.province.name }}</td>
                                             <td>{{ company.created_at | moment("D/M/Y") }}</td>
                                             <td><switches v-model="company.activated" theme="bootstrap" color="success" disabled></switches></td>
                                             <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a></td>
@@ -78,7 +74,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

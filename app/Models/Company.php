@@ -10,7 +10,7 @@ class Company extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'phone', 'district_id', 'address', 'address_addition', 'represent', 'interested', 'total_investment', 'activated'
+        'name', 'phone', 'district_id', 'address', 'address_addition', 'represent', 'activated'
     ];
 
     /**
@@ -20,7 +20,11 @@ class Company extends Model
      */
     protected $dates = ['deleted_at'];
 
-
+    /**
+     * Get District of Company
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function district() {
         return $this->belongsTo(District::class, 'district_id', 'id');
     }

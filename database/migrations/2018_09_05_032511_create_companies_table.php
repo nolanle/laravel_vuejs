@@ -21,8 +21,8 @@ class CreateCompaniesTable extends Migration
             $table->string('address');
             $table->string('address_addition')->nullable(); // địa chỉ dòng 2
             $table->string('represent'); // ngươi đại diện
-            $table->unsignedBigInteger('interested')->default(0);
-            $table->unsignedBigInteger('total_investment')->default(0);
+            //$table->unsignedBigInteger('interested')->default(0);
+            //$table->unsignedBigInteger('total_investment')->default(0);
 
             $table->boolean('activated')->default(TRUE);
 

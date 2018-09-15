@@ -16,8 +16,6 @@ class CompaniesTableSeeder extends Seeder
             'district_id'       => "836",
             'address'           => "121 Tính Tiền",
             'represent'         => "Nolan Le",
-            'interested'        => 100000000,
-            'total_investment'  => 100000000,
             'activated'         => TRUE,
         ]);
 
@@ -27,8 +25,6 @@ class CompaniesTableSeeder extends Seeder
             'district_id'       => "061",
             'address'           => "122 Tính Tiền",
             'represent'         => "Nolan Le",
-            'interested'        => 100000000,
-            'total_investment'  => 100000000,
             'activated'         => TRUE,
         ]);
 
@@ -38,8 +34,6 @@ class CompaniesTableSeeder extends Seeder
             'district_id'       => "660",
             'address'           => "123 Tính Tiền",
             'represent'         => "Nolan Le",
-            'interested'        => 100000000,
-            'total_investment'  => 100000000,
             'activated'         => TRUE,
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\CompaniesCollection;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,18 @@ class CompanyController extends Controller
      */
     public function index() {
         $companies = Company::paginate(25);
-        return response()->json($companies, 200);
+        $response = [
+            'pagination' => [
+                'total'         => $companies->total(),
+                'per_page'      => $companies->perPage(),
+                'current_page'  => $companies->currentPage(),
+                'last_page'     => $companies->lastPage(),
+                'from'          => $companies->firstItem(),
+                'to'            => $companies->lastItem()
+            ],
+            'data' => new CompaniesCollection($companies)
+        ];
+        return response()->json($response, 200);
     }
 
     /**
@@ -37,10 +49,9 @@ class CompanyController extends Controller
     public function store(Request $request) {
         $company = Company::create(
             $request->only([
-                'name', 'phone', 'district_id', 'address', 'represent', 'interested', 'activated'
+                'name', 'phone', 'district_id', 'address', 'represent', 'activated'
             ])
         );
-        $company->total_investment = $request->get('interested');
         $company->save();
 
         return response()->json($company, 200);
@@ -68,7 +79,7 @@ class CompanyController extends Controller
     public function update(Request $request, $id) {
         $company = Company::findOrFail($id);
         $company->update($request->only([
-            'name', 'phone', 'district_id', 'address', 'represent', 'interested', 'activated'
+            'name', 'phone', 'district_id', 'address', 'represent', 'activated'
         ]));
         return response()->json($company, 200);
     }

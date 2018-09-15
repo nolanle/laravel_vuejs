@@ -65,11 +65,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="interested">Số Vốn Đầu Tư <span class="text-danger">(*)</span></label>
-                                <input v-model="company.interested" type="text" id="interested" class="form-control" required />
-                            </div>
-
-                            <div class="form-group">
                                 <label for="activated">Trạng Thái <span class="text-danger">(*)</span></label>
                                 <div class="pull-right">
                                     <switches v-model="company.activated" id="activated" theme="bootstrap" color="success"></switches>
@@ -108,7 +103,6 @@
                     district_id: '',
                     address: '',
                     represent: '',
-                    interested: 0,
                     activated: 1,
                 },
                 provinces: {},
@@ -144,9 +138,10 @@
 
             createForm() {
                 event.preventDefault();
-                // console.log(this.company);
                 let app = this;
-                axios.post('/api/v1/companies', this.company, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
+                axios.post('/api/v1/companies', this.company, {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }).then(function (response) {
                     app.$swal({
                         type: 'success',
                         title: 'Thêm mới thành công?',
