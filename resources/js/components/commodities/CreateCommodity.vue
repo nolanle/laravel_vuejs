@@ -39,8 +39,9 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="mortgage_amount">Số Tiền Cầm <span class="text-danger">(*)</span></label>
-                                    <input v-model="commodity.mortgage_amount" type="text" id="mortgage_amount" class="form-control" required />
+                                    <label for="mortgage_amount">Số Tiền Cầm <span class="text-danger">(*)</span> <small>(VNĐ)</small></label>
+                                    <!--<input v-model="commodity.mortgage_amount" type="text" id="mortgage_amount" class="form-control" required />-->
+                                    <money v-model="commodity.mortgage_amount" id="mortgage_amount" :class="'form-control'"></money>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label><span class="text-danger">(*)</span></label>
@@ -55,17 +56,20 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="interest_by_date">Lãi Ngày <span class="text-danger">(*)</span></label>
-                                    <input v-model="commodity.interest_by_date" type="text" id="interest_by_date" class="form-control" required />
+                                    <label for="interest_by_date">Lãi Ngày <span class="text-danger">(*)</span> <small>(VNĐ/ngày)</small></label>
+                                    <!--<input v-model="commodity.interest_by_date" type="text" id="interest_by_date" class="form-control" required />-->
+                                    <money v-model="commodity.interest_by_date" id="interest_by_date" :class="'form-control'"></money>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="interest_period">Kỳ Lãi <span class="text-danger">(*)</span></label>
-                                    <input v-model="commodity.interest_period" type="text" id="interest_period" class="form-control" required />
+                                    <label for="interest_period">Kỳ Lãi <span class="text-danger">(*)</span> <small>(ngày)</small></label>
+                                    <!--<input v-model="commodity.interest_period" type="text" id="interest_period" class="form-control" required />-->
+                                    <money v-model="commodity.interest_period" id="interest_period" :class="'form-control'"></money>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="days_of_delayed">Thanh Lý Sau <span class="text-danger">(*)</span></label>
-                                <input v-model="commodity.days_of_delayed" type="text" id="days_of_delayed" class="form-control" required />
+                                <label for="days_of_delayed">Thanh Lý Sau <span class="text-danger">(*)</span> <small>(ngày)</small></label>
+                                <!--<input v-model="commodity.days_of_delayed" type="text" id="days_of_delayed" class="form-control" required />-->
+                                <money v-model="commodity.days_of_delayed" id="days_of_delayed" :class="'form-control'"></money>
                             </div>
                             <hr>
 
