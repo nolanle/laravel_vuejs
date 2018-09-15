@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\ContractsCollection;
 use App\Models\Contract;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -16,8 +17,19 @@ class ContractController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $contracts = Contract::orderBy('created_at', 'desc')->paginate(25);
-        return response()->json($contracts, 200);
+        $contracts = Contract::paginate(25); // orderBy('created_at', 'desc')
+        $response = [
+            'pagination' => [
+                'total'         => $contracts->total(),
+                'per_page'      => $contracts->perPage(),
+                'current_page'  => $contracts->currentPage(),
+                'last_page'     => $contracts->lastPage(),
+                'from'          => $contracts->firstItem(),
+                'to'            => $contracts->lastItem()
+            ],
+            'data' => new ContractsCollection($contracts)
+        ];
+        return response()->json($response, 200);
     }
 
     /**

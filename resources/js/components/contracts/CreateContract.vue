@@ -110,11 +110,18 @@
                                 <div class="col-md-12"><small>(VD : 10 ngày đóng lãi 1 lần thì điền số 10)</small></div>
                             </div>
                             <br>
-                            <h4 class="text-danger">Thông Tin Hợp Đồng</h4><hr>
-                            <div class="form-group">
-                                <label for="pawn_date">Ngày Vay <span class="text-danger">(*)</span></label>
-                                <input v-model="contract.pawn_date" id="pawn_date" type="text" class="form-control" required />
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="days_of_delayed">Thanh Lý Sau (ngày) <span class="text-danger">(*)</span></label>
+                                    <input v-model="contract.days_of_delayed" id="days_of_delayed" type="text" class="form-control" required />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="pawn_date">Ngày Vay <span class="text-danger">(*)</span></label>
+                                    <input v-model="contract.pawn_date" id="pawn_date" type="text" class="form-control" required />
+                                </div>
                             </div>
+                            <!--<br>-->
+                            <!--<h4 class="text-danger">Thông Tin Hợp Đồng</h4><hr>-->
                             <div class="form-group">
                                 <label for="pawn_note">Ghi chú</label>
                                 <textarea-autosize v-model="contract.pawn_note" id="pawn_note" :min-height="150" ref="pawn_note" :class="'form-control'"></textarea-autosize>

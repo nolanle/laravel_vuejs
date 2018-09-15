@@ -54,12 +54,14 @@
                                         <td>{{ index + 1 }}</td>
                                         <td>
                                             <router-link :to="{name: 'editContract', params: {id: contract.id}}" :class="'btn btn-xs btn-default'">
-                                                <span :class="'text-success'">
-                                                    <strong>{{ contract.customer_id }}</strong>
-                                                </span>
+                                                <span :class="'text-success'"><strong>{{ contract.customer.fullname }}</strong></span>
                                             </router-link>
                                         </td>
-                                        <td></td>
+                                        <td>
+                                            <router-link :to="{name: 'editContract', params: {id: contract.id}}" :class="'btn btn-xs btn-default'">
+                                                <span :class="'text-success'"><strong>{{ contract.commodity.name }} ({{ contract.commodity.code }})</strong></span>
+                                            </router-link>
+                                        </td>
                                         <td>{{ contract.commodity_name }}</td>
                                         <td>{{ contract.pawn_amount | currency }}</td>
                                         <td>{{ contract.interest_by_date | currency }}</td>
@@ -100,8 +102,11 @@
         methods: {
             getResults(page = 1) {
                 let app = this; app.page = page;
-                axios.get('/api/v1/contracts?page=' + app.page, {headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(response => {
+                axios.get('/api/v1/contracts?page=' + app.page, {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }).then(response => {
                     app.contracts = response.data;
+                    // console.log(response.data.data);
                 });
             },
         }
