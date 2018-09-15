@@ -31,6 +31,12 @@ window.Vue.component('v-autocomplete', Autocomplete);
 import Datepicker from 'vuejs-datepicker';
 window.Vue.component('datepicker', Datepicker);
 
+// import VueNumeric from 'vue-numeric'
+// window.Vue.component('vue-numeric', VueNumeric);
+
+import Money from 'v-money';
+window.Vue.use(Money, { decimal: '.', thousands: ',', prefix: '', suffix: '', precision: 0, masked: false });
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

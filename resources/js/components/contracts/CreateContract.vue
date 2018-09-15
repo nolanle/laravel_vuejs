@@ -86,18 +86,18 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="pawn_amount">Số Tiền Cầm <span class="text-danger">(*)</span></label>
-                                    <input v-model="contract.pawn_amount" id="pawn_amount" type="text" class="form-control" required />
+                                    <money v-model="contract.pawn_amount" id="pawn_amount" :class="'form-control'"></money>
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="interest_by_date">Số Tiền Lãi <span class="text-danger">(*)</span> <small>(VNĐ / 1 Triệu / Ngày)</small></label>
-                                    <input v-model="contract.interest_by_date" id="interest_by_date" type="text" class="form-control" required />
+                                    <money v-model="contract.interest_by_date" id="interest_by_date" :class="'form-control'"></money>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="interest_period">Kỳ Lãi <span class="text-danger">(*)</span></label>
-                                    <input v-model="contract.interest_period" id="interest_period" type="text" class="form-control" required />
+                                    <money v-model="contract.interest_period" id="interest_period" :class="'form-control'"></money>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Thu Lãi Trước <span class="text-danger">(*)</span></label>
@@ -113,7 +113,8 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="days_of_delayed">Thanh Lý Sau (ngày) <span class="text-danger">(*)</span></label>
-                                    <input v-model="contract.days_of_delayed" id="days_of_delayed" type="text" class="form-control" required />
+                                    <money v-model="contract.days_of_delayed" id="days_of_delayed" :class="'form-control'"></money>
+                                    <!--<input v-model="contract.days_of_delayed" id="days_of_delayed" type="text" class="form-control" required />-->
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Ngày Vay <span class="text-danger">(*)</span></label>
