@@ -107,4 +107,20 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Get all permissions from $roles.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function permissions(){
+        $roles = auth()->user()->roles;
+        $permissions = [];
+        foreach ($roles as $role) {
+            foreach ($role->perms as $perm) {
+                array_push($permissions,$perm);
+            }
+        }
+        return response()->json($permissions, 200);
+    }
+
 }

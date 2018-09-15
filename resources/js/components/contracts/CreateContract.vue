@@ -116,12 +116,10 @@
                                     <input v-model="contract.days_of_delayed" id="days_of_delayed" type="text" class="form-control" required />
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="pawn_date">Ngày Vay <span class="text-danger">(*)</span></label>
-                                    <input v-model="contract.pawn_date" id="pawn_date" type="text" class="form-control" required />
+                                    <label>Ngày Vay <span class="text-danger">(*)</span></label>
+                                    <datepicker v-model="contract.pawn_date" :format="customFormatter" :language="vi" :input-class="'form-control'"></datepicker>
                                 </div>
                             </div>
-                            <!--<br>-->
-                            <!--<h4 class="text-danger">Thông Tin Hợp Đồng</h4><hr>-->
                             <div class="form-group">
                                 <label for="pawn_note">Ghi chú</label>
                                 <textarea-autosize v-model="contract.pawn_note" id="pawn_note" :min-height="150" ref="pawn_note" :class="'form-control'"></textarea-autosize>
@@ -139,16 +137,29 @@
 </template>
 
 <script>
+    import moment from 'moment';
+    import {en, vi} from 'vuejs-datepicker/dist/locale';
     import SearchCustomer from './SearchCustomer.vue'
 
     export default {
         name: "CreateContract",
         data: function () {
             return {
+                en: en, vi: vi,
                 template: SearchCustomer, items: [], customer_type: 'old', commodities: {},
                 item: { fullname: '', address: '', phone: '', government_id: '', issued_date: '', issued_at: '' },
                 customer: { fullname: '', address: '', phone: '', government_id: '', issued_date: '', issued_at: '' },
-                contract: { commodity_id: 1, commodity_name: 'Wave RSX 110', pawn_amount: 4000000, interest_before_pawn: 0, interest_by_date: 3000, interest_period: 10, days_of_delayed: 15, pawn_date: '2018-09-14', pawn_note: '' },
+                contract: {
+                    commodity_id: 1,
+                    commodity_name: '',
+                    pawn_amount: 0,
+                    interest_before_pawn: 0,
+                    interest_by_date: 3000,
+                    interest_period: 10,
+                    days_of_delayed: 15,
+                    pawn_date: new Date(),
+                    pawn_note: ''
+                },
             }
         },
         mounted(){
@@ -156,16 +167,19 @@
             this.getCommodities();
         },
         methods:{
+            customFormatter(date) { return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY') },
             getCustomerName(customer){try{return customer.fullname;}catch(e){console.log("Không tìm thấy!");}},itemSelected(){this.customer=this.item;},
             updateSearch(text){ if (this.customer_type === 'old') { let app = this; axios.post('/api/v1/customers-search/', { text: text },{ headers: {Authorization: 'Bearer ' + localStorage.getItem('token')} }).then(response => { app.items = response.data; }); } },
             getCustomer(id){let app = this;axios.get('/api/v1/customers/' + id, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.contract.customer = response.data;});},
             getCustomers(){let app = this;axios.get('/api/v1/customers-without-paginate', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.customers = response.data;app.item = app.items[0];});},
             getCommodities(){let app = this;axios.get('/api/v1/commodities-without-paginate', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.commodities = response.data;});},
             createForm(){
-                let app = this;event.preventDefault(); // console.log(app.customer);console.log(app.contract);
+                let app = this;
+                event.preventDefault();
 
                 app.contract.customer       = app.customer;
                 app.contract.customer.type  = app.customer_type;
+                app.contract.pawn_date      = moment(app.contract.pawn_date).format('YYYY-MM-DD');
 
                 axios.post('/api/v1/contracts', app.contract, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }

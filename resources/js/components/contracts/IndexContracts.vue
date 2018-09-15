@@ -69,7 +69,7 @@
                                         <td>{{ contract.pawn_date | moment("D/M/Y") }}</td>
                                         <td>
                                             <span>{{ contract.redeeming_date | moment("D/M/Y") }}</span><br>
-                                            <span class="text-danger"><strong>còn lại {{ contract.remaining }} ngày</strong></span>
+                                            <span class="text-danger"><strong>còn {{ contract.remaining }} ngày</strong></span>
                                         </td>
                                         <!--<td></td>-->
                                         <td>

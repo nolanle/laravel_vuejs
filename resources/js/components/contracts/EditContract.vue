@@ -102,8 +102,8 @@
                                     <input v-model="contract.days_of_delayed" id="days_of_delayed" type="text" class="form-control" required />
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="pawn_date">Ngày Vay <span class="text-danger">(*)</span></label>
-                                    <input v-model="contract.pawn_date" id="pawn_date" type="text" class="form-control" required />
+                                    <label>Ngày Vay <span class="text-danger">(*)</span></label>
+                                    <datepicker v-model="contract.pawn_date" :format="customFormatter" :language="vi" :input-class="'form-control'"></datepicker>
                                 </div>
                             </div>
 
@@ -131,10 +131,14 @@
 </template>
 
 <script>
+    import moment from 'moment';
+    import {en, vi} from 'vuejs-datepicker/dist/locale';
+
     export default {
         name: "EditContract",
         data: function () {
             return {
+                en: en, vi: vi,
                 commodities: {},
                 contract: {
                     customer: {
@@ -155,7 +159,6 @@
                         days_of_delayed: 0,
                         activated: 0,
                     },
-
                     id: 0,
                     commodity_id: 0,
                     commodity_name: '',
@@ -175,18 +178,26 @@
             this.getContract();
         },
         methods:{
+            customFormatter(date) { return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY') },
             getCommodities(){let app = this;axios.get('/api/v1/commodities-without-paginate', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.commodities = response.data;});},
             getContract(){
                 let app = this;
-                axios.get('/api/v1/contracts/' + app.contract.id, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.contract = response.data;})
+                axios.get('/api/v1/contracts/' + app.contract.id, {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    app.contract = response.data;
+                    // app.contract.pawn_date = moment(app.contract.pawn_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
+                    // console.log(app.contract.pawn_date);
+                });
             },
             updateForm(){
                 let app = this;
                 event.preventDefault();
+                app.contract.pawn_date = moment(app.contract.pawn_date).format('YYYY-MM-DD');
+
                 axios.patch('/api/v1/contracts/' + app.contract.id, app.contract, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(function (response) {
-                    // console.log(response.data);
                     // is succeed
                     app.$swal({
                         type: 'success',

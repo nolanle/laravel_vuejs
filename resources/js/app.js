@@ -26,7 +26,10 @@ import VueTextareaAutosize from 'vue-textarea-autosize';
 window.Vue.use(VueTextareaAutosize);
 
 import Autocomplete from 'v-autocomplete';
-Vue.component('v-autocomplete', Autocomplete);
+window.Vue.component('v-autocomplete', Autocomplete);
+
+import Datepicker from 'vuejs-datepicker';
+window.Vue.component('datepicker', Datepicker);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -47,7 +47,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><router-link :to="{name: 'indexContracts'}"><i class="ti-target"></i> HỢP ĐỒNG CẦM ĐỒ</router-link></li>
+                        <li><router-link :to="{name: 'indexContracts'}"><i class="ti-target"></i> HĐ CẦM ĐỒ</router-link></li>
                     </ul>
                 </div>
             </div>
