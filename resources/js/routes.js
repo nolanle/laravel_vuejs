@@ -76,7 +76,7 @@ const routes = [
 
             { path: '/roles', component: IndexRoles, name: 'indexRoles' },
             { path: '/roles/create', component: CreateRole, name: 'createRole' },
-            { path: '/roles/edit/:id', component: EditRole, name: 'editRole' },
+            // { path: '/roles/edit/:id', component: EditRole, name: 'editRole' },
 
             { path: '/contracts', component: IndexContracts, name: 'indexContracts' },
             { path: '/contracts/create', component: CreateContract, name: 'createContract' },

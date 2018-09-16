@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Resources\CompaniesCollection;
+use App\Http\Resources\HeaderCompaniesCollection;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -38,6 +39,11 @@ class CompanyController extends Controller
     public function indexWithoutPaginate() {
         $companies = Company::all();
         return response()->json($companies, 200);
+    }
+
+    public function indexHeaderCompanies() {
+        $companies = Company::all();
+        return response()->json(new HeaderCompaniesCollection($companies), 200);
     }
 
     /**

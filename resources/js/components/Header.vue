@@ -7,8 +7,16 @@
 
         <!-- Top bar left -->
         <ul class="nav navbar-nav mr-auto">
-            <li class="nav-item"><a class="button-toggle-nav inline-block ml-20 pull-left"><i class="zmdi zmdi-menu ti-align-right"></i></a></li>
+            <li class="nav-item">
+                <a class="button-toggle-nav inline-block ml-20 pull-left">
+                    <i class="zmdi zmdi-menu ti-align-right"></i>
+                </a>
+            </li>
         </ul>
+
+        <div style="width: 300px;">
+            <v-select :input-class="'form-control pull-left'" v-model="user.company" :options="companies" @input="changeCompany"></v-select>
+        </div>
 
         <!-- top bar right -->
         <ul class="nav navbar-nav ml-auto">
@@ -42,17 +50,38 @@
         name: "Header",
         data: function () {
             return {
-                user: { id: '', name: '', email: '' },
+                user: {
+                    company: 0
+                },
+                companies: [],
             }
         },
-        mounted() { this.getResults(); },
+        mounted() {
+            this.getResults();
+            this.getCompanies();
+        },
         methods: {
+            changeCompany() {
+                axios.patch('/api/v1/change-company', { id: this.user.company.value }, {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    // console.log(response.data);
+                    // this.$router.push({path: '/dashboard'});
+                });
+            },
             getResults(page = 1) {
                 let app = this;
                 axios.get('/api/auth/me', {
                     headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
                 }).then(response => {
                     app.user = response.data;
+                });
+            },
+            getCompanies() {
+                axios.get('/api/v1/header-companies', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.companies = response.data;
                 });
             },
         }

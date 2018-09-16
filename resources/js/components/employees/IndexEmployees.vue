@@ -46,7 +46,6 @@
                                         <th>TÊN ĐĂNG NHẬP</th>
                                         <th>EMAIL</th>
                                         <th>CÔNG TY</th>
-                                        <th>NGÀY TẠO</th>
                                         <th>TRẠNG THÁI</th>
                                         <th>&nbsp;</th>
                                     </tr>
@@ -59,8 +58,7 @@
                                         </router-link></td>
                                         <td>{{ employee.username }}</td>
                                         <td>{{ employee.email }}</td>
-                                        <td>{{ employee.company_id }}</td>
-                                        <td>{{ employee.created_at | moment("D/M/Y") }}</td>
+                                        <td>{{ employee.company.name }}</td>
                                         <td><switches v-model="employee.activated" theme="bootstrap" color="success" disabled></switches></td>
                                         <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(employee.id, index)"><i class="fa fa-trash"></i></a></td>
                                     </tr>
@@ -72,7 +70,7 @@
                         <div class="react-bs-table-pagination">
                             <div class="row" style="margin-top: 15px;">
                                 <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4 offset-4">
-                                    <!--<pagination :data="employees" @pagination-change-page="getResults"></pagination>-->
+                                    <pagination :data="employees" @pagination-change-page="getResults"></pagination>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +99,6 @@
                 axios.get('/api/v1/employees?page=' + page, {
                     headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response.data.data);
                     app.employees = response.data;
                 });
             },
@@ -121,8 +118,7 @@
                         axios.delete('/api/v1/employees/' + id, {
                             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                         }).then(function (response) {
-                            // console.log(response);
-                            
+
                             if (response.data.status) {
                                 app.$swal({
                                     type: 'success',

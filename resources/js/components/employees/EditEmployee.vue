@@ -22,7 +22,7 @@
             <div class="card-body">
                 <h5 class="card-title"><span>Chỉnh Sửa NV: #{{ employee.name }}</span></h5>
                 <div class="row">
-                    <div class="col-md-6 offset-md-3">
+                    <div class="col-md-8 offset-md-2">
                         <form v-on:submit="updateForm()">
 
                             <div class="form-row">
@@ -119,7 +119,6 @@
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(response => {
                     app.employee = response.data;
-                    // console.log(app.employee);
                 });
             },
             getRoles() {

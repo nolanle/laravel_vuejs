@@ -38,8 +38,12 @@ Route::group([
     // Get Activities
     Route::get('activities', 'AccountController@activities');
 
+    // Change company id
+    Route::match(['put', 'patch'], 'change-company', 'AccountController@changeCompany');
+
     // Companies Resource
     Route::get('companies-without-paginate', 'CompanyController@indexWithoutPaginate');
+    Route::get('header-companies', 'CompanyController@indexHeaderCompanies');
     Route::apiResource('companies', 'CompanyController');
 
     // Customers Resource

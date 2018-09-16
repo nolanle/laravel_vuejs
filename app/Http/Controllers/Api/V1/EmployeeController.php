@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\EmployeesCollection;
 use App\Models\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,18 @@ class EmployeeController extends Controller
      */
     public function index() {
         $employees = User::paginate(25);
-        return response()->json($employees, 200);
+        $response = [
+            'pagination' => [
+                'total'         => $employees->total(),
+                'per_page'      => $employees->perPage(),
+                'current_page'  => $employees->currentPage(),
+                'last_page'     => $employees->lastPage(),
+                'from'          => $employees->firstItem(),
+                'to'            => $employees->lastItem()
+            ],
+            'data' => new EmployeesCollection($employees)
+        ];
+        return response()->json($response, 200);
     }
 
     /**

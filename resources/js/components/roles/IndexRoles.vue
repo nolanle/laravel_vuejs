@@ -45,24 +45,17 @@
                                 <table class="table table-striped table-bordered table-hover table-condensed">
                                     <thead>
                                     <tr>
-                                        <th class="align-content-center">STT</th>
-                                        <!--<th>TÊN QUYỀN</th>-->
-                                        <th>TÊN HIỂN THỊ</th>
-                                        <th>MÔ TẢ</th>
-                                        <th>NGÀY TẠO</th>
+                                        <th>VAI TRÒ</th>
+                                        <th>QUYỀN LỰC</th>
                                         <th>&nbsp;</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr v-for="role, index in roles.data">
-                                        <td>#{{ index + 1 }}</td>
-                                        <td><router-link :to="{name: 'editRole', params: {id: role.id}}" :class="'btn btn-xs btn-default'">
-                                            <span :class="'text-success'"><strong>{{ role.display_name }}</strong></span>
-                                        </router-link></td>
-                                        <!--<td>{{ // role.display_name }}</td>-->
-                                        <td>{{ role.description }}</td>
-                                        <td>{{ role.created_at | moment("D/M/Y") }}</td>
-                                        <!--<td><switches v-model="role.activated" theme="bootstrap" color="success" disabled></switches></td>-->
+                                        <td><strong>{{ role.display_name }}</strong></td>
+                                        <td>
+                                            <a href="javascript:;" v-for="permission in role.permissions">{{ permission.display_name }}, </a>
+                                        </td>
                                         <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(role.id, index)"><i class="fa fa-trash"></i></a></td>
                                     </tr>
                                     </tbody>

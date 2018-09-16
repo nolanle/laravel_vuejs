@@ -36,6 +36,16 @@
                             </div>
                             <hr>
 
+                            <v-jstree
+                                    :data="permissions"
+                                    :show-checkbox="true"
+                                    :multiple="true"
+                                    :allow-batch="true"
+                                    :collapse="true"
+                                    :allow-transition="false"
+                                    @item-click="itemClick">
+                            </v-jstree>
+
                             <div class="pull-right">
                                 <router-link :to="{name: 'indexRoles'}" class="btn btn-secondary">
                                     <i class="fa fa-arrow-left"></i>
@@ -59,19 +69,192 @@
     export default {
         name: "EditRole",
         data: function () {
-            return { roleId: '', role: { display_name: '', description: '' } }
+            return {
+                roleId: '',
+                role: { display_name: '', description: '' },
+                permissions: [
+                {
+                    "text": "Bảng điều khiển",
+                    "value": "dashboard",
+                    "selected": true,
+                },
+                {
+                    "text": "Quản lý công ty",
+                    "value": "all-company",
+                    "children": [
+                        {
+                            "text": "Xem danh sách công ty",
+                            "value": "index-company",
+                        },
+                        {
+                            "text": "Tạo mới công ty",
+                            "value": "create-company",
+                        },
+                        {
+                            "text": "Chỉnh sửa công ty",
+                            "value": "edit-company",
+                        },
+                        {
+                            "text": "Xóa công ty",
+                            "value": "delete-company",
+                        },
+                    ],
+                },
+                {
+                    "text": "Quản lý hàng hóa",
+                    "value": "all-commodity",
+                    "children": [
+                        {
+                            "text": "Xem danh sách hàng hóa",
+                            "value": "index-commodity",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Tạo mới hàng hóa",
+                            "value": "create-commodity",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Chỉnh sửa hàng hóa",
+                            "value": "edit-commodity",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Xóa hàng hóa",
+                            "value": "delete-commodity",
+                        },
+                    ],
+                },
+                {
+                    "text": "Quản lý vai trò",
+                    "value": "all-role",
+                    "children": [
+                        {
+                            "text": "Xem danh sách vai trò",
+                            "value": "index-role",
+                        },
+                        {
+                            "text": "Tạo mới vai trò",
+                            "value": "create-role",
+                        },
+                        {
+                            "text": "Chỉnh sửa vai trò",
+                            "value": "edit-role",
+                        },
+                        {
+                            "text": "Xóa vai trò",
+                            "value": "delete-role",
+                        },
+                    ],
+                },
+                {
+                    "text": "Quản lý nhân viên",
+                    "value": "all-employee",
+                    "children": [
+                        {
+                            "text": "Xem danh sách nhân viên",
+                            "value": "index-employee",
+                        },
+                        {
+                            "text": "Tạo mới nhân viên",
+                            "value": "create-employee",
+                        },
+                        {
+                            "text": "Chỉnh sửa nhân viên",
+                            "value": "edit-employee",
+                        },
+                        {
+                            "text": "Xóa nhân viên",
+                            "value": "delete-employee",
+                        },
+                    ],
+                },
+                {
+                    "text": "Quản lý khách hàng",
+                    "value": "all-customer",
+                    "children": [
+                        {
+                            "text": "Xem danh sách khách hàng",
+                            "value": "index-customer",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Tạo mới khách hàng",
+                            "value": "create-customer",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Chỉnh sửa khách hàng",
+                            "value": "edit-customer",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Xóa khách hàng",
+                            "value": "delete-customer",
+                        },
+                    ],
+                },
+                {
+                    "text": "Hợp đồng cầm đồ",
+                    "value": "all-contract",
+                    "selected": true,
+                    "children": [
+                        {
+                            "text": "Xem danh sách hợp đồng",
+                            "value": "index-contract",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Tạo mới hợp đồng",
+                            "value": "create-contract",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Chỉnh sửa hợp đồng",
+                            "value": "edit-contract",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Trả phí hợp đồng",
+                            "value": "paid-contract",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Gia hạn hợp đồng",
+                            "value": "renew-contract",
+                            "selected": true,
+                        },
+                        {
+                            "text": "Thanh lý hợp đồng",
+                            "value": "liquidate-contract",
+                            "selected": true,
+                        },
+                    ],
+                },
+            ],
+            }
         },
         mounted() {
             this.roleId = this.$route.params.id;
             this.getRole();
         },
         methods: {
+            itemClick (node) {
+                console.log(node.model.selected)
+            },
             getRole() {
                 let app = this;
                 axios.get('/api/v1/roles/' + app.roleId, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(response => {
                     app.role = response.data;
+                });
+            },
+            checkPermissionSelected(permissionName) {
+                this.role.forEach(function (value, key) {
+                    arr2.push(myObj);
+                    console.log(value);
+                    console.log(key);
                 });
             },
             updateForm() {

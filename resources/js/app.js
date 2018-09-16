@@ -6,36 +6,39 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
-import VueRouter from 'vue-router';
+import VueRouter from 'vue-router'
 window.Vue.use(VueRouter);
 
-import VueSweetalert from 'vue-sweetalert2';
+import VueSweetalert from 'vue-sweetalert2'
 window.Vue.use(VueSweetalert);
 
 Vue.use(require('vue-moment'));
 
-import VueCurrencyFilter from 'vue-currency-filter';
+import VueCurrencyFilter from 'vue-currency-filter'
 window.Vue.use(VueCurrencyFilter, {
     symbol : 'VNĐ', thousandsSeparator: '.', fractionCount: 0, fractionSeparator: ',', symbolPosition: 'back', symbolSpacing: true
 });
 
-import PrettyCheckbox from 'pretty-checkbox-vue';
+import PrettyCheckbox from 'pretty-checkbox-vue'
 window.Vue.use(PrettyCheckbox);
 
-import VueTextareaAutosize from 'vue-textarea-autosize';
+import VueTextareaAutosize from 'vue-textarea-autosize'
 window.Vue.use(VueTextareaAutosize);
 
-import Autocomplete from 'v-autocomplete';
+import Autocomplete from 'v-autocomplete'
 window.Vue.component('v-autocomplete', Autocomplete);
 
-import Datepicker from 'vuejs-datepicker';
+import Datepicker from 'vuejs-datepicker'
 window.Vue.component('datepicker', Datepicker);
 
-// import VueNumeric from 'vue-numeric'
-// window.Vue.component('vue-numeric', VueNumeric);
-
-import Money from 'v-money';
+import Money from 'v-money'
 window.Vue.use(Money, { decimal: '.', thousands: ',', prefix: '', suffix: '', precision: 0, masked: false });
+
+import VJstree from 'vue-jstree'
+window.Vue.component('v-jstree', VJstree);
+
+import vSelect from 'vue-select'
+Vue.component('v-select', vSelect);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
