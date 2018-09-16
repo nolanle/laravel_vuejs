@@ -21,7 +21,7 @@
         <div class="ml-30 mt-10" style="width: 250px;" v-if="isChangeCompany === false"><h5>{{ user.company.label }}</h5></div>
 
         <div class="ml-30 mt-10" style="width: 400px;">
-            <h5>Hotline: <a class="text-danger" href="tel:0123456789">0123456789</a></h5>
+            <h5>Hotline: <a class="text-danger" href="tel:0944834844">0944834844</a></h5>
         </div>
 
         <!-- top bar right -->

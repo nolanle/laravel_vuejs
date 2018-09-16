@@ -10,7 +10,7 @@
 
                     <router-view></router-view>
 
-                    <footer-component></footer-component>
+                    <!--<footer-component></footer-component>-->
 
                 </div> <!-- /content-wrapper -->
 

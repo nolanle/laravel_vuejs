@@ -16,7 +16,7 @@ Vue.use(require('vue-moment'));
 
 import VueCurrencyFilter from 'vue-currency-filter'
 window.Vue.use(VueCurrencyFilter, {
-    symbol : 'VNĐ', thousandsSeparator: '.', fractionCount: 0, fractionSeparator: ',', symbolPosition: 'back', symbolSpacing: true
+    symbol : '', thousandsSeparator: '.', fractionCount: 0, fractionSeparator: ',', symbolPosition: 'back', symbolSpacing: true
 });
 
 import PrettyCheckbox from 'pretty-checkbox-vue'

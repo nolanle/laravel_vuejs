@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="text-center text-md-left">
-                    <p class="mb-0"><strong>Hotline: <a href="tel:01234567890">01234567890</a></strong></p>
+                    <p class="mb-0"><strong>Hotline: <a href="tel:0944834844">0944834844</a></strong></p>
                 </div>
             </div>
             <div class="col-md-6">
                 <ul class="text-center text-md-right">
-                    <li class="list-inline-item"><a href="#">Điều khoản dịch vụ</a></li>
-                    <li class="list-inline-item"><a href="#">Chính sách bảo mật</a></li>
+                    <!--<li class="list-inline-item"><a href="#">Điều khoản dịch vụ</a></li>-->
+                    <!--<li class="list-inline-item"><a href="#">Chính sách bảo mật</a></li>-->
                 </ul>
             </div>
         </div>
