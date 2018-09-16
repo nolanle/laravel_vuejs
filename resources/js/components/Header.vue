@@ -14,8 +14,12 @@
             </li>
         </ul>
 
-        <div style="width: 300px;">
+        <div style="width: 250px;" v-if="isChangeCompany">
             <v-select :input-class="'form-control pull-left'" v-model="user.company" :options="companies" @input="changeCompany"></v-select>
+        </div>
+
+        <div class="ml-30 mt-10" style="width: 400px;">
+            <h5>Hotline: <a class="text-danger" href="tel:0123456789">0123456789</a></h5>
         </div>
 
         <!-- top bar right -->
@@ -54,36 +58,19 @@
                     company: 0
                 },
                 companies: [],
+                isChangeCompany: false,
             }
         },
         mounted() {
             this.getResults();
             this.getCompanies();
+            this.checkIsChangeCompany();
         },
         methods: {
-            changeCompany() {
-                axios.patch('/api/v1/change-company', { id: this.user.company.value }, {
-                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
-                }).then(response => {
-                    // console.log(response.data);
-                    // this.$router.push({path: '/dashboard'});
-                });
-            },
-            getResults(page = 1) {
-                let app = this;
-                axios.get('/api/auth/me', {
-                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
-                }).then(response => {
-                    app.user = response.data;
-                });
-            },
-            getCompanies() {
-                axios.get('/api/v1/header-companies', {
-                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
-                }).then(response => {
-                    this.companies = response.data;
-                });
-            },
+            checkIsChangeCompany() {axios.get('/api/auth/check/permission/' + 'change-company-account', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.isChangeCompany = response.data.access;})},
+            changeCompany() {axios.patch('/api/v1/change-company', { id: this.user.company.value }, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {});},
+            getResults(page = 1) {let app = this;axios.get('/api/auth/me', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.user = response.data;});},
+            getCompanies() {axios.get('/api/v1/header-companies', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.companies = response.data;});},
         }
     }
 </script>

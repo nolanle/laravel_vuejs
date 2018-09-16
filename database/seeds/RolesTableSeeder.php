@@ -16,10 +16,10 @@ class RolesTableSeeder extends Seeder
             'description' => 'Quản Trị Viên',
         ]);
 
-        \App\Models\Role::create([
-            'name' => 'employee',
-            'display_name' => 'Nhân Viên',
-            'description' => 'Nhân Viên',
-        ]);
+        // \App\Models\Role::create([
+        //     'name' => 'employee',
+        //     'display_name' => 'Nhân Viên',
+        //     'description' => 'Nhân Viên',
+        // ]);
     }
 }

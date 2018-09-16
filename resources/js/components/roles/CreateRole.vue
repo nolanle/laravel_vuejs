@@ -231,6 +231,16 @@
                             },
                         ],
                     },
+                    {
+                        "text": "Chức năng nâng cao",
+                        "value": "all-utils",
+                        "children": [
+                            {
+                                "text": "Thay đổi công ty từ hồ sơ",
+                                "value": "change-company-account"
+                            }
+                        ]
+                    }
                 ]
             }
         },

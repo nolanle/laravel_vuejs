@@ -279,6 +279,21 @@ class RoleController extends Controller
                 }
             }
 
+            if ($permission['value'] == 'all-utils') {
+                if ($permission['selected'] == TRUE) {
+                    $change   = Permission::whereName('change-company-account')->first();
+                    $role->attachPermissions([$change]);
+                }
+                else {
+                    foreach ($permission['children'] as $children) {
+                        if ($children['value'] == 'change-company-account' and $children['selected'] == TRUE) {
+                            $permDB = Permission::whereName('change-company-account')->first();
+                            $role->attachPermission($permDB);
+                        }
+                    }
+                }
+            }
+
         }
         return response()->json($permissions, 200);
     }

@@ -124,4 +124,10 @@ class AuthController extends Controller
         return response()->json($permissions, 200);
     }
 
+    public function checkPermission($name = '') {
+        return response()->json([
+            'access' => auth()->user()->can($name)
+        ], 200);
+    }
+
 }

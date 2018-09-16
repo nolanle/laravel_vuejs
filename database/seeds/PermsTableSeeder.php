@@ -187,6 +187,12 @@ class PermsTableSeeder extends Seeder
         $perm->display_name = "Thanh lý hợp đồng";
         $perm->save();
         $role->attachPermission($perm);
+
+        $perm = new Permission();
+        $perm->name = 'change-company-account';
+        $perm->display_name = "Thay đổi công ty từ hồ sơ";
+        $perm->save();
+        $role->attachPermission($perm);
         #################### CONTRACTS ####################
     }
 }
