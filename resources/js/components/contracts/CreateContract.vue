@@ -147,7 +147,7 @@
         data: function () {
             return {
                 en: en, vi: vi,
-                template: SearchCustomer, items: [], customer_type: 'old', commodities: {},
+                template: SearchCustomer, items: [], customer_type: 'new', commodities: {},
                 item: { fullname: '', address: '', phone: '', government_id: '', issued_date: '', issued_at: '' },
                 customer: { fullname: '', address: '', phone: '', government_id: '', issued_date: '', issued_at: '' },
                 contract: {
