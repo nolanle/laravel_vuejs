@@ -65,10 +65,15 @@
                 }).then(response => {
                     // login user, store the token and redirect to dashboard
                     store.commit('loginUser');
-                    localStorage.setItem('token', response.data.access_token)
+                    localStorage.setItem('token', response.data.access_token);
                     this.$router.push({ name: 'dashboard' })
                 }).catch(error => {
-                    this.loginError = true
+                    this.loginError = true;
+                    this.$swal({
+                        type: 'error',
+                        title: 'Đăng nhập thất bại!',
+                        text: 'Thông tin đăng nhập sai, vui lòng thử lại!'
+                    });
                 });
             }
         }
