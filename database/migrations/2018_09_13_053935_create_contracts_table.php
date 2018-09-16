@@ -26,7 +26,7 @@ class CreateContractsTable extends Migration
             $table->unsignedInteger('interest_period')->default(0);
             $table->unsignedInteger('days_of_delayed')->default(0);
 
-            $table->date('pawn_date')->default(DB::raw('NOW()'));
+            $table->date('pawn_date')->nullable();
             $table->longText('pawn_note')->nullable();
 
             $table->timestamps();
