@@ -47,7 +47,8 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="issued_date">Ngày Cấp <span class="text-danger">(*)</span></label>
-                                    <input v-model="contract.customer.issued_date" id="issued_date" type="text" class="form-control" required />
+                                    <!--<input v-model="contract.customer.issued_date" id="issued_date" type="text" class="form-control" required />-->
+                                    <datepicker v-model="contract.customer.issued_date" :format="customFormatter" :language="vi" :input-class="'form-control'"></datepicker>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -190,20 +191,18 @@
                     headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
                 }).then(response => {
                     app.contract = response.data;
-                    // app.contract.pawn_date = moment(app.contract.pawn_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-                    // console.log(app.contract.pawn_date);
                 });
             },
             updateForm(){
                 let app = this;
                 event.preventDefault();
                 app.contract.pawn_date = moment(app.contract.pawn_date).format('YYYY-MM-DD');
+                app.contract.customer.issued_date = moment(app.contract.customer.issued_date).format('YYYY-MM-DD');
 
                 axios.patch('/api/v1/contracts/' + app.contract.id, app.contract, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(function (response) {
-                    // is succeed
-                    app.$swal({
+                    app.$swal({ // is succeed
                         type: 'success',
                         title: 'Thêm mới thành công?',
                         text: "Cập nhật hợp đồng thành công!",
