@@ -13,11 +13,17 @@ class UpdateSprintTwo extends Migration
      */
     public function up() {
         Schema::table('commodities', function (Blueprint $table) {
-            $table->json('attrs')->nullable();
+            $table->json('attrs')->after('activated')->nullable();
         });
 
         Schema::table('contracts', function (Blueprint $table) {
-            $table->json('attrs')->nullable();
+            //$table->date('paid_date')->after('pawn_date')->nullable();
+            //$table->boolean('is_renew')->after('paid_date')->default(FALSE);
+            //$table->date('renew_date')->after('is_renew')->nullable();
+            //$table->boolean('is_liquidate')->after('renew_date')->default(FALSE);
+            //$table->date('liquidate_date')->after('is_liquidate')->nullable();
+            $table->json('attrs')->after('pawn_note')->nullable();
+            $table->json('histories')->after('attrs')->nullable();
         });
     }
 
@@ -32,7 +38,13 @@ class UpdateSprintTwo extends Migration
         });
 
         Schema::table('contracts', function (Blueprint $table) {
+            //$table->dropColumn('paid_date');
+            //$table->dropColumn('is_renew');
+            //$table->dropColumn('renew_date');
+            //$table->dropColumn('is_liquidate');
+            //$table->dropColumn('liquidate_date');
             $table->dropColumn('attrs');
+            $table->dropColumn('histories');
         });
     }
 }

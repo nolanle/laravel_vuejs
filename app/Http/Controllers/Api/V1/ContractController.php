@@ -6,6 +6,7 @@ use App\Http\Resources\ContractResource;
 use App\Http\Resources\ContractsCollection;
 use App\Models\Contract;
 use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,7 @@ class ContractController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $contracts = Contract::paginate(25); // orderBy('created_at', 'desc')
+        $contracts = Contract::paginate(25);
         $response = [
             'pagination' => [
                 'total'         => $contracts->total(),
@@ -32,6 +33,18 @@ class ContractController extends Controller
         ];
         return response()->json($response, 200);
     }
+
+    //public function paid($id) {
+    //    $contract = Contract::findOrFail($id);
+    //    $contract->paid();
+    //    return response()->json($contract, 200);
+    //}
+
+    //public function liquidate($id) {
+    //    $contract = Contract::findOrFail($id);
+    //    $contract->liquidate();
+    //    return response()->json($contract, 200);
+    //}
 
     /**
      * Store a newly created resource in storage.
@@ -80,14 +93,23 @@ class ContractController extends Controller
             $customerData['company_id']     = auth()->user()->company_id;
             $customerData['activated']      = TRUE;
 
-            // Tạo khách hàng mới
+            // Create new contract
             $newCustomer = Customer::create($customerData);
             $data['customer_id'] = $newCustomer->id;
         }
 
-        // Tạo hợp đồng mới
+        // Create new contract
+        $data['histories'] = json_encode([
+            [
+                'type'      => 'created',
+                'amount'    => 0,
+                'from'      => $data['pawn_date'],
+                'to'        => '',
+            ]
+        ]);
         $newContract = Contract::create($data);
 
+        // Update additional attributes from commodity
         if ($request->get('attrs') != NULL) {
             $newContract->attrs = json_encode($request->get('attrs'));
             $newContract->save();
@@ -143,7 +165,7 @@ class ContractController extends Controller
         $data['attrs'] = json_encode($request->get('attrs'));
         $contract->update($data);
 
-        $data = $request->get('customer'); // unset($data['id']);unset($data['activated']);unset($data['company_id']);unset($data['created_at']);unset($data['updated_at']);unset($data['deleted_at']);
+        $data = $request->get('customer');
         Validator::make($data, [
             'fullname'      => 'required|string|min:6|max:255',
             'address'       => 'required|string|min:6|max:255',
@@ -157,7 +179,6 @@ class ContractController extends Controller
         // update customer informations
         $customer->update($data);
 
-        // return response()->json(json_encode($request->get('attrs')), 200);
         return response()->json($contract, 200);
     }
 

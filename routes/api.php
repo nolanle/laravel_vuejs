@@ -60,6 +60,9 @@ Route::group([
     Route::apiResource('commodities', 'CommodityController');
 
     // Contracts Resource
+    Route::match(['put', 'patch'], 'contracts/paid/{id}', 'ContractController@paid');
+    Route::match(['put', 'patch'], 'contracts/renew/{id}', 'ContractController@renew');
+    Route::match(['put', 'patch'], 'contracts/liquidate/{id}', 'ContractController@liquidate');
     Route::apiResource('contracts', 'ContractController', ['except' => ['destroy']]);
 
     // Roles Resource

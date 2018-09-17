@@ -40,13 +40,11 @@
                                     <tr>
                                         <th class="align-content-center">#</th>
                                         <th>TÊN KHÁCH HÀNG</th>
-                                        <th>LOẠI TS</th>
                                         <th>TÊN TS</th>
-                                        <th>SỐ TIỀN VNĐ</th>
-                                        <th>LÃI / NGÀY</th>
+                                        <th>SỐ TIỀN / LÃI</th>
                                         <th>NGÀY CẦM</th>
                                         <th>NGÀY CHUỘC</th>
-                                        <!--<th>HẾT HẠN</th>-->
+                                        <th>CHI PHÍ</th>
                                         <th>THANH LÝ</th>
                                     </tr>
                                     </thead>
@@ -60,20 +58,29 @@
                                         </td>
                                         <td>
                                             <router-link :to="{name: 'editContract', params: {id: contract.id}}" :class="'btn btn-xs btn-default'">
-                                                <span :class="'text-success'"><strong>{{ contract.commodity.name }} ({{ contract.commodity.code }})</strong></span>
+                                                <span :class="'text-success'"><strong>{{ contract.commodity_name }} ({{ contract.commodity.code }})</strong></span>
                                             </router-link>
                                         </td>
-                                        <td>{{ contract.commodity_name }}</td>
-                                        <td>{{ contract.pawn_amount | currency }}</td>
-                                        <td>{{ contract.interest_by_date | currency }}</td>
-                                        <td>{{ contract.pawn_date | moment("D/M/Y") }}</td>
+                                        <td>
+                                            <span>{{ contract.pawn_amount | currency }} VNĐ / </span><br>
+                                            <span class="text-danger"><strong>{{ contract.interest_by_date | currency }} VNĐ/ngày</strong></span>
+                                        </td>
+                                        <td>
+                                            <span>{{ contract.pawn_date | moment("D/M/Y") }}</span><br>
+                                            <span class="text-danger"><strong>{{ contract.interest_period }} ngày</strong></span>
+                                        </td>
                                         <td>
                                             <span>{{ contract.redeeming_date | moment("D/M/Y") }}</span><br>
                                             <span class="text-danger"><strong>còn {{ contract.remaining }} ngày</strong></span>
                                         </td>
-                                        <!--<td></td>-->
                                         <td>
-                                            <!--<a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(contract.id, index)"><i class="fa fa-trash"></i></a>-->
+                                            <span>{{ contract.pawn_fee_amount | currency }} VNĐ</span><br>
+                                            <span class="text-danger"><strong>{{ contract.pawn_days }} ngày</strong></span>
+                                        </td>
+                                        <td>
+                                            <router-link :to="{name: 'showContract', params: {id: contract.id}}" :class="'btn btn-xs btn-success'">
+                                                <span><i class="fa fa-tasks"></i></span>
+                                            </router-link>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -103,15 +110,16 @@
                 contracts: {}
             }
         },
-        mounted() { this.getResults(); },
+        mounted() {
+            this.getResults();
+        },
         methods: {
             getResults(page = 1) {
                 let app = this; app.page = page;
                 axios.get('/api/v1/contracts?page=' + app.page, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(response => {
-                    app.contracts = response.data;
-                    // console.log(response.data.data);
+                    app.contracts = response.data; console.log(response.data.data[0]);
                 });
             },
         }

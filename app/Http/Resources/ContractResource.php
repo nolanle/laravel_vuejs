@@ -14,9 +14,6 @@ class ContractResource extends JsonResource
      * @return array
      */
     public function toArray($request) {
-        $pawn_date      = Carbon::instance(new \DateTime($this->pawn_date));
-        $redeeming_date = (clone $pawn_date)->addDays($this->interest_period);
-
         return [
             'id'                    => $this->id,
             'customer'              => $this->customer,
@@ -29,17 +26,27 @@ class ContractResource extends JsonResource
             'interest_by_date'      => $this->interest_by_date,
             'interest_period'       => $this->interest_period,
             'days_of_delayed'       => $this->days_of_delayed,
+            'attrs'                 => json_decode($this->attrs),
+            'histories'             => json_decode($this->histories),
 
-            'pawn_date'             => $pawn_date->format('Y-m-d'),
-            'redeeming_date'        => $redeeming_date->format('Y-m-d'),
-            'remaining'             => $redeeming_date->diffInDays(Carbon::today()),
+            // calculator
+            'pawn_days'             => $this->getPawnDays(),
+            'pawn_fee_amount'       => $this->getPawnFeeAmount(),
+
+            'pawn_date'             => $this->getPawnDate(),
+            'redeeming_date'        => $this->getRemainingDate(),
+            'remaining'             => $this->getRemainingDays(),
+
+            //'paid_date'             => $this->paid_date,
+            //'is_renew'              => $this->is_renew,
+            //'renew_date'            => $this->renew_date,
+            //'is_liquidate'          => $this->is_liquidate,
+            //'liquidate_date'        => $this->liquidate_date,
 
             'pawn_note'             => $this->pawn_note,
             'created_at'            => $this->created_at,
             'updated_at'            => $this->updated_at,
 
-            'attrs'                 => json_decode($this->attrs),
-            //'attrs'                 => $this->convertAttrsToResponse(),
         ];
     }
 
