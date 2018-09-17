@@ -61,7 +61,8 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="issued_date">Ngày Cấp <span class="text-danger">(*)</span></label>
-                                    <input v-model="customer.issued_date" id="issued_date" type="text" class="form-control" required />
+                                    <!--<input v-model="customer.issued_date" id="issued_date" type="text" class="form-control" required />-->
+                                    <datepicker v-model="customer.issued_date" :format="customFormatter" :language="vi" :input-class="'form-control'"></datepicker>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -178,6 +179,7 @@
                 let app = this;
                 event.preventDefault();
 
+                app.customer.issued_date      = moment(app.customer.issued_date).format('YYYY-MM-DD');
                 app.contract.customer       = app.customer;
                 app.contract.customer.type  = app.customer_type;
                 app.contract.pawn_date      = moment(app.contract.pawn_date).format('YYYY-MM-DD');
