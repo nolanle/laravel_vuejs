@@ -74,7 +74,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="commodity_id">Loại Tài Sản <span class="text-danger">(*)</span></label>
-                                    <select v-model="contract.commodity_id" id="commodity_id" class="form-control" required>
+                                    <select @change="getCommodity" v-model="contract.commodity_id" id="commodity_id" class="form-control" required>
                                         <option v-for="item in commodities" v-bind:value="item.id">{{ item.name }}</option>
                                     </select>
                                 </div>
@@ -83,7 +83,15 @@
                                     <input v-model="contract.commodity_name" id="commodity_name" type="text" class="form-control" required />
                                 </div>
                             </div>
-
+                            <div class="form-row">
+                                <div v-for="(attr, index) in contract.commodity.attrs" class="form-group col-md-6">
+                                    <label>{{ attr.key }}</label>
+                                    <div class="input-group">
+                                        <input v-model="attr.value" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="text-danger">Thông Tin Hợp Đồng</h4><hr>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="pawn_amount">Số Tiền Cầm <span class="text-danger">(*)</span></label>
@@ -109,8 +117,7 @@
                                     </span>
                                 </div>
                                 <div class="col-md-12"><small>(VD : 10 ngày đóng lãi 1 lần thì điền số 10)</small></div>
-                            </div>
-                            <br>
+                            </div><br>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="days_of_delayed">Thanh Lý Sau (ngày) <span class="text-danger">(*)</span></label>
@@ -153,6 +160,8 @@
                 customer: { fullname: '', address: '', phone: '', government_id: '', issued_date: '', issued_at: '' },
                 contract: {
                     commodity_id: 1,
+                    commodity: {},
+                    attrs: [],
                     commodity_name: '',
                     pawn_amount: 0,
                     interest_before_pawn: 0,
@@ -167,6 +176,9 @@
         mounted(){
             this.getCustomers();
             this.getCommodities();
+
+            // onload commodity
+            this.getCommodity();
         },
         methods:{
             customFormatter(date) { return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY') },
@@ -175,14 +187,23 @@
             getCustomer(id){let app = this;axios.get('/api/v1/customers/' + id, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.contract.customer = response.data;});},
             getCustomers(){let app = this;axios.get('/api/v1/customers-without-paginate', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.customers = response.data;app.item = app.items[0];});},
             getCommodities(){let app = this;axios.get('/api/v1/commodities-without-paginate', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.commodities = response.data;});},
+
+            getCommodity() {
+                let app = this;
+                axios.get('/api/v1/commodities/' + app.contract.commodity_id, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }).then(response => {
+                    app.contract.commodity = response.data;
+                });
+            },
+
             createForm(){
                 let app = this;
                 event.preventDefault();
 
-                app.customer.issued_date      = moment(app.customer.issued_date).format('YYYY-MM-DD');
+                app.customer.issued_date    = moment(app.customer.issued_date).format('YYYY-MM-DD');
                 app.contract.customer       = app.customer;
                 app.contract.customer.type  = app.customer_type;
                 app.contract.pawn_date      = moment(app.contract.pawn_date).format('YYYY-MM-DD');
+                app.contract.attrs          = app.contract.commodity.attrs;
 
                 axios.post('/api/v1/contracts', app.contract, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
@@ -197,6 +218,7 @@
                         text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
                     });
                 });
+
             }
         }
     }

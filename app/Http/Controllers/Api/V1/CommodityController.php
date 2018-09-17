@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\CommoditiesCollection;
 use App\Http\Resources\CommodityResource;
 use App\Models\Commodity;
 use Illuminate\Http\Request;
@@ -16,7 +17,18 @@ class CommodityController extends Controller
      */
     public function index() {
         $commodities = Commodity::paginate(25);
-        return response()->json($commodities, 200);
+        $response = [
+            'pagination' => [
+                'total'         => $commodities->total(),
+                'per_page'      => $commodities->perPage(),
+                'current_page'  => $commodities->currentPage(),
+                'last_page'     => $commodities->lastPage(),
+                'from'          => $commodities->firstItem(),
+                'to'            => $commodities->lastItem()
+            ],
+            'data' => new CommoditiesCollection($commodities)
+        ];
+        return response()->json($response, 200);
     }
 
     /**
@@ -26,7 +38,7 @@ class CommodityController extends Controller
      */
     public function indexWithoutPaginate() {
         $commodities = Commodity::all();
-        return response()->json($commodities, 200);
+        return response()->json(new CommoditiesCollection($commodities), 200);
     }
 
     /**

@@ -21,6 +21,8 @@ class ContractResource extends JsonResource
             'id'                    => $this->id,
             'customer'              => $this->customer,
             'commodity'             => $this->commodity,
+            'commodity_id'          => $this->commodity_id,
+            'customer_id'           => $this->customer_id,
             'commodity_name'        => $this->commodity_name,
             'pawn_amount'           => $this->pawn_amount,
             'interest_before_pawn'  => $this->interest_before_pawn,
@@ -35,6 +37,20 @@ class ContractResource extends JsonResource
             'pawn_note'             => $this->pawn_note,
             'created_at'            => $this->created_at,
             'updated_at'            => $this->updated_at,
+
+            'attrs'                 => json_decode($this->attrs),
+            //'attrs'                 => $this->convertAttrsToResponse(),
         ];
     }
+
+    protected function convertAttrsToResponse($attrs) {
+        $result = [];
+        if ($attrs != NULL) {
+            foreach ($attrs as $attr) {
+                $result[] = ['key' => $attr];
+            }
+        }
+        return $result;
+    }
+
 }

@@ -28,15 +28,16 @@ class CommodityResource extends JsonResource
             'created_at'                => Carbon::instance(new \DateTime($this->created_at))->format('Y-m-d'),
             'updated_at'                => Carbon::instance(new \DateTime($this->updated_at))->format('Y-m-d'),
 
-            //'attrs'                     => $this->attrs,
             'attrs'                     => $this->convertAttrsToResponse(json_decode($this->attrs)),
         ];
     }
 
     protected function convertAttrsToResponse($attrs) {
         $result = [];
-        foreach ($attrs as $attr) {
-            $result[] = ['key' => $attr];
+        if ($attrs != NULL) {
+            foreach ($attrs as $attr) {
+                $result[] = ['key' => $attr];
+            }
         }
         return $result;
     }

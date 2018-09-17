@@ -15,6 +15,10 @@ class UpdateSprintTwo extends Migration
         Schema::table('commodities', function (Blueprint $table) {
             $table->json('attrs')->nullable();
         });
+
+        Schema::table('contracts', function (Blueprint $table) {
+            $table->json('attrs')->nullable();
+        });
     }
 
     /**
@@ -24,6 +28,10 @@ class UpdateSprintTwo extends Migration
      */
     public function down() {
         Schema::table('commodities', function (Blueprint $table) {
+            $table->dropColumn('attrs');
+        });
+
+        Schema::table('contracts', function (Blueprint $table) {
             $table->dropColumn('attrs');
         });
     }

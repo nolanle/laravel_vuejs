@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\ContractResource;
 use App\Http\Resources\ContractsCollection;
 use App\Models\Contract;
 use App\Models\Customer;
@@ -86,7 +87,14 @@ class ContractController extends Controller
 
         // Tạo hợp đồng mới
         $newContract = Contract::create($data);
-        return response()->json($customerData, 200);
+
+        if ($request->get('attrs') != NULL) {
+            $newContract->attrs = json_encode($request->get('attrs'));
+            $newContract->save();
+        }
+
+        // return with response
+        return response()->json($newContract, 200);
     }
 
     /**
@@ -97,9 +105,7 @@ class ContractController extends Controller
      */
     public function show($id) {
         $contract = Contract::findOrFail($id);
-        $contract->commodity;
-        $contract->customer;
-        return response()->json($contract, 200);
+        return response()->json(new ContractResource($contract), 200);
     }
 
     /**
@@ -134,6 +140,7 @@ class ContractController extends Controller
         ])->validate();
 
         // update contract informations
+        $data['attrs'] = json_encode($request->get('attrs'));
         $contract->update($data);
 
         $data = $request->get('customer'); // unset($data['id']);unset($data['activated']);unset($data['company_id']);unset($data['created_at']);unset($data['updated_at']);unset($data['deleted_at']);
@@ -149,6 +156,8 @@ class ContractController extends Controller
 
         // update customer informations
         $customer->update($data);
+
+        // return response()->json(json_encode($request->get('attrs')), 200);
         return response()->json($contract, 200);
     }
 

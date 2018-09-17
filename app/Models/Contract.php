@@ -20,6 +20,7 @@ class Contract extends Model
         'days_of_delayed',
         'pawn_date',
         'pawn_note',
+        'attrs',
     ];
 
     /**
