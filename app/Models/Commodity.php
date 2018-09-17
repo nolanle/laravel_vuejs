@@ -17,6 +17,7 @@ class Commodity extends Model
         'interest_period',
         'days_of_delayed',
         'activated',
+        'attrs',
     ];
 
     /**

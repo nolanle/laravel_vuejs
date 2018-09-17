@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\CommodityResource;
 use App\Models\Commodity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -48,7 +49,17 @@ class CommodityController extends Controller
                 'activated',
             ])
         );
-        $commodity->save();
+
+        if ($request->get('attrs') != NULL) {
+            // update attrs
+            $attrs = [];
+            foreach ($request->get('attrs') as $item) {
+                $attrs[] = $item['key'];
+            }
+            $commodity->attrs = json_encode($attrs);
+            $commodity->save();
+        }
+
         return response()->json($commodity, 200);
     }
 
@@ -60,7 +71,7 @@ class CommodityController extends Controller
      */
     public function show($id) {
         $commodity = Commodity::findOrFail($id);
-        return response()->json($commodity, 200);
+        return response()->json(new CommodityResource($commodity), 200);
     }
 
     /**
@@ -82,6 +93,16 @@ class CommodityController extends Controller
             'days_of_delayed',
             'activated',
         ]));
+
+        if ($request->get('attrs') != NULL) {
+            // update attrs
+            $attrs = [];
+            foreach ($request->get('attrs') as $item) {
+                $attrs[] = $item['key'];
+            }
+            $commodity->attrs = json_encode($attrs);
+            $commodity->save();
+        }
         return response()->json($commodity, 200);
     }
 

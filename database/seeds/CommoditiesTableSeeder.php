@@ -17,6 +17,7 @@ class CommoditiesTableSeeder extends Seeder
             'interest_period' => 10,
             'days_of_delayed' => 15,
             'activated' => TRUE,
+            'attrs' => json_encode(['Biển số xe', 'Số khung', 'Số máy']),
         ]);
 
         \App\Models\Commodity::create([
@@ -26,6 +27,7 @@ class CommoditiesTableSeeder extends Seeder
             'interest_period' => 10,
             'days_of_delayed' => 15,
             'activated' => TRUE,
+            'attrs' => json_encode(['Biển số xe', 'Số khung', 'Số máy']),
         ]);
 
         \App\Models\Commodity::create([
@@ -35,6 +37,7 @@ class CommoditiesTableSeeder extends Seeder
             'interest_period' => 10,
             'days_of_delayed' => 15,
             'activated' => TRUE,
+            'attrs' => json_encode(['IMEI', 'Password']),
         ]);
 
         \App\Models\Commodity::create([
@@ -44,6 +47,7 @@ class CommoditiesTableSeeder extends Seeder
             'interest_period' => 10,
             'days_of_delayed' => 15,
             'activated' => TRUE,
+            'attrs' => json_encode(['IMEI', 'Password', 'Tình trạng']),
         ]);
 
         \App\Models\Commodity::create([

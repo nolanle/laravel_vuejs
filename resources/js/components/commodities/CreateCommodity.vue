@@ -79,6 +79,24 @@
                                     <switches v-model="commodity.activated" id="activated" theme="bootstrap" color="success"></switches>
                                 </span>
                             </div>
+                            <hr>
+
+                            <h4 class="text-danger">Thuộc Tính</h4>
+                            <div class="form-row">
+                                <div v-for="(attr, index) in commodity.attrs" class="form-group col-md-12">
+                                    <label>Thuộc Tính {{ index + 1 }} <span class="text-danger">(*)</span></label>
+                                    <div class="input-group">
+                                        <input v-model="attr.key" type="text" class="form-control" required/>
+                                        <div class="input-group-append">
+                                            <button type="button" v-on:click="removeElement(index)" class="btn btn-secondary"><i class="fa fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 pull-right">
+                                    <button type="button" @click="addAttr" :class="'btn btn-primary pull-right'">Thêm Thuộc Tính</button>
+                                </div>
+                            </div>
+                            <hr>
 
                             <div class="mt-5 pull-right">
                                 <router-link :to="{name: 'indexCommodities'}" class="btn btn-secondary">
@@ -90,7 +108,6 @@
                                     <span>THÊM MỚI</span>
                                 </button>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -113,12 +130,15 @@
                     interest_period: 10,
                     days_of_delayed: 15,
                     activated: 1,
+                    attrs: [],
                 },
             }
         },
         mounted() {
         },
         methods: {
+            addAttr(){var element = document.createElement('div');this.commodity.attrs.push({ key: "" });},
+            removeElement(index){this.commodity.attrs.splice(index, 1);},
             createForm() {
                 let app = this;
                 event.preventDefault();
@@ -127,6 +147,9 @@
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
 
                 }).then(function (response) {
+
+                    // console.log(response.data);
+
                     app.$swal({
                         type: 'success',
                         title: 'Thêm mới thành công?',
