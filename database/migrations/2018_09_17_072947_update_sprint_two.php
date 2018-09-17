@@ -13,7 +13,7 @@ class UpdateSprintTwo extends Migration
      */
     public function up() {
         Schema::table('commodities', function (Blueprint $table) {
-            $table->json('attrs')->after('activated')->nullable();
+            $table->json('attrs')->nullable();
         });
 
         Schema::table('contracts', function (Blueprint $table) {
@@ -22,8 +22,8 @@ class UpdateSprintTwo extends Migration
             //$table->date('renew_date')->after('is_renew')->nullable();
             //$table->boolean('is_liquidate')->after('renew_date')->default(FALSE);
             //$table->date('liquidate_date')->after('is_liquidate')->nullable();
-            $table->json('attrs')->after('pawn_note')->nullable();
-            $table->json('histories')->after('attrs')->nullable();
+            $table->json('attrs')->nullable();
+            $table->json('histories')->nullable();
         });
     }
 
