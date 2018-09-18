@@ -238,12 +238,11 @@
                         axios.patch('/api/v1/contracts/liquidate/' + app.contract.id, [], {
                             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                         }).then(function (response) {
-                            // console.log(app.contract.liquidate_date);
                             app.getContract();
                             app.$swal({
                                 type: 'success',
-                                title: 'Đã xóa thành công!',
-                                text: 'Công ty do bạn quản lý đã bị xóa khỏi hệ thống.'
+                                title: 'Thanh lý hợp đồng thành công!',
+                                text: 'Hợp đồng đã được thanh lý thành công.'
                             });
                         }).catch(function (error) {
                             app.$swal({
