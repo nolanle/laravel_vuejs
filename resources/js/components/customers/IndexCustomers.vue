@@ -27,7 +27,7 @@
 
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
                                     <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'createCustomer'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                        <router-link v-if="isCreateCustomer" :to="{name: 'createCustomer'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
                                     </div>
                                 </div>
 
@@ -50,7 +50,6 @@
                                         <th>ĐỊA CHỈ</th>
                                         <th>ĐIỆN THOẠI</th>
                                         <th>SỐ CMND</th>
-                                        <!--<th>CỬA HÀNG</th>-->
                                         <th>NGÀY CẤP</th>
                                         <th>NƠI CẤP</th>
                                         <th>NGÀY TẠO</th>
@@ -59,20 +58,22 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="customer, index in customers.data">
+                                    <tr v-for="(customer, index) in customers.data">
                                         <td>{{ index + 1 }}</td>
-                                        <td><router-link :to="{name: 'editCustomer', params: {id: customer.id}}" :class="'btn btn-xs btn-default'">
-                                            <span :class="'text-success'"><strong>{{ customer.fullname }}</strong></span>
-                                        </router-link></td>
+                                        <td>
+                                            <router-link v-if="isEditCustomer" :to="{name: 'editCustomer', params: {id: customer.id}}" :class="'btn btn-xs btn-default'">
+                                                <span :class="'text-success'"><strong>{{ customer.fullname }}</strong></span>
+                                            </router-link>
+                                            <span v-else>{{ customer.fullname }}</span>
+                                        </td>
                                         <td>{{ customer.address }}</td>
                                         <td>{{ customer.phone }}</td>
                                         <td>{{ customer.government_id }}</td>
-                                        <!--<td>{{ // customer.company_id }}</td>-->
                                         <td>{{ customer.issued_date | moment("D/M/Y") }}</td>
                                         <td>{{ customer.issued_at }}</td>
                                         <td>{{ customer.created_at | moment("D/M/Y") }}</td>
                                         <td><switches v-model="customer.activated" theme="bootstrap" color="success" disabled></switches></td>
-                                        <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(customer.id, index)"><i class="fa fa-trash"></i></a></td>
+                                        <td><a v-if="isDeleteCustomer" href="javascript:;" class="btn btn-xs btn-danger" v-on:click="deleteEntry(customer.id, index)"><i class="fa fa-trash"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -99,12 +100,46 @@
         name: "IndexCustomers",
         data: function () {
             return {
+                // checking
+                isCreateCustomer: false,
+                isEditCustomer: false,
+                isDeleteCustomer: false,
+
                 page: 1,
                 customers: {}
             }
         },
-        mounted() { this.getResults(); },
+        mounted() {
+            this.getResults();
+
+            // check permissions
+            this.checkIsCreateCustomer();
+            this.checkIsEditCustomer();
+            this.checkIsDeleteCustomer();
+        },
         methods: {
+            checkIsCreateCustomer() {
+                axios.get('/api/auth/check/permission/' + 'create-customer', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isCreateCustomer = response.data.access;
+                })
+            },
+            checkIsEditCustomer() {
+                axios.get('/api/auth/check/permission/' + 'edit-customer', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isEditCustomer = response.data.access;
+                })
+            },
+            checkIsDeleteCustomer() {
+                axios.get('/api/auth/check/permission/' + 'delete-customer', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isDeleteCustomer = response.data.access;
+                })
+            },
+
             getResults(page = 1) {
                 let app = this;
                 app.page = page;

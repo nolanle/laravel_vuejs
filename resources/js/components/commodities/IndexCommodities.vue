@@ -26,7 +26,7 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
                                     <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'createCommodity'}" class="btn btn-success">
+                                        <router-link v-if="isCreateCommodity" :to="{name: 'createCommodity'}" class="btn btn-success">
                                             <span><i class="fa fa-plus"></i> THÊM MỚI</span>
                                         </router-link>
                                     </div>
@@ -55,11 +55,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="commodity, index in commodities.data">
+                                    <tr v-for="(commodity, index) in commodities.data">
                                         <td>
-                                            <router-link :to="{name: 'editCommodity', params: {id: commodity.id}}">
+                                            <router-link v-if="isEditCommodity" :to="{name: 'editCommodity', params: {id: commodity.id}}">
                                                 <span :class="'text-success'"><strong>{{ commodity.name }} ({{ commodity.code }})</strong></span>
                                             </router-link>
+                                            <span v-else>{{ commodity.name }} ({{ commodity.code }})</span>
                                         </td>
                                         <td>{{ commodity.mortgage_amount | currency }}</td>
                                         <td>{{ commodity.interest_by_date | currency }} /1triệu/ngày</td>
@@ -71,7 +72,7 @@
                                             </p-check>
                                         </td>
                                         <td><switches v-model="commodity.activated" theme="bootstrap" color="success" disabled></switches></td>
-                                        <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(commodity.id, index)"><i class="fa fa-trash"></i></a></td>
+                                        <td><a v-if="isDeleteCommodity" href="javascript:;" class="btn btn-xs btn-danger" v-on:click="deleteEntry(commodity.id, index)"><i class="fa fa-trash"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -98,12 +99,47 @@
         name: "IndexCommodities",
         data: function () {
             return {
+                // checking
+                isCreateCommodity: false,
+                isEditCommodity: false,
+                isDeleteCommodity: false,
+
                 page: 1,
                 commodities: {}
             }
         },
-        mounted() { this.getResults(); },
+        mounted() {
+            this.getResults();
+
+            // check permissions
+            this.checkIsCreateCommodity();
+            this.checkIsEditCommodity();
+            this.checkIsDeleteCommodity();
+        },
         methods: {
+            checkIsCreateCommodity() {
+                axios.get('/api/auth/check/permission/' + 'create-commodity', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isCreateCommodity = response.data.access;
+                })
+            },
+            checkIsEditCommodity() {
+                axios.get('/api/auth/check/permission/' + 'edit-commodity', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isEditCommodity = response.data.access;
+                })
+            },
+            checkIsDeleteCommodity() {
+                axios.get('/api/auth/check/permission/' + 'delete-commodity', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isDeleteCommodity = response.data.access;
+                })
+            },
+
+
             getResults(page = 1) {
                 let app = this;
                 app.page = page;

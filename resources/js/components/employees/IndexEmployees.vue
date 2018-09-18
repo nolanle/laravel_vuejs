@@ -25,7 +25,7 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
                                     <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'createEmployee'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                        <router-link v-if="isCreateEmployee" :to="{name: 'createEmployee'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
@@ -53,14 +53,17 @@
                                     <tbody>
                                     <tr v-for="employee, index in employees.data">
                                         <td>{{ index + 1 }}</td>
-                                        <td><router-link :to="{name: 'editEmployee', params: {id: employee.id}}" :class="'btn btn-xs btn-default'">
-                                            <span :class="'text-success'"><strong>{{ employee.name }}</strong></span>
-                                        </router-link></td>
+                                        <td>
+                                            <router-link v-if="isEditEmployee" :to="{name: 'editEmployee', params: {id: employee.id}}" :class="'btn btn-xs btn-default'">
+                                                <span :class="'text-success'"><strong>{{ employee.name }}</strong></span>
+                                            </router-link>
+                                            <span v-else>{{ employee.name }}</span>
+                                        </td>
                                         <td>{{ employee.username }}</td>
                                         <td>{{ employee.email }}</td>
                                         <td>{{ employee.company.name }}</td>
                                         <td><switches v-model="employee.activated" theme="bootstrap" color="success" disabled></switches></td>
-                                        <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(employee.id, index)"><i class="fa fa-trash"></i></a></td>
+                                        <td><a v-if="isDeleteEmployee" href="javascript:;" class="btn btn-xs btn-danger" v-on:click="deleteEntry(employee.id, index)"><i class="fa fa-trash"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -87,12 +90,48 @@
         name: "IndexEmployees",
         data: function () {
             return {
+                // checking
+                isCreateEmployee: false,
+                isEditEmployee: false,
+                isDeleteEmployee: false,
+
                 page: 1,
                 employees: {}
             }
         },
-        mounted() { this.getResults(); },
-        methods: {
+        mounted() {
+            this.getResults();
+
+            // check permissions
+            this.checkIsCreateEmployee();
+            this.checkIsEditEmployee();
+            this.checkIsDeleteEmployee();
+        },
+    methods: {
+            checkIsCreateEmployee() {
+                axios.get('/api/auth/check/permission/' + 'create-employee', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isCreateEmployee = response.data.access;
+                })
+            },
+            checkIsEditEmployee() {
+                axios.get('/api/auth/check/permission/' + 'edit-employee', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isEditEmployee = response.data.access;
+                })
+            },
+            checkIsDeleteEmployee() {
+                axios.get('/api/auth/check/permission/' + 'delete-employee', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isDeleteEmployee = response.data.access;
+                })
+            },
+
+
+
             getResults(page = 1) {
                 let app = this;
                 app.page = page;

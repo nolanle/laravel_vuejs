@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
                                     <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'createContract'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                        <router-link v-if="isCreateContract" :to="{name: 'createContract'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
@@ -44,7 +44,6 @@
                                         <th>SỐ TIỀN</th>
                                         <th>PHÍ/NGÀY</th>
                                         <th>CẦM/CHUỘC</th>
-                                        <!--<th>ĐÃ THU (VNĐ)</th>-->
                                         <th>THANH LÝ</th>
                                         <th></th>
                                     </tr>
@@ -53,9 +52,10 @@
                                     <tr v-for="contract, index in contracts.data">
                                         <td class="align-content-center">#{{ index + 1 }}</td>
                                         <td>
-                                            <router-link :to="{name: 'editContract', params: {id: contract.id}}" :class="'btn btn-xs btn-default'">
+                                            <router-link v-if="isEditContract" :to="{name: 'editContract', params: {id: contract.id}}" :class="'btn btn-xs btn-default'">
                                                 <span :class="'text-success'"><strong>{{ contract.customer.fullname }}</strong></span>
                                             </router-link>
+                                            <span v-else>{{ contract.customer.fullname }}</span>
                                         </td>
                                         <td><span>{{ contract.commodity_name }} ({{ contract.commodity.code }})</span></td>
                                         <td><span>{{ contract.pawn_amount | currency }} VNĐ</span></td>
@@ -68,13 +68,10 @@
                                             </span>
                                             <span v-else class="text-danger"><strong>còn {{ contract.remaining }} ngày</strong></span>
                                         </td>
-                                        <!--<td><span>{{ contract.total_paid | currency }}</span><br></td>-->
-                                        <td>
-                                            <p-check disabled class="p-svg p-plain" v-model="contract.liquidate_date !== null"><img slot="extra" class="svg" :src="'svg/task.svg'">THANH LÝ</p-check>
-                                        </td>
+                                        <td><p-check disabled class="p-svg p-plain" v-model="contract.liquidate_date !== null"><img slot="extra" class="svg" :src="'svg/task.svg'">THANH LÝ</p-check></td>
                                         <td>
                                             <router-link :to="{name: 'showContract', params: {id: contract.id}}" :class="'btn btn-xs btn-success'"><span><i class="fa fa-tasks"></i></span></router-link>
-                                            <a v-on:click="deleteEntry(contract.id, index)" href="javascript:;" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                                            <a v-if="isDeleteContract" v-on:click="deleteEntry(contract.id, index)" href="javascript:;" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -100,14 +97,47 @@
         name: "IndexContracts",
         data: function () {
             return {
+                // checking
+                isCreateContract: false,
+                isEditContract: false,
+                isDeleteContract: false,
+
+                // get informations
                 page: 1,
                 contracts: {}
             }
         },
         mounted() {
             this.getResults();
+
+            // check
+            this.checkIsCreateContract();
+            this.checkIsEditContract();
+            this.checkIsDeleteContract();
         },
         methods: {
+            checkIsCreateContract() {
+                axios.get('/api/auth/check/permission/' + 'create-contract', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isCreateContract = response.data.access;
+                })
+            },
+            checkIsEditContract() {
+                axios.get('/api/auth/check/permission/' + 'edit-contract', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isEditContract = response.data.access;
+                })
+            },
+            checkIsDeleteContract() {
+                axios.get('/api/auth/check/permission/' + 'delete-contract', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isDeleteContract = response.data.access;
+                })
+            },
+
             getResults(page = 1) {
                 let app = this; app.page = page;
                 axios.get('/api/v1/contracts?page=' + app.page, {

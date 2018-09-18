@@ -27,7 +27,7 @@
 
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
                                     <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'createRole'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                        <router-link v-if="isCreateRole" :to="{name: 'createRole'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
                                     </div>
                                 </div>
 
@@ -56,7 +56,7 @@
                                         <td>
                                             <a href="javascript:;" v-for="permission in role.permissions">{{ permission.display_name }}, </a>
                                         </td>
-                                        <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(role.id, index)"><i class="fa fa-trash"></i></a></td>
+                                        <td><a v-if="isDeleteRole" href="javascript:;" class="btn btn-xs btn-danger" v-on:click="deleteEntry(role.id, index)"><i class="fa fa-trash"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -83,12 +83,36 @@
         name: "IndexRoles",
         data: function () {
             return {
+                // checking
+                isCreateRole: false,
+                isDeleteRole: false,
+
                 page: 1,
                 roles: {}
             }
         },
-        mounted() { this.getResults(); },
+        mounted() {
+            this.getResults();
+
+            this.checkIsCreateRole();
+            this.checkIsDeleteRole();
+        },
         methods: {
+            checkIsCreateRole() {
+                axios.get('/api/auth/check/permission/' + 'create-role', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isCreateRole = response.data.access;
+                })
+            },
+            checkIsDeleteRole() {
+                axios.get('/api/auth/check/permission/' + 'delete-role', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isDeleteRole = response.data.access;
+                })
+            },
+
             getResults(page = 1) {
                 let app = this;
                 app.page = page;

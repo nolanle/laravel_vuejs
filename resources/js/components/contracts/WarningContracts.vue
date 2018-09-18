@@ -72,8 +72,8 @@
                                             <span v-else class="text-danger"><strong>còn {{ contract.remaining }} ngày</strong></span>
                                         </td>
                                         <td>
-                                            <button v-on:click="paid(contract)" v-if="!contract.can_paid" type="button" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></button>
-                                            <button v-on:click="liquidate(contract)" v-else type="button" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></button>
+                                            <button v-on:click="paid(contract)" v-if="!contract.can_paid && isPaidContract" type="button" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></button>
+                                            <button v-on:click="liquidate(contract)" v-else-if="isLiquidateContract" type="button" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -92,14 +92,35 @@
         name: "WarningContracts",
         data: function () {
             return {
+                isPaidContract: false,
+                isLiquidateContract: false,
+
                 page: 1,
                 contracts: {}
             }
         },
         mounted() {
             this.getResults();
+
+            // check permissions
+            this.checkIsPaidContract();
+            this.checkIsLiquidateContract();
         },
         methods: {
+            checkIsPaidContract() {
+                axios.get('/api/auth/check/permission/' + 'paid-contract', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isPaidContract = response.data.access;
+                })
+            },
+            checkIsLiquidateContract() {
+                axios.get('/api/auth/check/permission/' + 'liquidate-contract', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isLiquidateContract = response.data.access;
+                })
+            },
             paid(contract) {
                 var app = this;
                 axios.patch('/api/v1/contracts/paid/' + contract.id, [], {

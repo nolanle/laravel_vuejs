@@ -25,7 +25,7 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
                                     <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'createCompany'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                        <router-link v-if="isCreateCompany" :to="{name: 'createCompany'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
@@ -51,16 +51,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="company, index in companies.data">
-                                            <td><router-link :to="{name: 'editCompany', params: {id: company.id}}" :class="'btn btn-xs btn-default'">
-                                                <span :class="'text-success'"><strong>{{ company.name }}</strong></span>
-                                            </router-link></td>
+                                        <tr v-for="(company, index) in companies.data">
+                                            <td>
+                                                <router-link v-if="isEditCompany" :to="{name: 'editCompany', params: {id: company.id}}" :class="'btn btn-xs btn-default'">
+                                                    <span :class="'text-success'"><strong>{{ company.name }}</strong></span>
+                                                </router-link>
+                                                <span v-else>{{ company.name }}</span>
+                                            </td>
                                             <td>{{ company.phone }}</td>
                                             <td>{{ company.represent }}</td>
                                             <td>{{ company.address }} - {{ company.district.name }} - {{ company.district.province.name }}</td>
                                             <td>{{ company.created_at | moment("D/M/Y") }}</td>
                                             <td><switches v-model="company.activated" theme="bootstrap" color="success" disabled></switches></td>
-                                            <td><a href="#" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a></td>
+                                            <td><a v-if="isDeleteCompany" href="javascript:;" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -86,15 +89,46 @@
         name: "IndexCompanies",
         data: function () {
             return {
+                // checking
+                isCreateCompany: false,
+                isEditCompany: false,
+                isDeleteCompany: false,
+
                 page: 1,
                 companies: {}
             }
         },
-        mounted() { this.getResults(); },
+        mounted() {
+            this.getResults();
+
+            // check permissions
+            this.checkIsCreateCompany();
+            this.checkIsEditCompany();
+            this.checkIsDeleteCompany();
+        },
         methods: {
-            switchesChanged() {
-                alert("OK");
+            checkIsCreateCompany() {
+                axios.get('/api/auth/check/permission/' + 'create-company', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isCreateCompany = response.data.access;
+                })
             },
+            checkIsEditCompany() {
+                axios.get('/api/auth/check/permission/' + 'edit-company', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isEditCompany = response.data.access;
+                })
+            },
+            checkIsDeleteCompany() {
+                axios.get('/api/auth/check/permission/' + 'delete-company', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isDeleteCompany = response.data.access;
+                })
+            },
+
             getResults(page = 1) {
                 let app = this;
                 app.page = page;

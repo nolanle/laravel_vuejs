@@ -71,10 +71,9 @@
                                 <div class="pull-right">
                                     <span><strong>HÀNH ĐỘNG</strong></span><br>
                                     <button @click="$router.go(-1)" type="button" class="btn btn-secondary"><i class="fa fa-arrow-left"></i><span> QUAY LẠI</span></button>
-                                    <!--<router-link :to="{name: 'indexContracts'}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i><span> QUAY LẠI</span></router-link>-->
-                                    <button v-on:click="paid" :disabled="contract.can_paid || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></button>
-                                    <button v-on:click="maintaince" :disabled="contract.can_renew || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-warning"><span><i class="fa fa-arrow-circle-o-up"></i> GIA HẠN</span></button>
-                                    <button v-on:click="liquidate" :disabled="contract.can_liquidate" type="button" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></button>
+                                    <button v-if="isPaidContract" v-on:click="paid" :disabled="contract.can_paid || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></button>
+                                    <!--<button v-if="isRenewContract" v-on:click="maintaince" :disabled="contract.can_renew || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-warning"><span><i class="fa fa-arrow-circle-o-up"></i> GIA HẠN</span></button>-->
+                                    <button v-if="isLiquidateContract" v-on:click="liquidate" :disabled="contract.can_liquidate" type="button" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></button>
                                 </div>
                             </div>
                         </div>
@@ -194,6 +193,12 @@
         name: "ShowContract",
         data: function () {
             return {
+                // checking
+                isPaidContract: false,
+                isRenewContract: false,
+                isLiquidateContract: false,
+
+                // data
                 en: en, vi: vi,
                 contract: {
                     customer: {id: 0, fullname: '', address: '', phone: '', government_id: '', issued_date: '', issued_at: ''},
@@ -205,8 +210,35 @@
         mounted(){
             this.contract.id = this.$route.params.id;
             this.getContract();
+
+            // check permissions
+            this.checkIsPaidContract();
+            this.checkIsRenewContract();
+            this.checkIsLiquidateContract();
         },
         methods:{
+            checkIsPaidContract() {
+                axios.get('/api/auth/check/permission/' + 'paid-contract', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isPaidContract = response.data.access;
+                })
+            },
+            checkIsRenewContract() {
+                axios.get('/api/auth/check/permission/' + 'renew-contract', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isRenewContract = response.data.access;
+                })
+            },
+            checkIsLiquidateContract() {
+                axios.get('/api/auth/check/permission/' + 'liquidate-contract', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isLiquidateContract = response.data.access;
+                })
+            },
+
             paid() {
                 var app = this;
                 axios.patch('/api/v1/contracts/paid/' + app.contract.id, [], {

@@ -4,9 +4,10 @@
             <div class="scrollarea-content saidbar" tabindex="1" style="margin-top: 0px; margin-left: 0px;">
                 <div class="saidbar">
                     <ul class="nav navbar-nav side-menu" id="collapsedMenu">
-                        <li v-if="isDashboard"><router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> DASHBOARD</router-link></li>
+                        <!--<li v-if="isDashboard"><router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> DASHBOARD</router-link></li>-->
                         
                         <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">LIÊN KẾT NHANH</li>
+                        <li v-if="isWarningContracts"><router-link :to="{name: 'warningContracts'}"><i class="ti-bell"></i> THÔNG BÁO</router-link></li>
                         <li v-if="isCreateContract"><router-link :to="{name: 'createContract'}"><i class="ti-write"></i> THÊM HỢP ĐỒNG</router-link></li>
                         <li v-if="isCreateCustomer"><router-link :to="{name: 'createCustomer'}"><i class="ti-user"></i> THÊM KHÁCH HÀNG</router-link></li>
                         <li v-if="isCreateEmployee"><router-link :to="{name: 'createEmployee'}"><i class="ti-wallet"></i> THÊM NHÂN VIÊN</router-link></li>
@@ -30,7 +31,6 @@
                         </li>
                         <li v-if="isIndexCustomer"><router-link :to="{name: 'indexCustomers'}"><i class="ti-target"></i> DS KHÁCH HÀNG</router-link></li>
                         <li v-if="isIndexContract"><router-link :to="{name: 'indexContracts'}"><i class="ti-target"></i> HĐ CẦM ĐỒ</router-link></li>
-                        <li v-if="isWarningContracts"><router-link :to="{name: 'warningContracts'}"><i class="ti-target"></i> THÔNG BÁO</router-link></li>
                     </ul>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         data: function () {
             return {
                 permissions: {},
-                isDashboard: false,
+                // isDashboard: false,
                 isIndexCompany: false,
                 isIndexCommodity: false,
                 isIndexRole: false,
@@ -58,7 +58,7 @@
             }
         },
         mounted() {
-            this.checkIsDashboard();
+            // this.checkIsDashboard();
             this.checkIsCreateContract();
             this.checkIsCreateCustomer();
             this.checkIsCreateEmployee();
@@ -72,7 +72,7 @@
             this.checkIsWarningContracts();
         },
         methods: {
-            checkIsDashboard() {axios.get('/api/auth/check/permission/' + 'dashboard', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.isDashboard = response.data.access;})},
+            // checkIsDashboard() {axios.get('/api/auth/check/permission/' + 'dashboard', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.isDashboard = response.data.access;})},
             checkIsCreateContract() {axios.get('/api/auth/check/permission/' + 'create-contract', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.isCreateContract = response.data.access;})},
             checkIsCreateCustomer() {axios.get('/api/auth/check/permission/' + 'create-customer', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.isCreateCustomer = response.data.access;})},
             checkIsCreateEmployee() {axios.get('/api/auth/check/permission/' + 'create-employee', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.isCreateEmployee = response.data.access;})},

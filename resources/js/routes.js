@@ -38,7 +38,7 @@ import CreateContract from './components/contracts/CreateContract.vue';
 import EditContract from './components/contracts/EditContract.vue';
 
 const routes = [
-    { path: '/', redirect: { name: 'dashboard' } },
+    { path: '/', redirect: { name: 'warningContracts' } },
     {
         path: '/auth',
         name: 'auth',
