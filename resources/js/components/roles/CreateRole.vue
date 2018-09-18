@@ -48,10 +48,11 @@
                             </div>
 
                             <div class="mt-5 pull-right">
-                                <router-link :to="{name: 'indexRoles'}" class="btn btn-secondary">
-                                    <i class="fa fa-arrow-left"></i>
-                                    <span>QUAY LẠI</span>
-                                </router-link>
+                                <!--<router-link :to="{name: 'indexRoles'}" class="btn btn-secondary">-->
+                                    <!--<i class="fa fa-arrow-left"></i>-->
+                                    <!--<span>QUAY LẠI</span>-->
+                                <!--</router-link>-->
+                                <button @click="$router.go(-1)" type="button" class="btn btn-secondary"><i class="fa fa-arrow-left"></i><span> QUAY LẠI</span></button>
                                 <button type="submit" class="btn btn-success">
                                     <i class="fa fa-plus"></i>
                                     <span>THÊM MỚI</span>
@@ -202,6 +203,11 @@
                             {
                                 "text": "Xem danh sách hợp đồng",
                                 "value": "index-contract",
+                                "selected": true,
+                            },
+                            {
+                                "text": "Xem danh sách hợp đồng bị cảnh báo",
+                                "value": "warning-contract",
                                 "selected": true,
                             },
                             {

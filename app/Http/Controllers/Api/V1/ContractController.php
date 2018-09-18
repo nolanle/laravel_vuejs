@@ -34,6 +34,28 @@ class ContractController extends Controller
         return response()->json($response, 200);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listOfWarning() {
+        $result = [];
+
+        $contracts = auth()->user()
+            ->company->contracts()
+            ->where(function($query){
+                return $query->where('paid_date', NULL)->orWhere('liquidate_date', NULL);
+            })->get();
+
+        foreach ($contracts as $contract) {
+            if ($contract->getRemainingDays() <= 2 and $contract->liquidate_date == NULL) { // and $contract->liquidate_date != NULL
+                $result[] = new ContractResource($contract);
+            }
+        }
+        return response()->json($result, 200);
+    }
+
     public function paid($id) {
         $contract = Contract::findOrFail($id);
         $contract->paid();

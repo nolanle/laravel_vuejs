@@ -63,6 +63,8 @@ Route::group([
     Route::match(['put', 'patch'], 'contracts/paid/{id}', 'ContractController@paid');
     Route::match(['put', 'patch'], 'contracts/renew/{id}', 'ContractController@renew');
     Route::match(['put', 'patch'], 'contracts/liquidate/{id}', 'ContractController@liquidate');
+
+    Route::get('contracts/warning', 'ContractController@listOfWarning');
     Route::apiResource('contracts', 'ContractController');
 
     // Roles Resource

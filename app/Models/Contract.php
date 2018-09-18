@@ -11,20 +11,10 @@ class Contract extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'customer_id',
-        'commodity_id',
-        'company_id',
-        'commodity_name',
-        'pawn_amount',
-        'interest_before_pawn',
-        'interest_by_date',
-        'interest_period',
-        'days_of_delayed',
-        'pawn_date',
-        'pawn_note',
-        'activated',
-        'attrs',
-        'histories',
+        'customer_id', 'commodity_id', 'company_id', 'commodity_name',
+        'pawn_amount', 'interest_before_pawn', 'interest_by_date',
+        'interest_period', 'days_of_delayed', 'pawn_date',
+        'pawn_note', 'activated', 'attrs', 'histories',
     ];
 
     /**
@@ -104,49 +94,74 @@ class Contract extends Model
     public function initialize() {
         $this->pawnDate      = Carbon::instance(new \DateTime($this->pawn_date));
         $this->redeemingDate = (clone $this->pawnDate)->addDays($this->interest_period);
-        $this->pawnDays      = Carbon::today() >= (clone $this->redeemingDate) ? $this->interest_period + (clone $this->redeemingDate)->diffInDays(Carbon::today()) : $this->interest_period - (clone $this->redeemingDate)->diffInDays(Carbon::today());
-        $maxDays = $this->interest_period + $this->days_of_delayed;
+
+        $this->pawnDays      = Carbon::today() >= (clone $this->redeemingDate) ?
+            $this->interest_period + (clone $this->redeemingDate)->diffInDays(Carbon::today()) :
+            $this->interest_period - (clone $this->redeemingDate)->diffInDays(Carbon::today());
+
+        $maxDays = $this->interest_period; // + $this->days_of_delayed;
         if ($this->pawnDays > $maxDays) {
             $this->outOfDate = true;
             $this->outOfDateDays = $this->pawnDays - $maxDays;
+            // $this->outOfDateDays = $this->pawnDays - $maxDays > $this->days_of_delayed ? $this->days_of_delayed : $this->pawnDays - $maxDays;
             $this->pawnDays = $maxDays;
         }
     }
 
+    /**
+     * @return bool
+     */
     public function getOutOfDate() {
         $this->initialize();
         return $this->outOfDate;
     }
 
+    /**
+     * @return int
+     */
     public function getOutOfDateDays() {
         $this->initialize();
         return $this->outOfDateDays;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPawnDays() {
         $this->initialize();
         return $this->pawnDays;
     }
 
+    /**
+     * @return float|int
+     */
     public function getPawnFeeAmount() {
         $this->initialize();
         return $this->interest_by_date * $this->pawnDays;
     }
 
+    /**
+     * @return int
+     */
     public function getRemainingDays() {
         $this->initialize();
         return $this->pawnDays >= $this->interest_period ? 0 : $this->redeemingDate->diffInDays(Carbon::today());
     }
 
+    /**
+     * @return mixed
+     */
     public function getPawnDate() {
         $this->initialize();
         return $this->pawnDate->format('Y-m-d');
     }
 
+    /**
+     * @return mixed
+     */
     public function getRemainingDate() {
         $this->initialize();
         return $this->redeemingDate->format('Y-m-d');
     }
     // CALCULATOR ######################################################################################################
-
 }

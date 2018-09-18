@@ -123,10 +123,11 @@
                                 <textarea-autosize v-model="contract.pawn_note" id="pawn_note" :min-height="150" ref="pawn_note" :class="'form-control'"></textarea-autosize>
                             </div>
                             <div class="pull-right">
-                                <router-link :to="{name: 'indexContracts'}" class="btn btn-secondary">
-                                    <i class="fa fa-arrow-left"></i>
-                                    <span>QUAY LẠI</span>
-                                </router-link>
+                                <!--<router-link :to="{name: 'indexContracts'}" class="btn btn-secondary">-->
+                                    <!--<i class="fa fa-arrow-left"></i>-->
+                                    <!--<span>QUAY LẠI</span>-->
+                                <!--</router-link>-->
+                                <button @click="$router.go(-1)" type="button" class="btn btn-secondary"><i class="fa fa-arrow-left"></i><span> QUAY LẠI</span></button>
                                 <button type="submit" class="btn btn-success">
                                     <i class="fa fa-edit"></i>
                                     <span>LƯU THAY ĐỔI</span>
