@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use DateTime;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +13,7 @@ class Contract extends Model
     protected $fillable = [
         'customer_id',
         'commodity_id',
+        'company_id',
         'commodity_name',
         'pawn_amount',
         'interest_before_pawn',
@@ -37,6 +37,8 @@ class Contract extends Model
     public $pawnDate;
     public $pawnDays;
     public $redeemingDate;
+    public $outOfDate = false;
+    public $outOfDateDays = 0;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -52,17 +54,73 @@ class Contract extends Model
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function company() {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
     // CALCULATOR ######################################################################################################
+    public function interestBeforePawn() {
+        if ($this->interest_before_pawn and $this->paid_date == NULL) {
+            $histories = json_decode($this->histories);
+            $histories[] = [
+                'amount'    => $this->interest_by_date * $this->interest_period,
+                'from'      => $this->pawn_date,
+                'to'        => $this->pawn_date,
+                'paid_days' => $this->interest_period,
+            ];
+            $this->histories = json_encode($histories);
+            $this->paid_date = $this->pawn_date;
+            $this->save();
+        }
+    }
+
+    public function paid() {
+        $this->initialize();
+
+        $histories = json_decode($this->histories);
+        $histories[] = [
+            'amount'    => $this->interest_by_date * $this->interest_period,
+            'from'      => $this->renew_date ?? $this->pawn_date,
+            'to'        => $this->redeemingDate->format('Y-m-d'),
+            'paid_days' => $this->interest_period,
+        ];
+        $this->histories = json_encode($histories);
+
+        $this->paid_date = Carbon::today();
+        $this->save();
+    }
+
+    public function liquidate() {
+        $this->liquidate_date = Carbon::today();
+        $this->save();
+    }
+
     /**
      * Initialize for calculating
      */
     public function initialize() {
         $this->pawnDate      = Carbon::instance(new \DateTime($this->pawn_date));
-        $this->redeemingDate = (clone $this->pawnDate)->addDays($this->interest_period - 1);
-        $this->pawnDays      =
-            Carbon::today() >= (clone $this->redeemingDate) ?
-            $this->interest_period + (clone $this->redeemingDate)->diffInDays(Carbon::today()) :
-            $this->interest_period - (clone $this->redeemingDate)->diffInDays(Carbon::today());
+        $this->redeemingDate = (clone $this->pawnDate)->addDays($this->interest_period);
+        $this->pawnDays      = Carbon::today() >= (clone $this->redeemingDate) ? $this->interest_period + (clone $this->redeemingDate)->diffInDays(Carbon::today()) : $this->interest_period - (clone $this->redeemingDate)->diffInDays(Carbon::today());
+        $maxDays = $this->interest_period + $this->days_of_delayed;
+        if ($this->pawnDays > $maxDays) {
+            $this->outOfDate = true;
+            $this->outOfDateDays = $this->pawnDays - $maxDays;
+            $this->pawnDays = $maxDays;
+        }
+    }
+
+    public function getOutOfDate() {
+        $this->initialize();
+        return $this->outOfDate;
+    }
+
+    public function getOutOfDateDays() {
+        $this->initialize();
+        return $this->outOfDateDays;
     }
 
     public function getPawnDays() {
@@ -89,46 +147,6 @@ class Contract extends Model
         $this->initialize();
         return $this->redeemingDate->format('Y-m-d');
     }
-
-//    public function liquidate() {
-//        $histories = json_decode($this->histories);
-//        $histories[] = [
-//            'paid'      => true,
-//            'amount'    => $this->getPawnFeeAmount(),
-//            'pawn_days' => $this->getPawnDays(),
-//            'paid_date' => Carbon::today()->format('Y-m-d'),
-//        ];
-//        $this->histories = json_encode($histories);
-//        $this->is_liquidate = true;
-//        $this->liquidate_date = Carbon::today();
-//        $this->save();
-//    }
-//
-//    public function paid() {
-//        $histories = json_decode($this->histories);
-//        $histories[] = [
-//            'paid'      => true,
-//            'amount'    => $this->getPawnFeeAmount(),
-//            'pawn_days' => $this->getPawnDays(),
-//            'paid_date' => Carbon::today()->format('Y-m-d'),
-//        ];
-//        $this->histories = json_encode($histories);
-//        $this->save();
-//    }
-//
-//    public function renew() {
-//        $histories = json_decode($this->histories);
-//        $histories[] = [
-//            'type'            => 'liquidate',
-//            'pawn_fee_amount' => $this->getPawnFeeAmount(),
-//            'pawn_days'       => $this->getPawnDays(),
-//            'created_at'      => Carbon::today()->format('Y-m-d'),
-//        ];
-//        $this->histories = json_encode($histories);
-//        $this->is_liquidate = true;
-//        $this->liquidate_date = Carbon::today();
-//        $this->save();
-//    }
     // CALCULATOR ######################################################################################################
 
 }

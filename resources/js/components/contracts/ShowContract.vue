@@ -19,7 +19,7 @@
             <div class="card-body">
                 <h5 class="card-title"><span>Xem Chi Tiết</span></h5>
                 <div class="row">
-                    <div class="col-md-8 offset-md-2">
+                    <div class="col-md-12">
                         <h4 class="text-danger">Lịch Sử Trả Phí</h4>
                         <hr>
                         <div class="form-row">
@@ -31,32 +31,63 @@
                                         <th>Từ Ngày</th>
                                         <th>Đến Ngày</th>
                                         <th>Số Tiền</th>
-                                        <th>Hành Động</th>
+                                        <th>Số Ngày</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="history, index in contract.histories">
+                                    <tr v-for="(history, index) in contract.histories">
                                         <td class="align-content-center">#{{ index + 1 }}</td>
                                         <td><span>{{ history.from | moment("D-M-Y") }}</span></td>
-                                        <td><span>{{ history.to = new Date() | moment("D-M-Y") }}</span></td>
+                                        <td><span>{{ history.to | moment("D-M-Y") }}</span></td>
+                                        <td><span>{{ history.amount | currency }} VNĐ</span></td>
+                                        <td><span>{{ history.paid_days }} ngày</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <span><strong>THÔNG TIN THANH TOÁN</strong></span>
+                                <table class="table table-striped table-bordered table-hover table-condensed">
+                                    <tbody>
+                                    <tr>
                                         <td>
-                                            <span v-if="history.type === 'created'">{{ history.amount = diffDays(new Date(), new Date(history.from)) * contract.interest_by_date | currency }} VNĐ</span>
+                                            <h6>Số tiền:</h6>
                                         </td>
                                         <td>
-                                            <a v-on:click="maintaince" v-if="history.amount > 0" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></a>
+                                            <h6>{{ contract.pawn_fee_amount | currency }} VNĐ</h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6>Số ngày:</h6>
+                                        </td>
+                                        <td>
+                                            <h6>{{ contract.pawn_days }} ngày</h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6>Còn lại:</h6>
+                                        </td>
+                                        <td>
+                                            <h6 v-if="contract.out_of_date === true" :class="'text-danger'">Quá hạn {{ contract.out_of_date_days }} ngày</h6>
+                                            <h6 v-else class="text-danger">Còn {{ contract.remaining }} ngày</h6>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <div class="pull-right">
-                                    <a v-on:click="maintaince" href="javascript:;" class="btn btn-xs btn-warning"><span><i class="fa fa-arrow-circle-o-up"></i> GIA HẠN</span></a>
-                                    <a v-on:click="maintaince" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></a>
+                                    <span><strong>HÀNH ĐỘNG</strong></span><br>
+                                    <router-link :to="{name: 'indexContracts'}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i><span> QUAY LẠI</span></router-link>
+                                    <button v-on:click="paid" :disabled="contract.can_paid || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></button>
+                                    <button v-on:click="maintaince" :disabled="contract.can_renew || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-warning"><span><i class="fa fa-arrow-circle-o-up"></i> GIA HẠN</span></button>
+                                    <button v-on:click="liquidate" :disabled="contract.can_liquidate" type="button" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></button>
                                 </div>
                             </div>
                         </div>
-
+                        <hr>
                         <h4 class="text-danger">Thông Tin Khách Hàng</h4><hr>
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -176,7 +207,7 @@
                 contract: {
                     customer: {id: 0, fullname: '', address: '', phone: '', government_id: '', issued_date: '', issued_at: ''},
                     commodity: {id: 0, name: '', code: '', mortgage_amount: 0, interest_before_mortgage: 0, interest_by_date: 0, interest_period: 0, days_of_delayed: 0, activated: 0, attrs: [],},
-                    id: 0, commodity_id: 0, commodity_name: '', pawn_amount: 0, interest_before_pawn: 0, interest_by_date: 0, interest_period: 0, days_of_delayed: 0, pawn_date: '', pawn_note: '', attrs: [],
+                    id: 0, commodity_id: 0, commodity_name: '', pawn_amount: 0, interest_before_pawn: 0, interest_by_date: 0, interest_period: 0, days_of_delayed: 0, pawn_date: '', pawn_note: '', attrs: [], liquidate_date: '',
                 },
             }
         },
@@ -185,50 +216,40 @@
             this.getContract();
         },
         methods:{
-            maintaince(){
-                this.$swal({
-                    type: 'warning',
-                    title: 'Chức năng bảo trì',
-                    text: 'Hệ thống đang bảo trì chức năng này, vui lòng thử lại sau'
-                });
-            },
-            paid(history) {
-                history.from = moment(history.from).format('YYYY-MM-DD');
-                history.to = moment(history.to).format('YYYY-MM-DD');
-                console.log(history);
-            },
-            diffDays(date1, date2) {
-                var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-                return Math.ceil(timeDiff / (1000 * 3600 * 24));
-            },
-            customFormatter(date) {return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY')},
-            getContract(){
-                let app = this;
-                axios.get('/api/v1/contracts/' + app.contract.id, {
-                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
-                }).then(response => {
-                    app.contract = response.data;
+            paid() {
+                var app = this;
+                axios.patch('/api/v1/contracts/paid/' + app.contract.id, [], {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }).then(function (response) {
                     console.log(response.data);
+
+                    app.getContract();
+                    app.$swal({
+                        type: 'success',
+                        title: 'Trả phí thành công!',
+                        text: 'Hợp đồng của bạn đã được trả phí.'
+                    });
+                }).catch(function (error) {
+                    app.$swal({
+                        type: 'error',
+                        title: 'Trả phí thất bại!',
+                        text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
+                    });
                 });
             },
-            liquidateEntry(contract) {
+            liquidate() {
                 var app = this;
                 app.$swal({
-                    type: 'warning',
-                    title: 'Thanh lý hợp đồng của ' + contract.customer.fullname + '!',
-                    text: "Chi phí: " + contract.pawn_fee_amount + " cho " + contract.pawn_days + " ngày.",
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'THANH LÝ!',
-                    cancelButtonText: '<i class="fa fa-ban"></i> HỦY BỎ',
+                    title: 'Thanh lý hợp đồng!', text: 'Thanh lý hợp đồng ' + app.contract.customer.fullname + '!',
+                    type: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33',
+                    confirmButtonText: 'THANH LÝ!', cancelButtonText: '<i class="fa fa-ban"></i> HỦY BỎ',
                 }).then((result) => {
                     if (result.value) {
-                        axios.patch('/api/v1/contracts/paid/' + contract.id, [], {
+                        axios.patch('/api/v1/contracts/liquidate/' + app.contract.id, [], {
                             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                         }).then(function (response) {
-                            // console.log(response.data);
-                            app.getResults(app.page);
+                            // console.log(app.contract.liquidate_date);
+                            app.getContract();
                             app.$swal({
                                 type: 'success',
                                 title: 'Đã xóa thành công!',
@@ -242,9 +263,12 @@
                             });
                         });
                     }
-
                 });
             },
+            getContract(){let app = this;axios.get('/api/v1/contracts/' + app.contract.id, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.contract = response.data;})},
+            customFormatter(date) {return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY')},
+            diffDays(date1, date2) {var timeDiff = Math.abs(date2.getTime() - date1.getTime());return Math.ceil(timeDiff / (1000 * 3600 * 24));},
+            maintaince(){this.$swal({type: 'warning', title: 'Chức năng bảo trì', text: 'Hệ thống đang bảo trì chức năng này, vui lòng thử lại sau'});},
         }
     }
 </script>

@@ -38,49 +38,41 @@
                                 <table class="table table-striped table-bordered table-hover table-condensed">
                                     <thead>
                                     <tr>
-                                        <th class="align-content-center">#</th>
-                                        <th>TÊN KHÁCH HÀNG</th>
+                                        <th class="align-content-center">STT</th>
+                                        <th>KHÁCH HÀNG</th>
                                         <th>TÊN TS</th>
-                                        <th>SỐ TIỀN / LÃI</th>
-                                        <th>NGÀY CẦM</th>
-                                        <th>NGÀY CHUỘC</th>
-                                        <th>CHI PHÍ</th>
+                                        <th>CẦM/CHUỘC</th>
+                                        <th>ĐÃ THU (VNĐ)</th>
                                         <th>THANH LÝ</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr v-for="contract, index in contracts.data">
-                                        <td>{{ index + 1 }}</td>
+                                        <td class="align-content-center">#{{ index + 1 }}</td>
                                         <td>
                                             <router-link :to="{name: 'editContract', params: {id: contract.id}}" :class="'btn btn-xs btn-default'">
                                                 <span :class="'text-success'"><strong>{{ contract.customer.fullname }}</strong></span>
                                             </router-link>
                                         </td>
+                                        <td><span>{{ contract.commodity_name }} ({{ contract.commodity.code }})</span></td>
                                         <td>
-                                            <router-link :to="{name: 'editContract', params: {id: contract.id}}" :class="'btn btn-xs btn-default'">
-                                                <span :class="'text-success'"><strong>{{ contract.commodity_name }} ({{ contract.commodity.code }})</strong></span>
-                                            </router-link>
-                                        </td>
-                                        <td>
-                                            <span>{{ contract.pawn_amount | currency }} VNĐ / </span><br>
-                                            <span class="text-danger"><strong>{{ contract.interest_by_date | currency }} VNĐ/ngày</strong></span>
-                                        </td>
-                                        <td>
-                                            <span>{{ contract.pawn_date | moment("D/M/Y") }}</span><br>
-                                            <span class="text-danger"><strong>{{ contract.interest_period }} ngày</strong></span>
-                                        </td>
-                                        <td>
+                                            <span>{{ contract.pawn_date | moment("D/M/Y") }} =></span><br>
                                             <span>{{ contract.redeeming_date | moment("D/M/Y") }}</span><br>
-                                            <span class="text-danger"><strong>còn {{ contract.remaining }} ngày</strong></span>
+                                            <span v-if="contract.out_of_date === true" :class="'text-danger'">
+                                                <strong>quá hạn {{ contract.out_of_date_days }} ngày</strong>
+                                            </span>
+                                            <span v-else class="text-danger"><strong>còn {{ contract.remaining }} ngày</strong></span>
                                         </td>
                                         <td>
-                                            <span>{{ contract.pawn_fee_amount | currency }} VNĐ</span><br>
-                                            <span class="text-danger"><strong>{{ contract.pawn_days }} ngày</strong></span>
+                                            <span>{{ contract.total_paid | currency }}</span><br>
                                         </td>
                                         <td>
-                                            <router-link :to="{name: 'showContract', params: {id: contract.id}}" :class="'btn btn-xs btn-success'">
-                                                <span><i class="fa fa-tasks"></i></span>
-                                            </router-link>
+                                            <p-check disabled class="p-svg p-plain" v-model="contract.liquidate_date !== null"><img slot="extra" class="svg" :src="'svg/task.svg'">THANH LÝ</p-check>
+                                        </td>
+                                        <td>
+                                            <router-link :to="{name: 'showContract', params: {id: contract.id}}" :class="'btn btn-xs btn-success'"><span><i class="fa fa-tasks"></i></span></router-link>
+                                            <a v-on:click="deleteEntry(contract.id, index)" href="javascript:;" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -119,9 +111,42 @@
                 axios.get('/api/v1/contracts?page=' + app.page, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(response => {
-                    app.contracts = response.data; console.log(response.data.data[0]);
+                    app.contracts = response.data;
+                    console.log(response.data.data[0]);
                 });
             },
+            deleteEntry(id, index) {
+                var app = this;
+                this.$swal({
+                    type: 'warning',
+                    title: 'Bạn có chắc xóa?',
+                    text: "Hành động này không thể hoàn tác, vui lòng xác nhận!",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Chắc chắn, xóa luôn đi!',
+                    cancelButtonText: '<i class="fa fa-ban"></i> Hủy bỏ',
+                }).then((result) => {
+                    if (result.value) {
+                        axios.delete('/api/v1/contracts/' + id, {
+                            headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                        }).then(function (response) {
+                            app.getResults(app.page);
+                            app.$swal({
+                                type: 'success',
+                                title: 'Đã xóa thành công!',
+                                text: 'Hợp đồng đã bị xóa khỏi hệ thống.'
+                            });
+                        }).catch(function (error) {
+                            app.$swal({
+                                type: 'error',
+                                title: 'Xóa thất bại!',
+                                text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
+                            });
+                        });
+                    }
+                });
+            }
         }
     }
 </script>

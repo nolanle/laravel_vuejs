@@ -28,6 +28,7 @@ class CreateCommoditiesTable extends Migration
             $table->unsignedInteger('interest_period')->default(0);
             $table->unsignedInteger('days_of_delayed')->default(0);
 
+            $table->json('attrs')->nullable();
             $table->boolean('activated')->default(FALSE);
 
             $table->timestamps();

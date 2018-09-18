@@ -71,9 +71,9 @@
                             </div>
                             <div class="form-row">
                                 <div v-for="(attr, index) in contract.attrs" class="form-group col-md-6">
-                                    <label>{{ attr.key }} <span class="text-danger">(*)</span></label>
+                                    <label>{{ attr.key }}</label>
                                     <div class="input-group">
-                                        <input v-model="attr.value" type="text" class="form-control" required />
+                                        <input v-model="attr.value" type="text" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +220,7 @@
                 }).then(function (response) {
                     app.$swal({ // is succeed
                         type: 'success',
-                        title: 'Thêm mới thành công?',
+                        title: 'Cập nhật thành công?',
                         text: "Cập nhật hợp đồng thành công!",
                         confirmButtonColor: '#3085d6'
                     }).then((result) => {

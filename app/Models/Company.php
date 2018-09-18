@@ -28,4 +28,8 @@ class Company extends Model
     public function district() {
         return $this->belongsTo(District::class, 'district_id', 'id');
     }
+
+    public function contracts() {
+        return $this->hasMany(Contract::class, 'company_id', 'id');
+    }
 }

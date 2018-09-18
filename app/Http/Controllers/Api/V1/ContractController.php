@@ -19,7 +19,7 @@ class ContractController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $contracts = Contract::paginate(25);
+        $contracts = auth()->user()->company->contracts()->paginate(25);
         $response = [
             'pagination' => [
                 'total'         => $contracts->total(),
@@ -34,17 +34,17 @@ class ContractController extends Controller
         return response()->json($response, 200);
     }
 
-    //public function paid($id) {
-    //    $contract = Contract::findOrFail($id);
-    //    $contract->paid();
-    //    return response()->json($contract, 200);
-    //}
+    public function paid($id) {
+        $contract = Contract::findOrFail($id);
+        $contract->paid();
+        return response()->json($contract, 200);
+    }
 
-    //public function liquidate($id) {
-    //    $contract = Contract::findOrFail($id);
-    //    $contract->liquidate();
-    //    return response()->json($contract, 200);
-    //}
+    public function liquidate($id) {
+        $contract = Contract::findOrFail($id);
+        $contract->liquidate();
+        return response()->json($contract, 200);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -63,7 +63,7 @@ class ContractController extends Controller
         Validator::make($data, [
             'commodity_id'          => 'required|exists:commodities,id',
             'commodity_name'        => 'required|string|min:6|max:255',
-            'pawn_amount'           => 'required|integer|min:0',
+            'pawn_amount'           => 'required|integer|min:1',
             'interest_before_pawn'  => 'required|boolean',
             'interest_by_date'      => 'required|integer|min:1',
             'interest_period'       => 'required|integer|min:1',
@@ -99,15 +99,9 @@ class ContractController extends Controller
         }
 
         // Create new contract
-        $data['histories'] = json_encode([
-            [
-                'type'      => 'created',
-                'amount'    => 0,
-                'from'      => $data['pawn_date'],
-                'to'        => '',
-            ]
-        ]);
+        $data['company_id'] = auth()->user()->company_id;
         $newContract = Contract::create($data);
+        $newContract->interestBeforePawn();
 
         // Update additional attributes from commodity
         if ($request->get('attrs') != NULL) {
@@ -153,7 +147,7 @@ class ContractController extends Controller
         Validator::make($data, [
             'commodity_id'          => 'required|exists:commodities,id',
             'commodity_name'        => 'required|string|min:6|max:255',
-            'pawn_amount'           => 'required|integer|min:0',
+            'pawn_amount'           => 'required|integer|min:1',
             'interest_before_pawn'  => 'required|boolean',
             'interest_by_date'      => 'required|integer|min:1',
             'interest_period'       => 'required|integer|min:1',
@@ -164,6 +158,7 @@ class ContractController extends Controller
         // update contract informations
         $data['attrs'] = json_encode($request->get('attrs'));
         $contract->update($data);
+        $contract->interestBeforePawn();
 
         $data = $request->get('customer');
         Validator::make($data, [
@@ -188,8 +183,12 @@ class ContractController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        $contract = Contract::findOrFail($id);
+        $contract->delete();
+        return response()->json([
+            'status'    => 1,
+            'message'   => __('Xóa hợp đồng thành công'),
+        ], 200);
     }
 }

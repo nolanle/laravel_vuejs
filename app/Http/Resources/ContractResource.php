@@ -26,38 +26,48 @@ class ContractResource extends JsonResource
             'interest_by_date'      => $this->interest_by_date,
             'interest_period'       => $this->interest_period,
             'days_of_delayed'       => $this->days_of_delayed,
-            'attrs'                 => json_decode($this->attrs),
-            'histories'             => json_decode($this->histories),
 
             // calculator
             'pawn_days'             => $this->getPawnDays(),
             'pawn_fee_amount'       => $this->getPawnFeeAmount(),
+            'out_of_date'           => $this->getOutOfDate(),
+            'out_of_date_days'      => $this->getOutOfDateDays(),
 
             'pawn_date'             => $this->getPawnDate(),
             'redeeming_date'        => $this->getRemainingDate(),
             'remaining'             => $this->getRemainingDays(),
 
-            //'paid_date'             => $this->paid_date,
-            //'is_renew'              => $this->is_renew,
-            //'renew_date'            => $this->renew_date,
-            //'is_liquidate'          => $this->is_liquidate,
-            //'liquidate_date'        => $this->liquidate_date,
+            'total_paid'            => $this->getTotalPaid(json_decode($this->histories)),
+
+            // checking
+            'can_paid'              => $this->interest_before_pawn == 1 || $this->getOutOfDate() || $this->paid_date != null,
+            'can_renew'             => $this->getOutOfDate() || $this->paid_date == null,
+            'can_liquidate'         => $this->liquidate_date != null,
+
+            'paid_date'             => $this->paid_date,
+            'renew_date'            => $this->renew_date,
+            'liquidate_date'        => $this->liquidate_date,
 
             'pawn_note'             => $this->pawn_note,
             'created_at'            => $this->created_at,
             'updated_at'            => $this->updated_at,
 
+            // Access Json
+            'attrs'                 => json_decode($this->attrs),
+            'histories'             => json_decode($this->histories),
+
         ];
     }
 
-    protected function convertAttrsToResponse($attrs) {
-        $result = [];
-        if ($attrs != NULL) {
-            foreach ($attrs as $attr) {
-                $result[] = ['key' => $attr];
+    protected function getTotalPaid($histories) {
+        $totalPaid = 0;
+
+        if ($histories != NULL) {
+            foreach ($histories as $history) {
+                $totalPaid += $history->amount;
             }
         }
-        return $result;
+        return $totalPaid;
     }
 
 }
