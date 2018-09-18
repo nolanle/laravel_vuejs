@@ -237,13 +237,13 @@ class RoleController extends Controller
             if ($permission['value'] == 'all-contract') {
                 if ($permission['selected'] == TRUE) {
                     $index      = Permission::whereName('index-contract')->first();
-                    $index      = Permission::whereName('warning-contract')->first();
+                    $warning    = Permission::whereName('warning-contract')->first();
                     $create     = Permission::whereName('create-contract')->first();
                     $edit       = Permission::whereName('edit-contract')->first();
                     $paid       = Permission::whereName('paid-contract')->first();
                     $renew      = Permission::whereName('renew-contract')->first();
                     $liquidate  = Permission::whereName('liquidate-contract')->first();
-                    $role->attachPermissions([$index, $create, $edit, $paid, $renew, $liquidate]);
+                    $role->attachPermissions([$index, $warning, $create, $edit, $paid, $renew, $liquidate]);
                 }
                 else {
                     foreach ($permission['children'] as $children) {
