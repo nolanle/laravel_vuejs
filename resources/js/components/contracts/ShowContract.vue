@@ -50,25 +50,15 @@
                                 <table class="table table-striped table-bordered table-hover table-condensed">
                                     <tbody>
                                     <tr>
-                                        <td>
-                                            <h6>Số tiền:</h6>
-                                        </td>
-                                        <td>
-                                            <h6>{{ contract.pawn_fee_amount | currency }} VNĐ</h6>
-                                        </td>
+                                        <td><h6>Số tiền:</h6></td>
+                                        <td><h6>{{ contract.interest_by_date * contract.interest_period | currency }} VNĐ</h6></td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <h6>Số ngày:</h6>
-                                        </td>
-                                        <td>
-                                            <h6>{{ contract.pawn_days }} ngày</h6>
-                                        </td>
+                                        <td><h6>Số ngày:</h6></td>
+                                        <td><h6>{{ contract.interest_period }} ngày</h6></td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <h6>Còn lại:</h6>
-                                        </td>
+                                        <td><h6>Còn lại:</h6></td>
                                         <td>
                                             <h6 v-if="contract.out_of_date === true" :class="'text-danger'">Quá hạn {{ contract.out_of_date_days }} ngày</h6>
                                             <h6 v-else class="text-danger">Còn {{ contract.remaining }} ngày</h6>
