@@ -66,6 +66,16 @@ class Contract extends Model
 
     // CALCULATOR ######################################################################################################
     public function interestBeforePawn() {
+
+        // create transaction for contract
+        $transaction = Transaction::create([
+            'type'          => 'pawning',
+            'addition'      => FALSE,
+            'contract_id'   => $this->id,
+            'company_id'    => $this->company_id,
+            'amount'        => $this->pawn_amount,
+        ]);
+
         if ($this->interest_before_pawn and $this->paid_date == NULL) {
             $histories = json_decode($this->histories);
             $histories[] = [
@@ -77,6 +87,15 @@ class Contract extends Model
             $this->histories = json_encode($histories);
             $this->paid_date = $this->pawn_date;
             $this->save();
+
+            // revenue for contract with interest before pawn
+            $transaction = Transaction::create([
+                'type'          => 'paid_fee',
+                'addition'      => TRUE,
+                'contract_id'   => $this->id,
+                'company_id'    => $this->company_id,
+                'amount'        => $this->interest_by_date * $this->interest_period,
+            ]);
         }
     }
 
@@ -94,11 +113,40 @@ class Contract extends Model
 
         $this->paid_date = Carbon::today();
         $this->save();
+
+        // revenue for contract with interest before pawn
+        $transaction = Transaction::create([
+            'type'          => 'paid_fee',
+            'addition'      => TRUE,
+            'contract_id'   => $this->id,
+            'company_id'    => $this->company_id,
+            'amount'        => $this->interest_by_date * $this->interest_period,
+        ]);
     }
 
     public function liquidate() {
         $this->liquidate_date = Carbon::today();
         $this->save();
+
+        // revenue for contract with interest before pawn
+        $transaction = Transaction::create([
+            'type'          => 'liquidate',
+            'addition'      => TRUE,
+            'contract_id'   => $this->id,
+            'company_id'    => $this->company_id,
+            'amount'        => $this->pawn_amount,
+        ]);
+    }
+
+    public function refund() {
+        // revenue for contract with interest before pawn
+        $transaction = Transaction::create([
+            'type'          => 'refund',
+            'addition'      => TRUE,
+            'contract_id'   => $this->id,
+            'company_id'    => $this->company_id,
+            'amount'        => $this->pawn_amount,
+        ]);
     }
 
     /**

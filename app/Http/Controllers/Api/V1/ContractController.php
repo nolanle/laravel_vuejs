@@ -153,6 +153,8 @@ class ContractController extends Controller
             'contract_id'   => $newContract->id,
         ])->log('Thêm hợp đồng mới');
 
+        // create a new transaction for pawning
+
 
         // Update additional attributes from commodity
         if ($request->get('attrs') != NULL) {
@@ -242,6 +244,7 @@ class ContractController extends Controller
      */
     public function destroy($id) {
         $contract = Contract::findOrFail($id);
+        $contract->refund();
 
         activity()->causedBy(auth()->user())->withProperties([
             'action'        => 'delete-contract',

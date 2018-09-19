@@ -198,7 +198,7 @@
                     {
                         "text": "Hợp đồng cầm đồ",
                         "value": "all-contract",
-                        "selected": true,
+                        "selected": false,
                         "children": [
                             {
                                 "text": "Xem danh sách hợp đồng",
@@ -234,6 +234,11 @@
                                 "text": "Thanh lý hợp đồng",
                                 "value": "liquidate-contract",
                                 "selected": true,
+                            },
+                            {
+                                "text": "Xóa hợp đồng",
+                                "value": "delete-contract",
+                                "selected": false,
                             },
                         ],
                     },

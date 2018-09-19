@@ -21,7 +21,7 @@ class ActivityResource extends JsonResource
     {
         // return parent::toArray($request);
         $company    = Company::withTrashed()->find($this->getExtraProperty('company_id'));
-        $contract   = Contract::withTrashed()->find($this->getExtraProperty('company_id'));
+        $contract   = Contract::withTrashed()->find($this->getExtraProperty('contract_id'));
         $customer   = $contract->customer;
         $employee   = User::find($this->causer_id);
         $createdAt  = Carbon::instance(new \DateTime($this->created_at, new \DateTimeZone('Asia/Ho_Chi_Minh')));

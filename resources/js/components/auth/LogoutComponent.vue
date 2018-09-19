@@ -9,15 +9,14 @@
         mounted () {
             let app = this;
             app.token = localStorage.getItem('token');
-            // console.log(app.token);
+
+            //console.log(app.token);
+            localStorage.removeItem('token');
+            store.commit('logoutUser');
 
             axios.post('/api/auth/logout', {}, {
                 headers: { Authorization: 'Bearer ' + app.token }
             }).then(response => {
-
-                localStorage.removeItem('token');
-                store.commit('logoutUser');
-                app.$router.push({ name: 'login' });
 
             }).catch(error => {
                 app.$swal({
@@ -27,6 +26,9 @@
                 });
             });
 
-        }
+            app.$router.push({ name: 'login' });
+
+        },
+
     }
 </script>

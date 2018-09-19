@@ -14,15 +14,18 @@
             </li>
         </ul>
 
-        <div style="width: 250px;" v-if="isChangeCompany">
+        <div v-if="isChangeCompany" class="mt-10" style="width: 250px;">
             <v-select :input-class="'form-control pull-left'" v-model="user.company" :options="companies" @input="changeCompany"></v-select>
         </div>
+        <div class="mt-15" v-else><h5>{{ user.company.label }}</h5></div>
 
-        <div class="ml-30 mt-10" style="width: 250px;" v-if="isChangeCompany === false"><h5>{{ user.company.label }}</h5></div>
-
-        <div class="ml-30 mt-10" style="width: 400px;">
-            <h5>Hotline: <a class="text-danger" href="tel:0944834844">0944834844</a></h5>
+        <div class="ml-5 mt-15">
+            <h5>Số Dư: <span class="text-danger">{{ user.company.current_balance | currency }}</span></h5>
         </div>
+
+        <!--<div class="ml-5 mt-10">-->
+            <!--<h5>Hotline: <a class="text-danger" href="tel:0944834844">0944834844</a></h5>-->
+        <!--</div>-->
 
         <!-- top bar right -->
         <ul class="nav navbar-nav ml-auto">

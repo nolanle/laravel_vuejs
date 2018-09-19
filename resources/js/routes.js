@@ -81,8 +81,8 @@ const routes = [
 
             { path: '/contracts', component: IndexContracts, name: 'indexContracts' },
             { path: '/contracts/warning', component: WarningContracts, name: 'warningContracts' },
-            { path: '/contracts/:id', component: ShowContract, name: 'showContract' },
             { path: '/contracts/create', component: CreateContract, name: 'createContract' },
+            { path: '/contracts/show/:id', component: ShowContract, name: 'showContract' },
             { path: '/contracts/edit/:id', component: EditContract, name: 'editContract' },
         ]
     }

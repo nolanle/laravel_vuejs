@@ -15,11 +15,15 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('type', ['initial', 'pawning', 'paid_fee', 'liquidate', 'deposit', 'withdraw', 'other'])->default('initial');
+
+            $table->enum('type', ['initial', 'pawning', 'paid_fee', 'liquidate', 'refund', 'deposit', 'withdraw', 'other'])->default('initial');
+            $table->boolean('addition')->default(TRUE);
             $table->unsignedInteger('contract_id')->nullable();
             $table->unsignedInteger('company_id')->nullable();
-            $table->unsignedBigInteger('cost')->default(0);
-            $table->unsignedBigInteger('revenue')->default(0);
+            $table->unsignedBigInteger('amount')->default(0);
+
+            $table->longText('description')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
 

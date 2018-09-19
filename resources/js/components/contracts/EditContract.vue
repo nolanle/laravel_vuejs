@@ -219,18 +219,15 @@
                 axios.patch('/api/v1/contracts/' + app.contract.id, app.contract, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(function (response) {
+
                     app.$swal({ // is succeed
                         type: 'success',
                         title: 'Cập nhật thành công?',
                         text: "Cập nhật hợp đồng thành công!",
                         confirmButtonColor: '#3085d6'
-                    }).then((result) => {
-                        if (result.value) {
-                            app.$router.push({path: '/contracts'});
-                        } else {
-                            app.$swal({type: 'error', title: 'Thêm mới thất bại!', text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'});
-                        }
                     });
+                    app.$router.go("/contracts");
+
                 }).catch(function (error) {
                     app.$swal({type: 'error', title: 'Thêm mới thất bại!', text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'});
                 });

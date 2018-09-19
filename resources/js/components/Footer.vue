@@ -8,8 +8,8 @@
             </div>
             <div class="col-md-6">
                 <ul class="text-center text-md-right">
-                    <!--<li class="list-inline-item"><a href="#">Điều khoản dịch vụ</a></li>-->
-                    <!--<li class="list-inline-item"><a href="#">Chính sách bảo mật</a></li>-->
+                    <li class="list-inline-item"><a href="javascript:;">Điều khoản dịch vụ</a></li>
+                    <li class="list-inline-item"><a href="javascript:;">Chính sách bảo mật</a></li>
                 </ul>
             </div>
         </div>

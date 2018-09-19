@@ -10,7 +10,7 @@ class Transaction extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'type', 'contract_id', 'company_id', 'cost', 'revenue'
+        'type', 'addition', 'contract_id', 'company_id', 'amount',
     ];
 
     /**
@@ -19,4 +19,5 @@ class Transaction extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
 }

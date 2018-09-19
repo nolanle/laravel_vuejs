@@ -29,7 +29,44 @@ class Company extends Model
         return $this->belongsTo(District::class, 'district_id', 'id');
     }
 
+    /**
+     * Get Contracts of Company
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function contracts() {
         return $this->hasMany(Contract::class, 'company_id', 'id');
     }
+
+    /**
+     * Get Transactions of this company
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transactions() {
+        return $this->hasMany(Transaction::class, 'company_id', 'id');
+    }
+
+    public function getInitialCapital() {
+        $totalInitialCapital = 0;
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == 'initial' and $transaction->addition) {
+                $totalInitialCapital += $transaction->amount;
+            }
+        }
+        return $totalInitialCapital;
+    }
+
+    public function getCurrentBalance() {
+        $totalInitialCapital = 0;
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->addition) {
+                $totalInitialCapital += $transaction->amount;
+            } else {
+                $totalInitialCapital -= $transaction->amount;
+            }
+        }
+        return $totalInitialCapital;
+    }
+
 }

@@ -59,7 +59,7 @@
                                             </router-link>
                                         </td>
                                         <td><span>{{ contract.customer.phone }}</span></td>
-                                        <td><span>{{ contract.interest_by_date * contract.interest_period | currency }} VNĐ</span></td>
+                                        <td><span>{{ contract.interest_by_date * contract.interest_period | currency }}</span></td>
                                         <td>
                                             <span v-if="!contract.can_paid">Trả phí hợp đồng</span>
                                             <span v-else>Thanh lý hợp đồng</span>
@@ -128,7 +128,9 @@
                 }).then(function (response) {
                     console.log(response.data);
 
-                    app.getResults();
+                    // app.getResults();
+                    app.$router.go(app.$route.fullPath);
+
                     app.$swal({
                         type: 'success',
                         title: 'Trả phí thành công!',
@@ -153,7 +155,10 @@
                         axios.patch('/api/v1/contracts/liquidate/' + contract.id, [], {
                             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                         }).then(function (response) {
-                            app.getResults();
+                            // app.getResults();
+
+                            app.$router.go(app.$route.fullPath);
+
                             app.$swal({
                                 type: 'success',
                                 title: 'Thanh lý hợp đồng thành công!',

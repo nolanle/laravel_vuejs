@@ -39,7 +39,7 @@
                                         <td class="align-content-center">#{{ index + 1 }}</td>
                                         <td><span>{{ history.from | moment("D-M-Y") }}</span></td>
                                         <td><span>{{ history.to | moment("D-M-Y") }}</span></td>
-                                        <td><span>{{ history.amount | currency }} VNĐ</span></td>
+                                        <td><span>{{ history.amount | currency }}</span></td>
                                         <td><span>{{ history.paid_days }} ngày</span></td>
                                     </tr>
                                     </tbody>
@@ -51,7 +51,7 @@
                                     <tbody>
                                     <tr>
                                         <td><h6>Số tiền:</h6></td>
-                                        <td><h6>{{ contract.interest_by_date * contract.interest_period | currency }} VNĐ</h6></td>
+                                        <td><h6>{{ contract.interest_by_date * contract.interest_period | currency }}</h6></td>
                                     </tr>
                                     <tr>
                                         <td><h6>Số ngày:</h6></td>
@@ -246,7 +246,10 @@
                 }).then(function (response) {
                     console.log(response.data);
 
-                    app.getContract();
+                    // app.getContract();
+
+                    app.$router.go(app.$route.fullPath);
+
                     app.$swal({
                         type: 'success',
                         title: 'Trả phí thành công!',
@@ -271,7 +274,10 @@
                         axios.patch('/api/v1/contracts/liquidate/' + app.contract.id, [], {
                             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                         }).then(function (response) {
-                            app.getContract();
+                            // app.getContract();
+
+                            app.$router.go(app.$route.fullPath);
+
                             app.$swal({
                                 type: 'success',
                                 title: 'Thanh lý hợp đồng thành công!',

@@ -45,6 +45,8 @@
                                             <th>ĐIỆN THOẠI</th>
                                             <th>NGƯỜI ĐẠI DIỆN</th>
                                             <th>ĐỊA CHỈ</th>
+                                            <th>VỐN KHỞI TẠO</th>
+                                            <th>SỐ DƯ</th>
                                             <th>NGÀY TẠO</th>
                                             <th>TRẠNG THÁI</th>
                                             <th>&nbsp;</th>
@@ -61,6 +63,8 @@
                                             <td>{{ company.phone }}</td>
                                             <td>{{ company.represent }}</td>
                                             <td>{{ company.address }} - {{ company.district.name }} - {{ company.district.province.name }}</td>
+                                            <td>{{ company.initial_capital | currency }}</td>
+                                            <td>{{ company.current_balance | currency }}</td>
                                             <td>{{ company.created_at | moment("D/M/Y") }}</td>
                                             <td><switches v-model="company.activated" theme="bootstrap" color="success" disabled></switches></td>
                                             <td><a v-if="isDeleteCompany" href="javascript:;" class="btn btn-xs btn-danger" v-on:click="deleteEntry(company.id, index)"><i class="fa fa-trash"></i></a></td>

@@ -14,8 +14,11 @@ class HeaderCompanyResource extends JsonResource
      */
     public function toArray($request){
         return [
-            'label' => $this->name,
-            'value' => $this->id,
+            'label'             => $this->name,
+            'value'             => $this->id,
+
+            'initial_capital'   => $this->getInitialCapital(),
+            'current_balance'   => $this->getCurrentBalance(),
         ];
     }
 }

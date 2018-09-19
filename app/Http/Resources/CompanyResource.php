@@ -22,6 +22,10 @@ class CompanyResource extends JsonResource
             'address_addition'  => $this->address_addition,
             'represent'         => $this->represent,
             'activated'         => $this->activated,
+
+            'initial_capital'   => $this->getInitialCapital(),
+            'current_balance'   => $this->getCurrentBalance(),
+
             'created_at'        => Carbon::instance(new \DateTime($this->created_at))->format('Y-m-d'),
             'updated_at'        => Carbon::instance(new \DateTime($this->updated_at))->format('Y-m-d'),
 

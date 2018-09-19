@@ -18,6 +18,13 @@ class CompaniesTableSeeder extends Seeder
             'represent'         => "Nolan Le",
             'activated'         => TRUE,
         ]);
+        // add init capital
+        \App\Models\Transaction::create([
+            'type'          => 'initial',
+            'addition'      => TRUE,
+            'company_id'    => $company->id,
+            'amount'        => '100000000' * $company->id,
+        ]);
 
         $company = \App\Models\Company::create([
             'name'              => "Cty Khánh Băng 2",
@@ -27,6 +34,12 @@ class CompaniesTableSeeder extends Seeder
             'represent'         => "Nolan Le",
             'activated'         => TRUE,
         ]);
+        \App\Models\Transaction::create([
+            'type'          => 'initial',
+            'addition'      => TRUE,
+            'company_id'    => $company->id,
+            'amount'        => '100000000' * $company->id,
+        ]);
 
         $company = \App\Models\Company::create([
             'name'              => "Cty Khánh Băng 3",
@@ -35,6 +48,12 @@ class CompaniesTableSeeder extends Seeder
             'address'           => "123 Tính Tiền",
             'represent'         => "Nolan Le",
             'activated'         => TRUE,
+        ]);
+        \App\Models\Transaction::create([
+            'type'          => 'initial',
+            'addition'      => TRUE,
+            'company_id'    => $company->id,
+            'amount'        => '100000000' * $company->id,
         ]);
     }
 }

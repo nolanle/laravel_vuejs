@@ -10,7 +10,7 @@
 
                     <router-view></router-view>
 
-                    <!--<footer-component></footer-component>-->
+                    <footer-component></footer-component>
 
                 </div> <!-- /content-wrapper -->
 
@@ -22,7 +22,10 @@
 
 <script>
     export default {
-        name: "Layout"
+        name: "Layout",
+        mounted() {
+            console.log(this.$route.fullPath);
+        }
     }
 </script>
 

@@ -58,8 +58,8 @@
                                             <span v-else>{{ contract.customer.fullname }}</span>
                                         </td>
                                         <td><span>{{ contract.commodity_name }} ({{ contract.commodity.code }})</span></td>
-                                        <td><span>{{ contract.pawn_amount | currency }} VNĐ</span></td>
-                                        <td><span>{{ contract.interest_by_date | currency }} VNĐ</span></td>
+                                        <td><span>{{ contract.pawn_amount | currency }}</span></td>
+                                        <td><span>{{ contract.interest_by_date | currency }}</span></td>
                                         <td>
                                             <span>{{ contract.pawn_date | moment("D/M/Y") }} =></span><br>
                                             <span>{{ contract.redeeming_date | moment("D/M/Y") }}</span><br>

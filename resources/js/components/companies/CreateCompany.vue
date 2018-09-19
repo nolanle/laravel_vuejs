@@ -143,22 +143,15 @@
                 axios.post('/api/v1/companies', this.company, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(function (response) {
+
+                    app.$router.push({path: '/companies'});
                     app.$swal({
                         type: 'success',
                         title: 'Thêm mới thành công?',
                         text: "Đã thêm mới công ty thành công!",
                         confirmButtonColor: '#3085d6',
-                    }).then((result) => {
-                        if (result.value) {
-                            app.$router.push({path: '/companies'});
-                        } else {
-                            app.$swal({
-                                type: 'error',
-                                title: 'Thêm mới thất bại!',
-                                text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
-                            });
-                        }
                     });
+
                 }).catch(function (error) {
                     app.$swal({
                         type: 'error',

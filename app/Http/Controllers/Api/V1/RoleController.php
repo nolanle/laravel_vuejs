@@ -243,7 +243,8 @@ class RoleController extends Controller
                     $paid       = Permission::whereName('paid-contract')->first();
                     $renew      = Permission::whereName('renew-contract')->first();
                     $liquidate  = Permission::whereName('liquidate-contract')->first();
-                    $role->attachPermissions([$index, $warning, $create, $edit, $paid, $renew, $liquidate]);
+                    $delete     = Permission::whereName('delete-contract')->first();
+                    $role->attachPermissions([$index, $warning, $create, $edit, $paid, $renew, $liquidate, $delete]);
                 }
                 else {
                     foreach ($permission['children'] as $children) {
@@ -279,6 +280,11 @@ class RoleController extends Controller
 
                         if ($children['value'] == 'liquidate-contract' and $children['selected'] == TRUE) {
                             $permDB = Permission::whereName('liquidate-contract')->first();
+                            $role->attachPermission($permDB);
+                        }
+
+                        if ($children['value'] == 'delete-contract' and $children['selected'] == TRUE) {
+                            $permDB = Permission::whereName('delete-contract')->first();
                             $role->attachPermission($permDB);
                         }
                     }

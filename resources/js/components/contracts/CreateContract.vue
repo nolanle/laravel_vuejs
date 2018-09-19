@@ -209,9 +209,13 @@
                 axios.post('/api/v1/contracts', app.contract, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(function (response) {
-                    app.$swal({type: 'success', title: 'Thêm mới thành công?', text: "Đã thêm mới hợp đồng thành công!", confirmButtonColor: '#3085d6'}).then((result) => {
-                        if (result.value) {app.$router.push({path: '/contracts'});} else {app.$swal({type: 'error', title: 'Thêm mới thất bại!', text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'});}
+                    app.$swal({
+                        type: 'success', title: 'Thêm mới thành công?', text: "Đã thêm mới hợp đồng thành công!", confirmButtonColor: '#3085d6'
                     });
+                    // app.$router.push({path: '/contracts'});
+                    app.$router.go("/contracts");
+                    // app.$router.go(app.$route.fullPath);
+
                 }).catch(function (error) {
                     app.$swal({
                         type: 'error',
