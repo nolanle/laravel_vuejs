@@ -71,8 +71,24 @@
             this.checkIsChangeCompany();
         },
         methods: {
-            checkIsChangeCompany() {axios.get('/api/auth/check/permission/' + 'change-company-account', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.isChangeCompany = response.data.access;})},
-            changeCompany() {axios.patch('/api/v1/change-company', { id: this.user.company.value }, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {});},
+            checkIsChangeCompany() {
+                axios.get('/api/auth/check/permission/' + 'change-company-account', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    this.isChangeCompany = response.data.access;
+                })
+            },
+            changeCompany() {
+                let app = this;
+                axios.patch('/api/v1/change-company', { id: this.user.company.value }, {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                }).then(response => {
+                    if (response.data.done === true) {
+                        app.$router.go(app.$route.fullPath);
+                    }
+                    // console.log(response.data);
+                });
+            },
             getResults(page = 1) {let app = this;axios.get('/api/auth/me', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {app.user = response.data;});},
             getCompanies() {axios.get('/api/v1/header-companies', {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then(response => {this.companies = response.data;});},
         }

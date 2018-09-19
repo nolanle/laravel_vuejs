@@ -12,6 +12,8 @@ import LogoutComponent from './components/auth/LogoutComponent.vue';
 import Account from './components/account/Activities.vue';
 import Activities from './components/account/Activities.vue';
 
+import IndexArises from './components/arises/IndexArises.vue';
+
 import IndexCompanies from './components/companies/IndexCompanies.vue';
 import CreateCompany from './components/companies/CreateCompany.vue';
 import EditCompany from './components/companies/EditCompany.vue';
@@ -58,6 +60,8 @@ const routes = [
 
             { path: '/account', component: Account, name: 'account' },
             { path: '/activities', component: Activities, name: 'activities' },
+
+            { path: '/arises', component: IndexArises, name: 'indexArises' },
 
             { path: '/companies', component: IndexCompanies, name: 'indexCompanies' },
             { path: '/companies/create', component: CreateCompany, name: 'createCompany' },

@@ -3,14 +3,14 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 class="mb-0">Lịch sử hoạt động</h4>
+                    <h4 class="mb-0">Chi Tiết Hằng Ngày</h4>
                     <div class="delete-button"></div>
                 </div>
                 <div class="col-sm-6">
                     <nav class="float-left float-sm-right" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><router-link :to="{name: 'dashboard'}"><i class="ti-home"></i> Dashboard</router-link></li>
-                            <li class="breadcrumb-item active" aria-current="page">Lịch sử hoạt động</li>
+                            <li class="breadcrumb-item active" aria-current="page">Chi Tiết Hằng Ngày</li>
                         </ol>
                     </nav>
                 </div>
@@ -27,20 +27,18 @@
                                 <table class="table table-striped table-bordered table-hover table-condensed">
                                     <thead>
                                     <tr>
-                                        <th>HOẠT ĐỘNG</th>
-                                        <th>TÀI KHOẢN</th>
-                                        <th>CÔNG TY</th>
-                                        <th>THÔNG TIN HOẠT ĐỘNG</th>
+                                        <th>LOẠI CHI PHÍ</th>
+                                        <th class="text-right">SỐ TIỀN</th>
+                                        <th>THÔNG TIN THÊM</th>
                                         <th>THỜI GIAN</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(activity, index) in activities.data">
-                                        <td>{{ activity.title }}</td>
-                                        <td>{{ activity.employee.username }}</td>
-                                        <td>{{ activity.company.name }}</td>
-                                        <td>{{ activity.message }}</td>
-                                        <td>{{ activity.created_at | moment("D/M/Y") }}</td>
+                                    <tr v-for="(arise, index) in arises.data">
+                                        <td>{{ arise.type_text }}</td>
+                                        <td class="text-right">{{ arise.addition === 1 ? ' + ' : ' - ' }} {{ arise.amount | currency }}</td>
+                                        <td>{{ arise.description }}</td>
+                                        <td>{{ arise.created_at | moment("D/M/Y") }}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -50,7 +48,7 @@
                         <div class="react-bs-table-pagination">
                             <div class="row" style="margin-top: 15px;">
                                 <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4 offset-4">
-                                    <pagination :data="activities" @pagination-change-page="getResults"></pagination>
+                                    <pagination :data="arises" @pagination-change-page="getResults"></pagination>
                                 </div>
                             </div>
                         </div>
@@ -64,11 +62,11 @@
 
 <script>
     export default {
-        name: "Activities",
-        data() {
+        name: "IndexArises",
+        data: function () {
             return {
                 page: 1,
-                activities: {},
+                arises: {},
             }
         },
         mounted() {
@@ -78,14 +76,17 @@
             getResults(page = 1) {
                 let app = this;
                 app.page = page;
-                axios.get('/api/v1/activities?page=' + page, {
+                axios.get('/api/v1/arises?page=' + page, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(response => {
-                    app.activities = response.data;
+                    app.arises = response.data;
                 });
             },
         },
+
     }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

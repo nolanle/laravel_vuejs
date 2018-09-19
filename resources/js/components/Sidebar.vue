@@ -9,6 +9,7 @@
                         <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">LIÊN KẾT NHANH</li>
                         <li v-if="isWarningContracts"><router-link :to="{name: 'warningContracts'}"><i class="text-success ti-bell"></i> THÔNG BÁO</router-link></li>
                         <li><router-link :to="{name: 'activities'}"><i class="text-success ti-reload"></i>NHẬT KÝ HOẠT ĐỘNG</router-link></li>
+                        <li><router-link :to="{name: 'indexArises'}"><i class="text-success ti-reload"></i>CHI TIẾT HẰNG NGÀY</router-link></li>
                         <li v-if="isCreateContract"><router-link :to="{name: 'createContract'}"><i class="text-success ti-write"></i> THÊM HỢP ĐỒNG</router-link></li>
                         <li v-if="isCreateCustomer"><router-link :to="{name: 'createCustomer'}"><i class="text-success ti-user"></i> THÊM KHÁCH HÀNG</router-link></li>
                         <li v-if="isCreateEmployee"><router-link :to="{name: 'createEmployee'}"><i class="text-success ti-wallet"></i> THÊM NHÂN VIÊN</router-link></li>

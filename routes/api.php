@@ -39,6 +39,9 @@ Route::group([
     // Get Activities
     Route::get('activities', 'ActivityController@activities');
 
+    // Get list of arises
+    Route::apiResource('arises', 'AriseController');
+
     // Change company id
     Route::match(['put', 'patch'], 'change-company', 'AccountController@changeCompany');
 
