@@ -14,25 +14,25 @@
                         <li v-if="isCreateEmployee"><router-link :to="{name: 'createEmployee'}"><i class="text-success ti-wallet"></i> THÊM NHÂN VIÊN</router-link></li>
 
                         <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">CHỨC NĂNG CHÍNH</li>
-                        <li v-if="isIndexCompany"><router-link :to="{name: 'indexCompanies'}"><i class="text-success ti-target"></i> QL CÔNG TY</router-link></li>
-                        <li v-if="isIndexCommodity"><router-link :to="{name: 'indexCommodities'}"><i class="text-success ti-target"></i> QL HÀNG HÓA</router-link></li>
-                        <!--<li v-if="isIndexRole || isIndexEmployee">-->
-                            <!--<a href="#employeesCollapse" aria-controls="employeesCollapse" role="button" aria-expanded="false" class="collapsed" data-toggle="collapse">-->
-                                <!--<div class="pull-left"><i class="text-success ti-target"></i><span class="right-nav-text">QL NHÂN VIÊN</span></div>-->
-                                <!--<div class="pull-right"><i class="ti-plus"></i></div>-->
-                                <!--<div class="clearfix"></div>-->
-                            <!--</a>-->
-                            <!--<div class="collapse " id="employeesCollapse">-->
-                                <!--<ul>-->
-                                    <!--<li v-if="isIndexRole"><router-link :to="{name: 'indexRoles'}">PHÂN QUYỀN</router-link></li>-->
-                                    <!--<li v-if="isIndexEmployee"><router-link :to="{name: 'indexEmployees'}">DS NHÂN VIÊN</router-link></li>-->
-                                <!--</ul>-->
-                            <!--</div>-->
-                        <!--</li>-->
+                        <li v-if="isIndexCompany"><router-link :to="{name: 'indexCompanies'}"><i class="text-success ti-target"></i>QL CÔNG TY</router-link></li>
+                        <li v-if="isIndexCommodity"><router-link :to="{name: 'indexCommodities'}"><i class="text-success ti-target"></i>QL HÀNG HÓA</router-link></li>
                         <li v-if="isIndexRole"><router-link :to="{name: 'indexRoles'}"><i class="text-success ti-target"></i>PHÂN QUYỀN</router-link></li>
                         <li v-if="isIndexEmployee"><router-link :to="{name: 'indexEmployees'}"><i class="text-success ti-target"></i>NHÂN VIÊN</router-link></li>
                         <li v-if="isIndexCustomer"><router-link :to="{name: 'indexCustomers'}"><i class="text-success ti-target"></i>DS KHÁCH HÀNG</router-link></li>
                         <li v-if="isIndexContract"><router-link :to="{name: 'indexContracts'}"><i class="text-success ti-target"></i>HĐ CẦM ĐỒ</router-link></li>
+                        <!--<li v-if="isIndexRole || isIndexEmployee">-->
+                        <!--<a href="#employeesCollapse" aria-controls="employeesCollapse" role="button" aria-expanded="false" class="collapsed" data-toggle="collapse">-->
+                        <!--<div class="pull-left"><i class="text-success ti-target"></i><span class="right-nav-text">QL NHÂN VIÊN</span></div>-->
+                        <!--<div class="pull-right"><i class="ti-plus"></i></div>-->
+                        <!--<div class="clearfix"></div>-->
+                        <!--</a>-->
+                        <!--<div class="collapse " id="employeesCollapse">-->
+                        <!--<ul>-->
+                        <!--<li v-if="isIndexRole"><router-link :to="{name: 'indexRoles'}">PHÂN QUYỀN</router-link></li>-->
+                        <!--<li v-if="isIndexEmployee"><router-link :to="{name: 'indexEmployees'}">DS NHÂN VIÊN</router-link></li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</li>-->
                     </ul>
                 </div>
             </div>

@@ -24,7 +24,7 @@ class ActivityResource extends JsonResource
         $contract   = Contract::withTrashed()->find($this->getExtraProperty('company_id'));
         $customer   = $contract->customer;
         $employee   = User::find($this->causer_id);
-        $createdAt  = Carbon::instance(new \DateTime($this->created_at));
+        $createdAt  = Carbon::instance(new \DateTime($this->created_at, new \DateTimeZone('Asia/Ho_Chi_Minh')));
 
         return [
             'id'            => $this->id,
