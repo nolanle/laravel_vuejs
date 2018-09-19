@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class AccountController extends Controller
 {
     public function activities() {
-        $activities = auth()->user()->activities()->orderBy('id', 'desc')->take(25)->get();
+        $activities = auth()->user()->activities()->orderBy('id', 'desc')->paginate(50);
         return response()->json($activities, 200);
     }
 

@@ -56,15 +56,37 @@ class ContractController extends Controller
         return response()->json($result, 200);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function paid($id) {
         $contract = Contract::findOrFail($id);
         $contract->paid();
+
+        activity()->causedBy(auth()->user())->withProperties([
+            'action'        => 'paid-contract',
+            'company_id'    => auth()->user()->company_id,
+            'contract_id'   => $contract->id,
+        ])->log('Trả phí hợp đồng');
+
         return response()->json($contract, 200);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function liquidate($id) {
         $contract = Contract::findOrFail($id);
         $contract->liquidate();
+
+        activity()->causedBy(auth()->user())->withProperties([
+            'action'        => 'liquidate-contract',
+            'company_id'    => auth()->user()->company_id,
+            'contract_id'   => $contract->id,
+        ])->log('Thanh lý hợp đồng');
+
         return response()->json($contract, 200);
     }
 
@@ -84,7 +106,7 @@ class ContractController extends Controller
 
         Validator::make($data, [
             'commodity_id'          => 'required|exists:commodities,id',
-            'commodity_name'        => 'required|string|min:6|max:255',
+            'commodity_name'        => 'required|string|min:3|max:255',
             'pawn_amount'           => 'required|integer|min:1',
             'interest_before_pawn'  => 'required|boolean',
             'interest_by_date'      => 'required|integer|min:1',
@@ -95,11 +117,11 @@ class ContractController extends Controller
 
         $validate = [
             'type'          => 'required|string|min:3|max:6',
-            'fullname'      => 'required|string|min:6|max:255',
-            'address'       => 'required|string|min:6|max:255',
-            'phone'         => 'required|string|min:10|max:12',
-            'government_id' => 'required|string|min:9|max:15',
-            'issued_at'     => 'required|string|min:4|max:50',
+            'fullname'      => 'required|string|min:3|max:255',
+            'address'       => 'required|string|min:3|max:255',
+            'phone'         => 'required|string|min:3|max:128',
+            'government_id' => 'required|string|min:3|max:128',
+            'issued_at'     => 'required|string|min:3|max:128',
             'issued_date'   => 'required|date',
         ];
         $customerData = (array)$request->get('customer');
@@ -124,6 +146,13 @@ class ContractController extends Controller
         $data['company_id'] = auth()->user()->company_id;
         $newContract = Contract::create($data);
         $newContract->interestBeforePawn();
+
+        activity()->causedBy(auth()->user())->withProperties([
+            'action'        => 'store-contract',
+            'company_id'    => auth()->user()->company_id,
+            'contract_id'   => $newContract->id,
+        ])->log('Thêm hợp đồng mới');
+
 
         // Update additional attributes from commodity
         if ($request->get('attrs') != NULL) {
@@ -168,7 +197,7 @@ class ContractController extends Controller
         ]);
         Validator::make($data, [
             'commodity_id'          => 'required|exists:commodities,id',
-            'commodity_name'        => 'required|string|min:6|max:255',
+            'commodity_name'        => 'required|string|min:3|max:255',
             'pawn_amount'           => 'required|integer|min:1',
             'interest_before_pawn'  => 'required|boolean',
             'interest_by_date'      => 'required|integer|min:1',
@@ -184,17 +213,23 @@ class ContractController extends Controller
 
         $data = $request->get('customer');
         Validator::make($data, [
-            'fullname'      => 'required|string|min:6|max:255',
-            'address'       => 'required|string|min:6|max:255',
-            'phone'         => 'required|string|min:10|max:12',
-            'government_id' => 'required|string|min:9|max:15',
-            'issued_at'     => 'required|string|min:4|max:50',
+            'fullname'      => 'required|string|min:3|max:255',
+            'address'       => 'required|string|min:3|max:255',
+            'phone'         => 'required|string|min:3|max:128',
+            'government_id' => 'required|string|min:3|max:128',
+            'issued_at'     => 'required|string|min:3|max:128',
             'issued_date'   => 'required|date',
         ])->validate();
         $customer = $contract->customer;
 
         // update customer informations
         $customer->update($data);
+
+        activity()->causedBy(auth()->user())->withProperties([
+            'action'        => 'update-contract',
+            'company_id'    => auth()->user()->company_id,
+            'contract_id'   => $contract->id,
+        ])->log('Cập nhật hợp đồng');
 
         return response()->json($contract, 200);
     }
@@ -207,6 +242,13 @@ class ContractController extends Controller
      */
     public function destroy($id) {
         $contract = Contract::findOrFail($id);
+
+        activity()->causedBy(auth()->user())->withProperties([
+            'action'        => 'delete-contract',
+            'company_id'    => auth()->user()->company_id,
+            'contract_id'   => $contract->id,
+        ])->log('Xóa hợp đồng');
+
         $contract->delete();
         return response()->json([
             'status'    => 1,

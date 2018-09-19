@@ -31,6 +31,19 @@ class Contract extends Model
     public $outOfDateDays = 0;
 
     /**
+     * Get contract by ID to contract ID format
+     *
+     * @return string
+     */
+    public function getContractId() {
+        $result = "HDCD";
+        if (strlen((string)$this->id) < 5)
+            for ($i = 0; $i < 5 - strlen((string)$this->id); $i++)
+                $result .= '0';
+        return $result .= $this->id;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function commodity() {

@@ -37,7 +37,7 @@ Route::group([
     Route::get('dashboard', 'DashboardController@index');
 
     // Get Activities
-    Route::get('activities', 'AccountController@activities');
+    Route::get('activities', 'ActivityController@activities');
 
     // Change company id
     Route::match(['put', 'patch'], 'change-company', 'AccountController@changeCompany');

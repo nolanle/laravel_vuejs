@@ -47,10 +47,10 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        activity()->causedBy(auth()->user())->withProperties([
-            'icon'  => 'fa fa-sign-in text-success',
-            'ip'    => $request->ip()
-        ])->log('Đăng nhập thành công');
+//        activity()->causedBy(auth()->user())->withProperties([
+//            'icon'  => 'fa fa-sign-in text-success',
+//            'ip'    => $request->ip()
+//        ])->log('Đăng nhập thành công');
 
         return $this->respondWithToken($token);
     }
@@ -74,10 +74,10 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request) {
-        activity()->causedBy(auth()->user())->withProperties([
-            'icon'  => 'fa fa-sign-out text-success',
-            'ip'    => $request->ip()
-        ])->log('Đăng xuất thành công');
+//        activity()->causedBy(auth()->user())->withProperties([
+//            'icon'  => 'fa fa-sign-out text-success',
+//            'ip'    => $request->ip()
+//        ])->log('Đăng xuất thành công');
 
         auth()->logout();
 

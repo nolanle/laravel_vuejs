@@ -22,20 +22,44 @@
             </div>
         </div>
 
-        <div class="mb-30">
-            <div class="card-statistics h-100 card">
-                <div class="card-body">
-                    <h5 class="card-title">Lịch sử hoạt động</h5>
-                    <div class="row">
-                        <div class="col-sm-10 offset-1">
-                            <ul class="list list-unstyled mb-30 list-group">
-                                <li v-for="activity in activities" class="p-0 pl-40 list-group-item">
-                                    <i :class="activity.properties.icon"></i>
-                                    {{ activity.description + ' tại địa chỉ ' + activity.properties.ip }}
-                                    <span class="pull-right">{{ activity.created_at | moment("H:mm:ss D/M/Y") }}</span>
-                                </li>
-                            </ul>
+        <div class="row">
+            <div class="mb-30 col-xl-12">
+                <div class="card-statistics h-100 card">
+                    <div class="card-body react-bs-table-container">
+
+                        <div class="react-bs-table react-bs-table-bordered">
+                            <div class="react-bs-container-body">
+                                <table class="table table-striped table-bordered table-hover table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th>HOẠT ĐỘNG</th>
+                                        <th>TÀI KHOẢN</th>
+                                        <th>CÔNG TY</th>
+                                        <th>THÔNG TIN HOẠT ĐỘNG</th>
+                                        <th>THỜI GIAN</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(activity, index) in activities.data">
+                                        <td>{{ activity.title }}</td>
+                                        <td>{{ activity.employee.username }}</td>
+                                        <td>{{ activity.company.name }}</td>
+                                        <td>{{ activity.message }}</td>
+                                        <td>{{ activity.created_at | moment("D/M/Y") }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+
+                        <div class="react-bs-table-pagination">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4 offset-4">
+                                    <pagination :data="activities" @pagination-change-page="getResults"></pagination>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -46,23 +70,26 @@
 <script>
     export default {
         name: "Activities",
-        data() { return { activities: {}, token: '' } },
+        data() {
+            return {
+                page: 1,
+                activities: {},
+            }
+        },
         mounted() {
-            let app = this;
-            app.token = localStorage.getItem('token');
-
-            axios.get('/api/v1/activities', {
-                headers: { Authorization: 'Bearer ' + app.token }
-            }).then(response => {
-
-                // console.log(response.data);
-                app.activities = response.data;
-
-            }).catch(error => {
-                console.log("Lỗi tải xuống nội dung!");
-            });
-
-        }
+            this.getResults();
+        },
+        methods: {
+            getResults(page = 1) {
+                let app = this;
+                app.page = page;
+                axios.get('/api/v1/activities?page=' + page, {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }).then(response => {
+                    app.activities = response.data;
+                });
+            },
+        },
     }
 </script>
 
