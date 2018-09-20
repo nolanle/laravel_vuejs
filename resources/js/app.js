@@ -32,7 +32,7 @@ import Datepicker from 'vuejs-datepicker'
 window.Vue.component('datepicker', Datepicker);
 
 import Money from 'v-money'
-window.Vue.use(Money, { decimal: '.', thousands: ',', prefix: '', suffix: '', precision: 0, masked: false });
+window.Vue.use(Money, { decimal: '.', thousands: ',', prefix: '', suffix: ' VNĐ', precision: 0, masked: false });
 
 import VJstree from 'vue-jstree'
 window.Vue.component('v-jstree', VJstree);

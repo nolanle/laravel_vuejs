@@ -10,7 +10,7 @@ class Transaction extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'type', 'addition', 'contract_id', 'company_id', 'amount',
+        'type', 'addition', 'contract_id', 'company_id', 'amount', 'description',
     ];
 
     /**
@@ -19,5 +19,13 @@ class Transaction extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    public function contract() {
+        return $this->belongsTo(Contract::class, 'contract_id', 'id');
+    }
+
+    public function company() {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
 
 }

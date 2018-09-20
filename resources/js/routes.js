@@ -13,6 +13,8 @@ import Account from './components/account/Activities.vue';
 import Activities from './components/account/Activities.vue';
 
 import IndexArises from './components/arises/IndexArises.vue';
+import CreateArise from './components/arises/CreateArise.vue';
+import ShowArise from './components/arises/ShowArise.vue';
 
 import IndexCompanies from './components/companies/IndexCompanies.vue';
 import CreateCompany from './components/companies/CreateCompany.vue';
@@ -62,6 +64,8 @@ const routes = [
             { path: '/activities', component: Activities, name: 'activities' },
 
             { path: '/arises', component: IndexArises, name: 'indexArises' },
+            { path: '/arises/create', component: CreateArise, name: 'createArise' },
+            { path: '/arises/show/:id', component: ShowArise, name: 'showArise' },
 
             { path: '/companies', component: IndexCompanies, name: 'indexCompanies' },
             { path: '/companies/create', component: CreateCompany, name: 'createCompany' },

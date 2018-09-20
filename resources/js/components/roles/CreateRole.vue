@@ -258,9 +258,7 @@
         mounted() {
         },
         methods: {
-            itemClick (node) {
-                console.log(node.model.selected)
-            },
+            itemClick (node) {console.log(node.model.selected)},
             createForm() {
                 let app = this;
                 event.preventDefault();
@@ -276,17 +274,9 @@
                         title: 'Thêm mới thành công?',
                         text: "Thêm mới phân quyền thành công!",
                         confirmButtonColor: '#3085d6',
-                    }).then((result) => {
-                        if (result.value) {
-                            app.$router.push({path: '/roles'});
-                        } else {
-                            app.$swal({
-                                type: 'error',
-                                title: 'Thêm mới thất bại!',
-                                text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
-                            });
-                        }
                     });
+                    app.$router.push({path: '/roles'});
+
                 }).catch(function (error) {
                     app.$swal({
                         type: 'error',

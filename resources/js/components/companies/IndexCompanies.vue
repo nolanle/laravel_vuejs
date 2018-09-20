@@ -62,7 +62,7 @@
                                             </td>
                                             <td>{{ company.phone }}</td>
                                             <td>{{ company.represent }}</td>
-                                            <td>{{ company.address }} - {{ company.district.name }} - {{ company.district.province.name }}</td>
+                                            <td>{{ company.district.name }} - {{ company.district.province.name }}</td>
                                             <td>{{ company.initial_capital | currency }}</td>
                                             <td>{{ company.current_balance | currency }}</td>
                                             <td>{{ company.created_at | moment("D/M/Y") }}</td>

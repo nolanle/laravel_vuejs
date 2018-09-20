@@ -22,6 +22,16 @@
                 <div class="card-statistics h-100 card">
                     <div class="card-body react-bs-table-container">
 
+                        <div class="react-bs-table-tool-bar mb-10">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
+                                    <div class="btn-group" role="group">
+                                        <router-link :to="{name: 'createArise'}" class="btn btn-success"><i class="fa fa-plus"></i> THÊM MỚI</router-link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="react-bs-table react-bs-table-bordered">
                             <div class="react-bs-container-body">
                                 <table class="table table-striped table-bordered table-hover table-condensed">
@@ -35,7 +45,11 @@
                                     </thead>
                                     <tbody>
                                     <tr v-for="(arise, index) in arises.data">
-                                        <td>{{ arise.type_text }}</td>
+                                        <td>
+                                            <router-link :to="{name: 'showArise', params: {id: arise.id}}">
+                                                <span class="text-success"><strong>{{ arise.type_text }}</strong></span>
+                                            </router-link>
+                                        </td>
                                         <td class="text-right">{{ arise.addition === 1 ? ' + ' : ' - ' }} {{ arise.amount | currency }}</td>
                                         <td>{{ arise.description }}</td>
                                         <td>{{ arise.created_at | moment("D/M/Y") }}</td>
