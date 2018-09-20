@@ -57,6 +57,33 @@ class Company extends Model
         return $totalInitialCapital;
     }
 
+    public function getTotalCapital() {
+        $totalCapital = 0;
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == 'initial' or $transaction->type == 'deposit') {
+                if ($transaction->addition)
+                    $totalCapital += $transaction->amount;
+            }
+            elseif ($transaction->type == 'withdraw') {
+                $totalCapital -= $transaction->amount;
+            }
+        }
+        return $totalCapital;
+    }
+
+    public function getPawnCapital() {
+        $totalPawnCapital = 0;
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == 'liquidate' or $transaction->type == 'refund') {
+                $totalPawnCapital -= $transaction->amount;
+            }
+            elseif ($transaction->type == 'pawning') {
+                $totalPawnCapital += $transaction->amount;
+            }
+        }
+        return $totalPawnCapital;
+    }
+
     public function getCurrentBalance() {
         $totalInitialCapital = 0;
         foreach ($this->transactions as $transaction) {

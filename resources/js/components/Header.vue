@@ -14,12 +14,20 @@
             </li>
         </ul>
 
-        <div v-if="isChangeCompany" class="mt-10" style="width: 250px;">
+        <div v-if="isChangeCompany" class="mt-10" style="width: 200px;">
             <v-select :input-class="'form-control pull-left'" v-model="user.company" :options="companies" @input="changeCompany"></v-select>
         </div>
         <div class="mt-15" v-else><h5>{{ user.company.label }}</h5></div>
 
-        <div class="ml-5 mt-15">
+        <div class="ml-4 mt-15">
+            <h5>Vốn ĐT: <span class="text-danger">{{ user.company.total_capital | currency }}</span></h5>
+        </div>
+
+        <div class="ml-4 mt-15">
+            <h5>Tiền Cầm: <span class="text-danger">{{ user.company.pawn_capital | currency }}</span></h5>
+        </div>
+
+        <div class="ml-4 mt-15">
             <h5>Số Dư: <span class="text-danger">{{ user.company.current_balance | currency }}</span></h5>
         </div>
 

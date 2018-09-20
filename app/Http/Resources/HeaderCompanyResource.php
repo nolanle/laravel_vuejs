@@ -19,6 +19,9 @@ class HeaderCompanyResource extends JsonResource
 
             'initial_capital'   => $this->getInitialCapital(),
             'current_balance'   => $this->getCurrentBalance(),
+
+            'total_capital'     => $this->getTotalCapital(),
+            'pawn_capital'      => $this->getPawnCapital(),
         ];
     }
 }
