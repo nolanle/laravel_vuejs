@@ -64,6 +64,7 @@ Route::group([
 
     // Contracts Resource
     Route::match(['put', 'patch'], 'contracts/paid/{id}', 'ContractController@paid');
+    Route::match(['put', 'patch'], 'contracts/unpaid/{id}', 'ContractController@unPaid');
     Route::match(['put', 'patch'], 'contracts/renew/{id}', 'ContractController@renew');
     Route::match(['put', 'patch'], 'contracts/liquidate/{id}', 'ContractController@liquidate');
 

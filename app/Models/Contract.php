@@ -83,6 +83,7 @@ class Contract extends Model
                 'from'      => $this->pawn_date,
                 'to'        => $this->pawn_date,
                 'paid_days' => $this->interest_period,
+                'paid'      => TRUE,
             ];
             $this->histories = json_encode($histories);
             $this->paid_date = $this->pawn_date;
@@ -99,29 +100,76 @@ class Contract extends Model
         }
     }
 
-    public function paid() {
-        $this->initialize();
+    public function getNextPaid() {
+        if ($this->liquidate_date == NULL) {
+            $this->initialize();
+            $latestDate = '';
+            $histories = json_decode($this->histories);
+            if ($histories != NULL) {
+                foreach ($histories as $history) {
+                    $latestDate = Carbon::instance(new \DateTime($history->to))->addDay();
+                }
+            }
+            return [
+                'amount'    => $this->interest_by_date * $this->interest_period,
+                'from'      => $latestDate != NULL ? $latestDate->format('Y-m-d') : $this->pawnDate->format('Y-m-d'),
+                'to'        => $latestDate != NULL ? 
+                            (clone $latestDate)->addDays($this->interest_period)->format('Y-m-d') : 
+                            (clone $this->pawnDate)->addDays($this->interest_period)->format('Y-m-d'),
 
+                'paid_days' => $this->interest_period,
+                'paid'      => FALSE,
+            ];
+        }
+        return NULL;
+    }
+
+    public function paid($history) {
+        $latestDate = '';
         $histories = json_decode($this->histories);
-        $histories[] = [
-            'amount'    => $this->interest_by_date * $this->interest_period,
-            'from'      => $this->renew_date ?? $this->pawn_date,
-            'to'        => $this->redeemingDate->format('Y-m-d'),
-            'paid_days' => $this->interest_period,
-        ];
-        $this->histories = json_encode($histories);
+        if ($histories != NULL) {
+            foreach ($histories as $item) {
+                $latestDate = Carbon::instance(new \DateTime($item->to))->addDay();
+            }
+        }
+        if (Carbon::instance(new \DateTime($history['from'])) >= $latestDate) {
+            $history['paid'] = TRUE;
+            $histories = json_decode($this->histories);
+            $histories[] = $history;
+            $this->histories = json_encode($histories);
+            $this->paid_date = Carbon::today();
+            $this->save();
+            $transaction = Transaction::create([ // revenue for contract with interest before pawn
+                'type'          => 'paid_fee',
+                'addition'      => TRUE,
+                'contract_id'   => $this->id,
+                'company_id'    => $this->company_id,
+                'amount'        => $this->interest_by_date * $this->interest_period,
+            ]);
+            return TRUE;
+        }
+        return FALSE;
+    }
 
-        $this->paid_date = Carbon::today();
-        $this->save();
+    public function unPaid($history) {
+        $histories = json_decode($this->histories);
+        $result = [];
+        if ($histories != NULL) {
+            foreach ($histories as $item) {
+                if ($item->from == $history['from'] and $item->to == $history['to']) {
+                } else {
+                    $result[] = $item;
+                }
+            }
+        }
 
-        // revenue for contract with interest before pawn
-        $transaction = Transaction::create([
-            'type'          => 'paid_fee',
-            'addition'      => TRUE,
-            'contract_id'   => $this->id,
-            'company_id'    => $this->company_id,
-            'amount'        => $this->interest_by_date * $this->interest_period,
-        ]);
+        $historyForRemove = end($histories);
+        if ($historyForRemove != NULL and $historyForRemove->from == $history['from'] and $historyForRemove->to == $history['to']) {
+            $this->histories = json_encode($result);
+            $this->save();
+            return TRUE;
+        }
+        return FALSE;
     }
 
     public function liquidate() {
@@ -153,7 +201,7 @@ class Contract extends Model
      * Initialize for calculating
      */
     public function initialize() {
-        $this->pawnDate      = Carbon::instance(new \DateTime($this->pawn_date));
+        $this->pawnDate      = Carbon::instance(new \DateTime($this->pawn_date))->addDay();
         $this->redeemingDate = (clone $this->pawnDate)->addDays($this->interest_period);
 
         $this->pawnDays      = Carbon::today() >= (clone $this->redeemingDate) ?

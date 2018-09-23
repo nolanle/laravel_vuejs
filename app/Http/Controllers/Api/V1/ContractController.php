@@ -49,7 +49,11 @@ class ContractController extends Controller
             })->get();
 
         foreach ($contracts as $contract) {
-            if ($contract->getRemainingDays() <= 2 and $contract->liquidate_date == NULL) { // and $contract->liquidate_date != NULL
+            // if ($contract->getRemainingDays() <= 2 and $contract->liquidate_date == NULL) {
+            //     $result[] = new ContractResource($contract);
+            // }
+            $nextPaid = $contract->getNextPaid();
+            if ($nextPaid != NULL and Carbon::instance(new \DateTime($nextPaid['to']))->diffInDays(Carbon::today()) <= 5) {
                 $result[] = new ContractResource($contract);
             }
         }
@@ -60,17 +64,38 @@ class ContractController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function paid($id) {
+    public function paid(Request $request, $id) {
         $contract = Contract::findOrFail($id);
-        $contract->paid();
+        
+        if ($contract->paid($request->only(['amount', 'from', 'to', 'paid_days', 'paid']))) {
+            activity()->causedBy(auth()->user())->withProperties([
+                'action'        => 'paid-contract',
+                'company_id'    => auth()->user()->company_id,
+                'contract_id'   => $contract->id,
+            ])->log('Trả phí hợp đồng');
+            return response()->json(['done' => TRUE, 'message' => 'Trả phí thành công!'], 200);
+        }
+        return response()->json(['done' => FALSE, 'message' => 'Đã trả phí cho kỳ này!'], 200);
+    }
 
-        activity()->causedBy(auth()->user())->withProperties([
-            'action'        => 'paid-contract',
-            'company_id'    => auth()->user()->company_id,
-            'contract_id'   => $contract->id,
-        ])->log('Trả phí hợp đồng');
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unPaid(Request $request, $id) {
+        $contract = Contract::findOrFail($id);
+        
+        if ($contract->unPaid($request->only(['amount', 'from', 'to', 'paid_days', 'paid']))) {
+            
+            activity()->causedBy(auth()->user())->withProperties([
+                'action'        => 'paid-contract',
+                'company_id'    => auth()->user()->company_id,
+                'contract_id'   => $contract->id,
+            ])->log('Trả phí hợp đồng');
 
-        return response()->json($contract, 200);
+            return response()->json(['done' => TRUE, 'message' => 'Gỡ trả phí thành công'], 200);
+        }
+        return response()->json(['done' => FALSE, 'message' => 'Gỡ giao dịch mới nhất trước!'], 200);
     }
 
     /**

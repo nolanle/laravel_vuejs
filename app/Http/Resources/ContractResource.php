@@ -38,9 +38,10 @@ class ContractResource extends JsonResource
             'remaining'             => $this->getRemainingDays(),
 
             'total_paid'            => $this->getTotalPaid(json_decode($this->histories)),
+            'total_paid_days'       => $this->getTotalPaidDays(json_decode($this->histories)),
 
             // checking
-            'can_paid'              => $this->interest_before_pawn == 1 || $this->getOutOfDate() || $this->paid_date != null,
+            'can_paid'              => $this->interest_before_pawn == 1 and $this->liquidate_date == NULL, // || $this->getOutOfDate() || $this->paid_date != null,
             'can_renew'             => $this->getOutOfDate() || $this->paid_date == null,
             'can_liquidate'         => $this->liquidate_date != null,
 
@@ -54,20 +55,38 @@ class ContractResource extends JsonResource
 
             // Access Json
             'attrs'                 => json_decode($this->attrs),
-            'histories'             => json_decode($this->histories),
-
+            // 'histories'             => json_decode($this->histories),
+            'histories'             => $this->convertHistories(json_decode($this->histories)),
+            'next_paid'             => $this->getNextPaid(),
         ];
+    }
+
+    protected function getTotalPaidDays($histories) {
+        $totalPaidDays = 0;
+        if ($histories != NULL) {
+            foreach ($histories as $history) {
+                $totalPaidDays += $history->paid_days;
+            }
+        }
+        return $totalPaidDays;
     }
 
     protected function getTotalPaid($histories) {
         $totalPaid = 0;
-
         if ($histories != NULL) {
             foreach ($histories as $history) {
                 $totalPaid += $history->amount;
             }
         }
         return $totalPaid;
+    }
+
+    protected function convertHistories($histories) {
+        $element = $this->getNextPaid();
+        if ($element) {
+            $histories[] = $element;
+        }
+        return $histories;
     }
 
 }

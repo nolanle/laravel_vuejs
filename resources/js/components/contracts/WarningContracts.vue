@@ -30,7 +30,7 @@
 
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                                     <div class="form-group form-group-sm react-bs-table-search-form">
-                                        <input placeholder="Tìm kiếm hợp đồng" class="form-control" type="text"><span class="input-group-btn"></span>
+                                        <!-- <input placeholder="Tìm kiếm hợp đồng" class="form-control" type="text"><span class="input-group-btn"></span> -->
                                     </div>
                                 </div>
                             </div>
@@ -65,15 +65,15 @@
                                             <span v-else>Thanh lý hợp đồng</span>
                                         </td>
                                         <td>
-                                            <span>{{ contract.pawn_date | moment("D/M/Y") }} => {{ contract.redeeming_date | moment("D/M/Y") }}</span><br>
-                                            <span v-if="contract.out_of_date === true" :class="'text-danger'">
-                                                <strong>quá hạn {{ contract.out_of_date_days }} ngày</strong>
-                                            </span>
-                                            <span v-else class="text-danger"><strong>còn {{ contract.remaining }} ngày</strong></span>
+                                            <span>{{ contract.next_paid.from | moment("D/M/Y") }} => {{ contract.next_paid.to | moment("D/M/Y") }}</span>
+                                            <!-- <br> -->
+                                            <!-- <span v-if="contract.out_of_date === true" :class="'text-danger'"><strong>quá hạn {{ contract.out_of_date_days }} ngày</strong></span> -->
+                                            <!-- <span v-else class="text-danger"><strong>còn {{ contract.remaining }} ngày</strong></span> -->
                                         </td>
                                         <td>
+                                            <!-- <router-link :to="{name: 'showContract', params: {id: contract.id}}" :class="'btn btn-xs btn-success'"><span><i class="fa fa-tasks"></i></span></router-link> -->
                                             <button v-on:click="paid(contract)" v-if="!contract.can_paid && isPaidContract" type="button" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></button>
-                                            <button v-on:click="liquidate(contract)" v-else-if="isLiquidateContract" type="button" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></button>
+                                            <button v-on:click="liquidate(contract)" v-if="isLiquidateContract" type="button" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -123,26 +123,38 @@
             },
             paid(contract) {
                 var app = this;
-                axios.patch('/api/v1/contracts/paid/' + contract.id, [], {
-                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
-                }).then(function (response) {
-                    console.log(response.data);
+                if (contract.next_paid != null) {
+                    axios.patch('/api/v1/contracts/paid/' + contract.id, contract.next_paid, {
+                        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                    }).then(function (response) {
+                        console.log(response.data);
 
-                    // app.getResults();
-                    app.$router.go(app.$route.fullPath);
+                        app.$swal({
+                            type: 'success',
+                            title: 'Trả phí thành công!',
+                            text: 'Hợp đồng của bạn đã được trả phí.'
+                        });
 
-                    app.$swal({
-                        type: 'success',
-                        title: 'Trả phí thành công!',
-                        text: 'Hợp đồng của bạn đã được trả phí.'
+                        app.$router.go(app.$route.fullPath);
+
+                    }).catch(function (error) {
+                        app.$swal({
+                            type: 'error',
+                            title: 'Trả phí thất bại!',
+                            text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
+                        });
                     });
-                }).catch(function (error) {
+
+                }
+                else {
                     app.$swal({
                         type: 'error',
                         title: 'Trả phí thất bại!',
-                        text: 'Lỗi hệ thống ' + error + ', vui lòng thử lại sau.'
+                        text: 'Không có phiên thanh toán tiếp theo.'
                     });
-                });
+
+                }
+                
             },
             liquidate(contract) {
                 var app = this;

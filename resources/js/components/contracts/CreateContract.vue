@@ -106,7 +106,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="interest_period">Kỳ Lãi <span class="text-danger">(*)</span></label>
-                                    <money v-model="contract.interest_period" id="interest_period" :class="'form-control'"></money>
+                                    <input type="number" min="1" v-model="contract.interest_period" id="interest_period" :class="'form-control'"></input>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Thu Lãi Trước <span class="text-danger">(*)</span></label>
@@ -121,7 +121,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="days_of_delayed">Thanh Lý Sau (ngày) <span class="text-danger">(*)</span></label>
-                                    <money v-model="contract.days_of_delayed" id="days_of_delayed" :class="'form-control'"></money>
+                                    <input type="number" min="1" v-model="contract.days_of_delayed" id="days_of_delayed" :class="'form-control'"></input>
                                     <!--<input v-model="contract.days_of_delayed" id="days_of_delayed" type="text" class="form-control" required />-->
                                 </div>
                                 <div class="form-group col-md-6">
@@ -134,7 +134,6 @@
                                 <textarea-autosize v-model="contract.pawn_note" id="pawn_note" :min-height="150" ref="pawn_note" :class="'form-control'"></textarea-autosize>
                             </div>
                             <div class="mt-5 pull-right">
-                                <!--<router-link :to="{name: 'indexContracts'}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i><span> QUAY LẠI</span></router-link>-->
                                 <button @click="$router.go(-1)" type="button" class="btn btn-secondary"><i class="fa fa-arrow-left"></i><span> QUAY LẠI</span></button>
                                 <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i><span> THÊM MỚI</span></button>
                             </div>
@@ -167,8 +166,8 @@
                     pawn_amount: 0,
                     interest_before_pawn: 0,
                     interest_by_date: 3000,
-                    interest_period: 10,
-                    days_of_delayed: 15,
+                    interest_period: 15,
+                    days_of_delayed: 10,
                     pawn_date: new Date(),
                     pawn_note: ''
                 },

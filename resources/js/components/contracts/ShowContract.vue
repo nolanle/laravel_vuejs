@@ -23,59 +23,58 @@
                         <h4 class="text-danger">Lịch Sử Trả Phí</h4>
                         <hr>
                         <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <table class="table table-striped table-bordered table-hover table-condensed">
-                                    <thead>
-                                    <tr>
-                                        <th class="align-content-center">STT</th>
-                                        <th>Từ Ngày</th>
-                                        <th>Đến Ngày</th>
-                                        <th>Số Tiền</th>
-                                        <th>Số Ngày</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="(history, index) in contract.histories">
-                                        <td class="align-content-center">#{{ index + 1 }}</td>
-                                        <td><span>{{ history.from | moment("D-M-Y") }}</span></td>
-                                        <td><span>{{ history.to | moment("D-M-Y") }}</span></td>
-                                        <td><span>{{ history.amount | currency }}</span></td>
-                                        <td><span>{{ history.paid_days }} ngày</span></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                             <div class="form-group col-md-6">
                                 <span><strong>THÔNG TIN THANH TOÁN</strong></span>
                                 <table class="table table-striped table-bordered table-hover table-condensed">
                                     <tbody>
                                     <tr>
-                                        <td><h6>Số tiền:</h6></td>
-                                        <td><h6>{{ contract.interest_by_date * contract.interest_period | currency }}</h6></td>
+                                        <td><span>Tổng Thanh Toán:</span></td>
+                                        <td><span>{{ contract.total_paid | currency }}</span></td>
                                     </tr>
                                     <tr>
-                                        <td><h6>Số ngày:</h6></td>
-                                        <td><h6>{{ contract.interest_period }} ngày</h6></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>Còn lại:</h6></td>
-                                        <td>
-                                            <h6 v-if="contract.out_of_date === true" :class="'text-danger'">Quá hạn {{ contract.out_of_date_days }} ngày</h6>
-                                            <h6 v-else class="text-danger">Còn {{ contract.remaining }} ngày</h6>
-                                        </td>
+                                        <td><span>Số Ngày Thanh Toán:</span></td>
+                                        <td><span>{{ contract.total_paid_days }} ngày</span></td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="form-group col-md-6">
-                                <div class="pull-right">
+                                <div class="pull-left">
                                     <span><strong>HÀNH ĐỘNG</strong></span><br>
                                     <button @click="$router.go(-1)" type="button" class="btn btn-secondary"><i class="fa fa-arrow-left"></i><span> QUAY LẠI</span></button>
-                                    <button v-if="isPaidContract" v-on:click="paid" :disabled="contract.can_paid || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></button>
+                                    <!-- <button v-if="isPaidContract" v-on:click="paid" :disabled="contract.can_paid || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-info"><span><i class="fa fa-paw"></i> TRẢ PHÍ</span></button> -->
                                     <!--<button v-if="isRenewContract" v-on:click="maintaince" :disabled="contract.can_renew || contract.can_liquidate === true" type="button" href="javascript:;" class="btn btn-xs btn-warning"><span><i class="fa fa-arrow-circle-o-up"></i> GIA HẠN</span></button>-->
                                     <button v-if="isLiquidateContract" v-on:click="liquidate" :disabled="contract.can_liquidate" type="button" href="javascript:;" class="btn btn-xs btn-danger"><span><i class="fa fa-check-circle"></i> THANHLÝ</span></button>
                                 </div>
                             </div>
+
+                            <div class="form-group col-md-12">
+                                <table class="table table-striped table-bordered table-hover table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">STT</th>
+                                        <th class="text-center" colspan="3">Ngày</th>
+                                        <th class="text-center">Số Ngày</th>
+                                        <th class="text-center">Số Tiền</th>
+                                        <th class="text-center">Trả Phí</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(history, index) in contract.histories">
+                                        <td class="text-center">#{{ index + 1 }}</td>
+                                        <td class="text-center"><span>{{ history.from | moment("D-M-Y") }}</span></td>
+                                        <td class="text-center"><span>=></span></td>
+                                        <td class="text-center"><span>{{ history.to | moment("D-M-Y") }}</span></td>
+                                        <td class="text-center"><span>{{ history.paid_days }} ngày</span></td>
+                                        <td class="text-center"><span>{{ history.amount | currency }}</span></td>
+                                        <td class="text-center">
+                                            <p-check v-on:change="paid(history)" :disabled="contract.can_paid || contract.can_liquidate === true" v-model="history.paid" class="p-svg p-plain"><img slot="extra" class="svg" :src="'svg/task.svg'"></p-check>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                         <hr>
                         <h4 class="text-danger">Thông Tin Khách Hàng</h4><hr>
@@ -239,22 +238,21 @@
                 })
             },
 
-            paid() {
+            paid(history) {
                 var app = this;
-                axios.patch('/api/v1/contracts/paid/' + app.contract.id, [], {
-                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
-                }).then(function (response) {
+                let method = history.paid === true ? 'paid/' : 'unpaid/';
+                console.log(method);
+                axios.patch('/api/v1/contracts/' + method + app.contract.id, history, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }).then(function (response) {
+
                     console.log(response.data);
-
-                    // app.getContract();
-
-                    app.$router.go(app.$route.fullPath);
-
+                    
                     app.$swal({
-                        type: 'success',
-                        title: 'Trả phí thành công!',
-                        text: 'Hợp đồng của bạn đã được trả phí.'
+                        type: response.data.done ? 'success' : 'error',
+                        title: response.data.message
+                    }).then(function (result) {
+                        app.$router.go(app.$route.fullPath);
                     });
+
                 }).catch(function (error) {
                     app.$swal({
                         type: 'error',
