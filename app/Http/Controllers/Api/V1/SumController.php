@@ -26,6 +26,13 @@ class SumController extends Controller
                 'to'            => $transactions->lastItem()
             ],
             'data' => new SumsCollection($transactions),
+            'total'   => [
+                'col_a' => "Tổng Kết",
+                'col_b' => $transactions[0]->beginning_balance ?? 0,
+                'col_c' => $transactions->sum('total_revenue'),
+                'col_d' => $transactions->sum('total_cost'),
+                'col_e' => auth()->user()->company->getCurrentBalance(),
+            ],
         ];
         return response()->json($response, 200);
     }
@@ -36,8 +43,8 @@ class SumController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function indexWithFilter(Request $request) {
-        $fromDate = Carbon::instance(new \DateTime($request->get('from_date')));
-        $toDate = Carbon::instance(new \DateTime($request->get('to_date')));
+        $fromDate   = Carbon::instance(new \DateTime($request->get('from_date')));
+        $toDate     = Carbon::instance(new \DateTime($request->get('to_date')));
 
         $transactions = auth()->user()->company->sums()
             ->whereBetween('arising_date', [$fromDate, $toDate])->orderBy('id', 'desc')
@@ -52,7 +59,14 @@ class SumController extends Controller
                 'from'          => $transactions->firstItem(),
                 'to'            => $transactions->lastItem()
             ],
-            'data' => new SumsCollection($transactions),
+            'data'      => new SumsCollection($transactions),
+            'total'   => [
+                'col_a' => "Tổng Kết",
+                'col_b' => '',
+                'col_c' => $transactions->sum('total_revenue'),
+                'col_d' => $transactions->sum('total_cost'),
+                'col_e' => auth()->user()->company->getCurrentBalance(),
+            ],
         ];
         return response()->json($response, 200);
     }

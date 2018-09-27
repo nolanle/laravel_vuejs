@@ -311,7 +311,7 @@ class Contract extends Model
      */
     public function getRemainingDays() {
         $this->initialize();
-        return $this->pawnDays >= $this->interest_period ? 0 : $this->redeemingDate->diffInDays(Carbon::today());
+        return $this->pawnDays >= $this->interest_period ? 0 : $this->redeemingDate->diffInDays(Carbon::tomorrow());
     }
 
     /**

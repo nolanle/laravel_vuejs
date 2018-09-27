@@ -63,6 +63,15 @@
                                         <td>{{ sum.ending_balance | currency }}</td>
                                     </tr>
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td><span class="text-danger"><strong>{{ total.col_a }}</strong></span></td>
+                                        <td><span class="text-danger"><strong>{{ total.col_b | currency }}</strong></span></td>
+                                        <td><span class="text-danger"><strong>{{ total.col_c | currency }}</strong></span></td>
+                                        <td><span class="text-danger"><strong>{{ total.col_d | currency }}</strong></span></td>
+                                        <td><span class="text-danger"><strong>{{ total.col_e | currency }}</strong></span></td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -93,13 +102,20 @@
                 page: 1, en: en, vi: vi,
                 fromDate: new Date().setDate((new Date()).getDate() - 10),
                 toDate: new Date(),
-                sums: {},
+                sums: {}, total: {},
             }
         },
         mounted() {
             this.getResults();
         },
         methods: {
+            totalCost() {
+                let cost = 0;
+                this.sums.map(function(value, key) {
+                    cost += value.total_cost;
+                });
+                return cost;
+            },
             getSumsWithFilter() {
                 event.preventDefault();
                 let app         = this;
@@ -111,7 +127,7 @@
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }).then(function (response) {
                     app.sums = response.data;
-                    // console.log(response.data);
+                    app.total = response.data.total;
                 });
             },
             customFormatter(date) { return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY') },
@@ -123,6 +139,7 @@
                 }).then(
                     response => {
                         app.sums = response.data;
+                        app.total = response.data.total;
                     }
                 );
             },
