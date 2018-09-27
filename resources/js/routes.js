@@ -12,6 +12,8 @@ import LogoutComponent from './components/auth/LogoutComponent.vue';
 import Account from './components/account/Activities.vue';
 import Activities from './components/account/Activities.vue';
 
+import IndexSums from './components/sums/IndexSums.vue';
+
 import IndexArises from './components/arises/IndexArises.vue';
 import CreateArise from './components/arises/CreateArise.vue';
 import ShowArise from './components/arises/ShowArise.vue';
@@ -62,6 +64,8 @@ const routes = [
 
             { path: '/account', component: Account, name: 'account' },
             { path: '/activities', component: Activities, name: 'activities' },
+
+            { path: '/sums', component: IndexSums, name: 'indexSums' },
 
             { path: '/arises', component: IndexArises, name: 'indexArises' },
             { path: '/arises/create', component: CreateArise, name: 'createArise' },

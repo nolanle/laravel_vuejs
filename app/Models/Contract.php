@@ -27,8 +27,8 @@ class Contract extends Model
     public $pawnDate;
     public $pawnDays;
     public $redeemingDate;
-    public $outOfDate = false;
-    public $outOfDateDays = 0;
+    public $outOfDate       = false;
+    public $outOfDateDays   = 0;
 
     /**
      * Get contract by ID to contract ID format
@@ -75,6 +75,17 @@ class Contract extends Model
             'company_id'    => $this->company_id,
             'amount'        => $this->pawn_amount,
         ]);
+        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+        if ($sum == NULL) {
+            $sum = Sum::create([
+                'company_id'            => $this->company_id,
+                'beginning_balance'     => $this->company->getCurrentBalance(),
+                'arising_date'          => Carbon::today(),
+            ]);
+        }
+        $sum->total_cost        += $transaction->amount;
+        $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
+        $sum->save();
 
         if ($this->interest_before_pawn and $this->paid_date == NULL) {
             $histories = json_decode($this->histories);
@@ -97,6 +108,18 @@ class Contract extends Model
                 'company_id'    => $this->company_id,
                 'amount'        => $this->interest_by_date * $this->interest_period,
             ]);
+            $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+            if ($sum == NULL) {
+                $sum = Sum::create([
+                    'company_id'            => $this->company_id,
+                    'beginning_balance'     => $this->company->getCurrentBalance(),
+                    'arising_date'          => Carbon::today(),
+                ]);
+            }
+            $sum->total_revenue     += $transaction->amount;
+            $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
+            $sum->save();
+
         }
     }
 
@@ -146,6 +169,17 @@ class Contract extends Model
                 'company_id'    => $this->company_id,
                 'amount'        => $this->interest_by_date * $this->interest_period,
             ]);
+            $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+            if ($sum == NULL) {
+                $sum = Sum::create([
+                    'company_id'            => $this->company_id,
+                    'beginning_balance'     => $this->company->getCurrentBalance(),
+                    'arising_date'          => Carbon::today(),
+                ]);
+            }
+            $sum->total_revenue     += $transaction->amount;
+            $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
+            $sum->save();
             return TRUE;
         }
         return FALSE;
@@ -184,6 +218,17 @@ class Contract extends Model
             'company_id'    => $this->company_id,
             'amount'        => $this->pawn_amount,
         ]);
+        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+        if ($sum == NULL) {
+            $sum = Sum::create([
+                'company_id'            => $this->company_id,
+                'beginning_balance'     => $this->company->getCurrentBalance(),
+                'arising_date'          => Carbon::today(),
+            ]);
+        }
+        $sum->total_revenue     += $transaction->amount;
+        $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
+        $sum->save();
     }
 
     public function refund() {
@@ -195,6 +240,17 @@ class Contract extends Model
             'company_id'    => $this->company_id,
             'amount'        => $this->pawn_amount,
         ]);
+        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+        if ($sum == NULL) {
+            $sum = Sum::create([
+                'company_id'            => $this->company_id,
+                'beginning_balance'     => $this->company->getCurrentBalance(),
+                'arising_date'          => Carbon::today(),
+            ]);
+        }
+        $sum->total_revenue     += $transaction->amount;
+        $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
+        $sum->save();
     }
 
     /**

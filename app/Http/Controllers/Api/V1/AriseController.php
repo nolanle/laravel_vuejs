@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransactionsCollection;
+use App\Models\Company;
+use App\Models\Sum;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -47,18 +50,36 @@ class AriseController extends Controller
             'created_at'    => 'required|date',
         ])->validate();
 
+        $sum = Sum::where('company_id', $data['company_id'])->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+        if ($sum == NULL) {
+            $sum = Sum::create([
+                'company_id'            => $data['company_id'],
+                'beginning_balance'     => Company::findOrFail($data['company_id'])->getCurrentBalance(),
+                'arising_date'          => Carbon::today(),
+            ]);
+        }
+
         try {
             if ($data['type'] == "deposit_other") {
-                $data['type'] = 'other';
-                $data['addition'] = TRUE;
+                $data['type']       = 'other';
+                $data['addition']   = TRUE;
+                $sum->total_revenue += $data['amount'];
             }
             elseif ($data['type'] == "withdraw_other") {
-                $data['type'] = 'other';
-                $data['addition'] = FALSE;
+                $data['type']       = 'other';
+                $data['addition']   = FALSE;
+                $sum->total_cost    += $data['amount'];
             }
             elseif ($data['type'] == 'withdraw') {
-                $data['addition'] = FALSE;
+                $data['addition']   = FALSE;
+                $sum->total_cost    += $data['amount'];
             }
+            else {
+                $sum->total_revenue += $data['amount'];
+            }
+            $sum->ending_balance = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
+            $sum->save();
+
             $transaction = Transaction::create($data);
             return response()->json(['done' => true, 'data' => $transaction], 200);
         }

@@ -153,6 +153,7 @@
                     });
 
                 }).catch(function (error) {
+                    console.log(error.data);
                     app.$swal({
                         type: 'error',
                         title: 'Thêm mới thất bại!',

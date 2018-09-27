@@ -39,6 +39,10 @@ Route::group([
     // Get Activities
     Route::get('activities', 'ActivityController@activities');
 
+    // Get list of sums
+    Route::post('sums-with-filter', 'SumController@indexWithFilter');
+    Route::apiResource('sums', 'SumController', ['except' => ['create', 'update', 'destroy']]);
+
     // Get list of arises
     Route::apiResource('arises', 'AriseController', ['except' => ['update', 'destroy']]);
 

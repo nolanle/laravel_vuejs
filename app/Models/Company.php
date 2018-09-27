@@ -47,6 +47,15 @@ class Company extends Model
         return $this->hasMany(Transaction::class, 'company_id', 'id');
     }
 
+    /**
+     * Get sum of company
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sums() {
+        return $this->hasMany(Sum::class, 'company_id', 'id');
+    }
+
     public function getInitialCapital() {
         $totalInitialCapital = 0;
         foreach ($this->transactions as $transaction) {
