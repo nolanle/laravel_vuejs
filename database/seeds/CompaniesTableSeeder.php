@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Sum;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class CompaniesTableSeeder extends Seeder

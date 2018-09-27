@@ -68,6 +68,14 @@ class Contract extends Model
     public function interestBeforePawn() {
 
         // create transaction for contract
+        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+        if ($sum == NULL) {
+            $sum = Sum::create([
+                'company_id'        => $this->company_id,
+                'beginning_balance' => $this->company->getCurrentBalance(),
+                'arising_date'      => Carbon::today(),
+            ]);
+        }
         $transaction = Transaction::create([
             'type'          => 'pawning',
             'addition'      => FALSE,
@@ -75,14 +83,6 @@ class Contract extends Model
             'company_id'    => $this->company_id,
             'amount'        => $this->pawn_amount,
         ]);
-        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
-        if ($sum == NULL) {
-            $sum = Sum::create([
-                'company_id'            => $this->company_id,
-                'beginning_balance'     => $this->company->getCurrentBalance(),
-                'arising_date'          => Carbon::today(),
-            ]);
-        }
         $sum->total_cost        += $transaction->amount;
         $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
         $sum->save();
@@ -101,6 +101,14 @@ class Contract extends Model
             $this->save();
 
             // revenue for contract with interest before pawn
+            $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+            if ($sum == NULL) {
+                $sum = Sum::create([
+                    'company_id'        => $this->company_id,
+                    'beginning_balance' => $this->company->getCurrentBalance(),
+                    'arising_date'      => Carbon::today(),
+                ]);
+            }
             $transaction = Transaction::create([
                 'type'          => 'paid_fee',
                 'addition'      => TRUE,
@@ -108,14 +116,6 @@ class Contract extends Model
                 'company_id'    => $this->company_id,
                 'amount'        => $this->interest_by_date * $this->interest_period,
             ]);
-            $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
-            if ($sum == NULL) {
-                $sum = Sum::create([
-                    'company_id'            => $this->company_id,
-                    'beginning_balance'     => $this->company->getCurrentBalance(),
-                    'arising_date'          => Carbon::today(),
-                ]);
-            }
             $sum->total_revenue     += $transaction->amount;
             $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
             $sum->save();
@@ -162,6 +162,15 @@ class Contract extends Model
             $this->histories = json_encode($histories);
             $this->paid_date = Carbon::today();
             $this->save();
+
+            $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+            if ($sum == NULL) {
+                $sum = Sum::create([
+                    'company_id'        => $this->company_id,
+                    'beginning_balance' => $this->company->getCurrentBalance(),
+                    'arising_date'      => Carbon::today(),
+                ]);
+            }
             $transaction = Transaction::create([ // revenue for contract with interest before pawn
                 'type'          => 'paid_fee',
                 'addition'      => TRUE,
@@ -169,14 +178,6 @@ class Contract extends Model
                 'company_id'    => $this->company_id,
                 'amount'        => $this->interest_by_date * $this->interest_period,
             ]);
-            $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
-            if ($sum == NULL) {
-                $sum = Sum::create([
-                    'company_id'            => $this->company_id,
-                    'beginning_balance'     => $this->company->getCurrentBalance(),
-                    'arising_date'          => Carbon::today(),
-                ]);
-            }
             $sum->total_revenue     += $transaction->amount;
             $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
             $sum->save();
@@ -211,6 +212,14 @@ class Contract extends Model
         $this->save();
 
         // revenue for contract with interest before pawn
+        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+        if ($sum == NULL) {
+            $sum = Sum::create([
+                'company_id'        => $this->company_id,
+                'beginning_balance' => $this->company->getCurrentBalance(),
+                'arising_date'      => Carbon::today(),
+            ]);
+        }
         $transaction = Transaction::create([
             'type'          => 'liquidate',
             'addition'      => TRUE,
@@ -218,14 +227,6 @@ class Contract extends Model
             'company_id'    => $this->company_id,
             'amount'        => $this->pawn_amount,
         ]);
-        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
-        if ($sum == NULL) {
-            $sum = Sum::create([
-                'company_id'            => $this->company_id,
-                'beginning_balance'     => $this->company->getCurrentBalance(),
-                'arising_date'          => Carbon::today(),
-            ]);
-        }
         $sum->total_revenue     += $transaction->amount;
         $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
         $sum->save();
@@ -233,6 +234,14 @@ class Contract extends Model
 
     public function refund() {
         // revenue for contract with interest before pawn
+        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
+        if ($sum == NULL) {
+            $sum = Sum::create([
+                'company_id'        => $this->company_id,
+                'beginning_balance' => $this->company->getCurrentBalance(),
+                'arising_date'      => Carbon::today(),
+            ]);
+        }
         $transaction = Transaction::create([
             'type'          => 'refund',
             'addition'      => TRUE,
@@ -240,14 +249,6 @@ class Contract extends Model
             'company_id'    => $this->company_id,
             'amount'        => $this->pawn_amount,
         ]);
-        $sum = Sum::where('company_id', $this->company_id)->where('arising_date', Carbon::today()->format('Y-m-d'))->first();
-        if ($sum == NULL) {
-            $sum = Sum::create([
-                'company_id'            => $this->company_id,
-                'beginning_balance'     => $this->company->getCurrentBalance(),
-                'arising_date'          => Carbon::today(),
-            ]);
-        }
         $sum->total_revenue     += $transaction->amount;
         $sum->ending_balance    = $sum->beginning_balance + $sum->total_revenue - $sum->total_cost;
         $sum->save();

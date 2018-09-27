@@ -15,10 +15,10 @@ class CreateSumsTable extends Migration
     {
         Schema::create('sums', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('beginning_balance')->default(0);
-            $table->unsignedBigInteger('ending_balance')->default(0);
-            $table->unsignedBigInteger('total_revenue')->default(0);
-            $table->unsignedBigInteger('total_cost')->default(0);
+            $table->bigInteger('beginning_balance')->default(0);
+            $table->bigInteger('ending_balance')->default(0);
+            $table->bigInteger('total_revenue')->default(0);
+            $table->bigInteger('total_cost')->default(0);
 
             $table->date('arising_date');
             $table->unsignedInteger('company_id');
